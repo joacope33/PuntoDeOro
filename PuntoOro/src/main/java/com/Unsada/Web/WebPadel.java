@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WebPadel {
 
-	public static void main(String[] args) {
+	@SuppressWarnings("deprecation")
+    public static void main(String[] args) {
 		SpringApplication.run(WebPadel.class, args);
 		
 		
