@@ -1,5 +1,4 @@
 header {
-<<<<<<< HEAD
     display: flex;                /* Usamos flexbox para el contenedor */
     flex-direction: column;       
     justify-content: space-around; /* Espacio entre los elementos */
@@ -40,12 +39,6 @@ header {
 img.imghead {
     width: 20px;
     height: 20px;
-=======
-    background-color: black;
-    color: burlywood;
-    display: flex;
-    justify-content: center;  
->>>>>>> a16098eeeac79f37aa876e2ef3e6bba5d107c714
 }
 
 nav{
