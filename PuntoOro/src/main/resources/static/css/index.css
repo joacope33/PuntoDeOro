@@ -1,0 +1,43 @@
+
+header {
+    display: flex;                /* Usamos flexbox para el contenedor */
+    flex-direction: column;       
+    justify-content: space-around; /* Espacio entre los elementos */
+    align-items: center;         /* Alineamos verticalmente en el centro */
+    padding: 20px;               /* Espacio interno opcional */
+    background-color: #F5F5F5;   /* Color de fondo opcional */
+    width: 100%;
+}
+
+.header-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: flex-start;
+
+}
+.left-content {
+    display: flex;                  /* Usamos flexbox para el contenido a la izquierda */
+    align-items: center;           /* Alineamos verticalmente en el centro */
+    width: 21%;
+    margin-right: 30%;
+}
+
+.right-content {
+    display: flex;                  /* Usamos flexbox para el contenido a la derecha */
+    align-items: center; 
+    width: 40%
+}
+
+.btn-sesion-ini {
+    margin-left: auto;             /* Empuja el botón hacia la derecha */
+    background-color: #030303;
+    color: white;
+    border-radius: 5px; 
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+img.imghead {
+    width: 20px;
+    height: 20px;
+}
