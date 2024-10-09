@@ -17,7 +17,7 @@ public class HomeController{
         public String mostrarFormularioRegistro() {
             // LOG
 
-            return "/static/index.html"; // Esto devuelve el nombre del archivo HTML sin la extensión (.html)
+            return "index"; // Esto devuelve el nombre del archivo HTML sin la extensión (.html)
     }
 
 }
