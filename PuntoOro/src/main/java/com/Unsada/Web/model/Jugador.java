@@ -26,6 +26,7 @@ public class Jugador {
     
     @Column(name = "nombrecompleto")
     private String nombreCompleto;
+    
     @Column(name = "telefono")
     private String telefono;
 
