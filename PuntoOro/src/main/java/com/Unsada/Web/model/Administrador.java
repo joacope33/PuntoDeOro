@@ -34,5 +34,11 @@ public class Administrador {
     public Administrador() {
     }
 
+    @Override
+    public String toString() {
+        return "Administrador [id=" + id + ", usuario=" + usuario + "]";
+    }
+
+    
     
 }

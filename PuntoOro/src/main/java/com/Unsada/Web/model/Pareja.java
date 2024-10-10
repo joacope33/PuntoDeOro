@@ -44,7 +44,12 @@ public class Pareja {
     public Pareja() {
     }
 
-    
+    @Override
+    public String toString() {
+        return "Pareja [id=" + id + ", jugador1=" + jugador1 + ", jugador2=" + jugador2 + ", torneo=" + torneo + "]";
+    }
 
+    
+    
 
 }

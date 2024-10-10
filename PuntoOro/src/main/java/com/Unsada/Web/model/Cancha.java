@@ -41,6 +41,12 @@ public class Cancha {
     public Cancha() {
     }
 
+    @Override
+    public String toString() {
+        return "Cancha [id=" + id + ", horarioApertura=" + horarioApertura + ", horarioCierre=" + horarioCierre
+                + ", disponibilidad=" + disponibilidad + ", duracion=" + duracion + "]";
+    }
+
     
     
 

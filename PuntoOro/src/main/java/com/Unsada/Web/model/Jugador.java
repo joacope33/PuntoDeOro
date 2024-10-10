@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +29,7 @@ public class Jugador {
     @Column(name = "telefono")
     private String telefono;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "idcategoria")
     private Categoria categoria;
     
@@ -62,7 +62,15 @@ public class Jugador {
     }
 
 
-    
+    @Override
+    public String toString() {
+        return "Jugador [id=" + id + ", nombreCompleto=" + nombreCompleto + ", telefono=" + telefono + ", categoria="
+                + categoria + ", fechaDeNacimiento=" + fechaDeNacimiento + ", dni=" + dni + ", calificacion="
+                + calificacion + ", puntos=" + puntos + ", comentario=" + comentario + "]";
+    }
 
+
+    
+    
 
 }
