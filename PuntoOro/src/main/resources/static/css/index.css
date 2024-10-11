@@ -1,3 +1,6 @@
+
+/*HEADER*/
+
 header {
     display: flex;                /* Usamos flexbox para el contenedor */
     flex-direction: column;       
@@ -24,9 +27,7 @@ header {
     margin-right: 30%;
 }
 
-.left-content img{
-    
-}
+
 
 .right-content {
     display: flex;                  /* Usamos flexbox para el contenido a la derecha */
@@ -89,7 +90,7 @@ body{
 }
 
 
-/*footer*/
+/*FOOTER*/
    /* Estilos específicos para el pie de página */
 
 
