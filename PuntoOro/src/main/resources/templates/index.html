@@ -35,7 +35,7 @@
     <main>
            <div>
             <img src="/PuntoOro/src/main/resources/static/images/PuntoOroCancha.png" alt="PuntoOroCancha">
-            
+
            </div>
     </main>
     
@@ -53,14 +53,14 @@
               <a href="#" class="social-link"><img class="social-link-twitter"  src="/images/twitter.png"></a>
               <a href="#" target="_blank" class="social-link"><img class="social-link-instgram"  src="/images/instagram.png"></a>
             </div>
-            <p id ="derechosReservados">Derechos de autor &copy;  Punto de Oro</p>
+            <p id ="Copyright"></p>
     </footer>
     <script>
         // JavaScript para agregar la fecha actual
-        const footer = document.getElementById('derechosReservados');
+        const footer = document.getElementById('Copyright');
         const fechaActual = new Date();
         const opciones = { year: 'numeric'};
-        footer.innerHTML = `Derechos de autor &copy; ${fechaActual.toLocaleDateString('es-ES', opciones)} Punto de Oro`;
+        footer.innerHTML = `Copyright &copy; ${fechaActual.toLocaleDateString('es-ES', opciones)} Punto de Oro`;
     </script>
 </body>
 
