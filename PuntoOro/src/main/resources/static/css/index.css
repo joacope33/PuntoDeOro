@@ -6,7 +6,7 @@ header {
     flex-direction: column;       
     justify-content: space-around; /* Espacio entre los elementos */
     align-items: center;         /* Alineamos verticalmente en el centro */
-    padding: 20px;               /* Espacio interno opcional */
+    padding: 10px;               /* Espacio interno opcional */
     background-color: rgb(153, 153, 153);   /* Color de fondo opcional */
     width: 100%;
 }
@@ -17,32 +17,47 @@ header {
     display: flex;
     width: 100%;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: center;
 
 }
 .left-content {
     display: flex;                  /* Usamos flexbox para el contenido a la izquierda */
     align-items: center;           /* Alineamos verticalmente en el centro */
     width: 21%;
-    margin-right: 30%;
+    margin-right: 20%;
+    justify-content: initial;
+    font-size: 100%;
 }
-
-
 
 .right-content {
     display: flex;                  /* Usamos flexbox para el contenido a la derecha */
     align-items: center; 
-    width: 40%
+    width: 40%;
+    justify-content: end;
 }
 
 .btn-sesion-ini {
-    margin-left: auto;             /* Empuja el botón hacia la derecha */
-    background-color: #030303;
-    color: white;
-    border-radius: 5px; 
-    font-size: 12px;
-    font-family: Arial, Helvetica, sans-serif;
+    background-color: #000; /* Fondo negro */
+    color: #fff; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 12px 24px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto de transición */
 }
+
+.btn-sesion-ini:hover {
+    background-color: #444; /* Color de fondo al pasar el ratón */
+    transform: scale(1.05); /* Efecto de escala al pasar el ratón */
+}
+
+.btn-sesion-ini:active {
+    background-color: #333; /* Color de fondo al hacer clic */
+    transform: scale(0.95); /* Efecto de escala al hacer clic */
+}
+
+
 img.imghead {
     width: 20px;
     height: 20px;
@@ -60,20 +75,6 @@ main{
     justify-content: space-around;
     background-color: rgb(153, 153, 153);
     color: burlywood;
-}
-
-.ciudad{
-    border-style: solid;
-    border-color: burlywood;
-    border-radius: 20px;
-    padding: 30px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.imagen{
-    margin-right: 5px;    
 }
 
 .title{
