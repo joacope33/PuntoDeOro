@@ -22,11 +22,13 @@ header {
 }
 .left-content {
     display: flex;                  /* Usamos flexbox para el contenido a la izquierda */
-    align-items: center;           /* Alineamos verticalmente en el centro */
+    align-items: baseline;           /* Alineamos verticalmente en el centro */
     width: 21%;
+    height: auto;
     margin-right: 20%;
     justify-content: initial;
     font-size: 100%;
+    box-shadow: #333;
 }
 
 .right-content {
@@ -34,6 +36,7 @@ header {
     align-items: center; 
     width: 40%;
     justify-content: end;
+    height: auto;
 }
 
 .btn-sesion-ini {
@@ -145,7 +148,7 @@ li{
         color: #f8f8f8;
         display: block;
         box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
-        font-size: 16px;
+        font-size: 1rem;
         font-weight: bold;
         margin-bottom: 10px;
         justify-content: center;
