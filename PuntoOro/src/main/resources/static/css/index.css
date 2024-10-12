@@ -38,7 +38,7 @@ header {
 .left-content {
     display: flex;                  /* Usamos flexbox para el contenido a la izquierda */
     align-items: baseline;           /* Alineamos verticalmente en el centro */
-    width: 21%;
+    width: 25%;
     height: auto;
     margin-right: 20%;
     justify-content: initial;
@@ -76,8 +76,8 @@ header {
 }
 
 img.imghead {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 }
 
 nav {
@@ -167,10 +167,11 @@ dialog {
 }
 
 label {
-    font-size: 16px;
-    margin-bottom: 5px;
+    font-size: 25px;
+    margin-bottom: 0px;
     color: #333;
 }
+
 
 input {
     padding: 10px;
