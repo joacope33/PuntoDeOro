@@ -141,6 +141,79 @@ dialog {
     width: 100%;
     background-color: white;
 }
+/* Formulario */
+.form-login-content{
+    justify-content: center;
+    align-items: center;
+
+}
+#login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    width: auto;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
+
+button:hover {
+    background-color: #444;
+}
+
+.forgot-password {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    text-align: center;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
 
 /*FOOTER*/
 /* Estilos específicos para el pie de página */
