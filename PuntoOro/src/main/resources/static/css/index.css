@@ -1,25 +1,40 @@
+:root {
+    --color-fondo-header: rgb(255, 255, 255);
+    --color-texto-header: #030303;
+    --color-fondo-boton: #000;
+    --color-texto-boton: #fff;
+    --color-boton-hover: #444;
+    --color-boton-active: #333;
+    --color-fondo-footer: #8a8a8a;
+    --color-texto-footer: #a0a0a0;
+    --color-fondo-principal: rgb(255, 255, 255);
+    --color-titulo: rgb(0, 0, 0);
+    --color-borde-titulo: #9b9a9a98;
+    --fuente-principal: 'Roboto', sans-serif;
+    --padding-general: 10px;
+    --margen-titulo: 20px;
+}
 
 /*HEADER*/
-
 header {
     display: flex;                /* Usamos flexbox para el contenedor */
     flex-direction: column;       
     justify-content: space-around; /* Espacio entre los elementos */
     align-items: center;         /* Alineamos verticalmente en el centro */
-    padding: 10px;               /* Espacio interno opcional */
-    background-color: rgb(153, 153, 153);   /* Color de fondo opcional */
+    padding: var(--padding-general); /* Espacio interno opcional */
+    background-color: var(--color-fondo-header);   /* Color de fondo opcional */
     width: 100%;
 }
 
-.header-container{
-    color: #030303;
-    background-color: rgb(255, 255, 255);
+.header-container {
+    color: var(--color-texto-header);
+    background-color: var(--color-fondo-header);
     display: flex;
     width: 100%;
     justify-content: space-around;
     align-items: center;
-
 }
+
 .left-content {
     display: flex;                  /* Usamos flexbox para el contenido a la izquierda */
     align-items: baseline;           /* Alineamos verticalmente en el centro */
@@ -40,8 +55,8 @@ header {
 }
 
 .btn-sesion-ini {
-    background-color: #000; /* Fondo negro */
-    color: #fff; /* Texto blanco */
+    background-color: var(--color-fondo-boton); /* Fondo negro */
+    color: var(--color-texto-boton); /* Texto blanco */
     border: none; /* Sin borde */
     border-radius: 5px; /* Bordes redondeados */
     padding: 12px 24px; /* Espaciado interno */
@@ -51,53 +66,50 @@ header {
 }
 
 .btn-sesion-ini:hover {
-    background-color: #444; /* Color de fondo al pasar el ratón */
+    background-color: var(--color-boton-hover); /* Color de fondo al pasar el ratón */
     transform: scale(1.05); /* Efecto de escala al pasar el ratón */
 }
 
 .btn-sesion-ini:active {
-    background-color: #333; /* Color de fondo al hacer clic */
+    background-color: var(--color-boton-active); /* Color de fondo al hacer clic */
     transform: scale(0.95); /* Efecto de escala al hacer clic */
 }
-
 
 img.imghead {
     width: 20px;
     height: 20px;
 }
 
-nav{
+nav {
     background-color: rgb(53, 53, 53);
     color: rgb(0, 0, 0);
     display: flex;
-
 }
 
-main{
+main {
     display: flex;
     justify-content: space-around;
-    background-color: rgb(153, 153, 153);
+    background-color: var(--color-fondo-principal);
     color: burlywood;
 }
 
-.title{
+.title {
     margin-left: 5px;
-    color: rgb(0, 0, 0);
-    margin-top:20px;
+    color: var(--color-titulo);
+    margin-top: var(--margen-titulo);
+    border-bottom: solid;
+    border-color: var(--color-borde-titulo);
 }
 
-
-
-body{
+body {
     margin: 0;
-    background-color: #8a8a8a;
-    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    font-family: var(--fuente-principal);
 }
 
-li{
+li {
     list-style: none;
 }
-
 
 .background-img-home {
     background-image: url("/images/PuntoOroCancha.png"); /* Cambia la ruta a tu imagen */
@@ -119,77 +131,69 @@ li{
     padding: 20px; /* Espaciado interno */
     border-radius: 5px; /* Bordes redondeados */
 }
+
 /*FOOTER*/
-   /* Estilos específicos para el pie de página */
+/* Estilos específicos para el pie de página */
+.footer {
+    background-color: var(--color-fondo-footer);
+    color: var(--color-texto-footer);
+    padding: 20px;
+    text-align: center;
+}
 
+.site-footer {
+    background-color: #f5f5f5;
+    border-top: 1px solid #ccc;
+    display: block;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(to right, #adabab, #ffffff);
+}
 
-    /* Estilos para la sección de footer */
+.footer-logo {
+    position: relative;
+    color: #f8f8f8;
+    display: block;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    justify-content: center;
+    background-color: #292b2b;
+}
 
-    .footer {
-        background-color: #8a8a8a;
-        color: #a0a0a0;
-        padding: 20px;
-        text-align: center;
-    }
+.footer-links {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;
+}
 
-    .site-footer {
-        background-color: #f5f5f5;
-        border-top: 1px solid #ccc;
-        display: block;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 20px;
-        text-align: center;
-        background: linear-gradient(to right,#adabab,#ffffff );
-    }
+.footer-links a {
+    color: var(--color-texto-footer);
+    font-size: 16px;
+    margin-right: 20px;
+    text-decoration: none;
+}
 
-    .footer-logo {
-        position: relative;
-        color: #f8f8f8;
-        display: block;
-        box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
-        font-size: 1rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-        justify-content: center;
-        background-color: #292b2b;
-    }
+.footer-links a:hover {
+    color: #ffffff;
+    font-size: 16px;
+    margin-right: 20px;
+    text-decoration: none;
+}
 
+.footer-links a:last-child {
+    margin-right: 0;
+}
 
-    .footer-links {
-        display: flex;
-        margin-bottom: 20px;
-        justify-content: center;
-    }
+.footer-social {
+    display: flex;
+    justify-content: center;
+}
 
-    .footer-links a {
-    
-        color: #a0a0a0;
-        font-size: 16px;
-        margin-right: 20px;
-        text-decoration: none;
-    }
-    .footer-links a:hover {
-        color: #ffffff;
-        font-size: 16px;
-        margin-right: 20px;
-        text-decoration: none;
-    }
-
-    .footer-links a:last-child {
-        margin-right: 0;
-    }
-
-    .footer-social {
-        display: flex;
-        justify-content: center;
-    }
- 
-
-
-
-
-  .social-link {
+.social-link {
     display: inline-block;
     font-size: inherit;
     height: 1em; 
@@ -197,24 +201,24 @@ li{
     vertical-align: -.125em;
     padding: 10px;
     transition-duration: 0.5s;
+}
 
-  }
-  .social-link-facebook{
+.social-link-facebook {
     max-width: 20px;
-  }
-  .social-link-twitter{
+}
+.social-link-twitter {
     max-width: 20px;
-  }
-  .social-link-instgram{
+}
+.social-link-instgram {
     max-width: 20px;
-  }
+}
 
-  .social-link:hover {
+.social-link:hover {
     color: #b6b6b6;
     transition-duration: 0.2s;
     transform: translateY(-5px);
-  }
+}
 
-  .social-link i {
+.social-link i {
     font-size: 20px;
-  }
+}
