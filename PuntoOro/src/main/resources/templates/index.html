@@ -6,7 +6,9 @@
     <title>Punto de Oro Bragado</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="/js/init.js" defer></script>
+    
 </head>
 
 
@@ -49,9 +51,15 @@
               <a href="#" class="social-link"><img class="social-link-twitter"  src="/images/twitter.png"></a>
               <a href="#" target="_blank" class="social-link"><img class="social-link-instgram"  src="/images/instagram.png"></a>
             </div>
-            <p>Derechos de autor &copy; 2023 Punto de Oro</p>
+            <p id ="derechosReservados">Derechos de autor &copy;  Punto de Oro</p>
     </footer>
-
+    <script>
+        // JavaScript para agregar la fecha actual
+        const footer = document.getElementById('derechosReservados');
+        const fechaActual = new Date();
+        const opciones = { year: 'numeric'};
+        footer.innerHTML = `Derechos de autor &copy; ${fechaActual.toLocaleDateString('es-ES', opciones)} Punto de Oro`;
+    </script>
 </body>
 
 </html>
