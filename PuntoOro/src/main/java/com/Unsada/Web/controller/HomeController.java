@@ -19,21 +19,21 @@ public class HomeController{
 
             return "index"; // Esto devuelve el nombre del archivo HTML sin la extensión (.html)
     }
-    @GetMapping("/Calendario")
+    @GetMapping("/calendario")
         public String mostrarCalendario(){
-            return "Calendario";
+            return "calendario";
         }
-    @GetMapping("/Jugadores")
+    @GetMapping("/jugadores")
     public String mostrarJugadores(){
-        return "Jugadores";
+        return "jugadores";
     }
-    @GetMapping("/Ranking")
+    @GetMapping("/ranking")
     public String mostrarRanking(){
         return "Ranking";
     }
-    @GetMapping("/Torneos")
+    @GetMapping("/torneos")
     public String mostrarTorneos(){
-        return "Torneos";
+        return "torneos";
     }
 
 }
