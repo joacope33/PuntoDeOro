@@ -14,7 +14,11 @@
     --padding-general: 10px;
     --margen-titulo: 20px;
 }
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 /*HEADER*/
 header {
     display: flex;                /* Usamos flexbox para el contenedor */
@@ -28,11 +32,13 @@ header {
 
 .header-container {
     color: var(--color-texto-header);
-    background-color: var(--color-fondo-header);
     display: flex;
     width: 100%;
     justify-content: start;
     align-items: center;
+    justify-content: space-between;
+    background-color: #000000;
+    padding: 10px 20px;
 }
 
 .left-content {
@@ -78,12 +84,14 @@ header {
 img.imghead {
     width: 30px;
     height: 30px;
+    right: 10px;
 }
 
 nav {
     background-color: rgb(53, 53, 53);
     color: rgb(0, 0, 0);
     display: flex;
+
 }
 
 main {
@@ -110,23 +118,121 @@ body {
 ul{
     display: flex;
     flex-direction: row;
+    list-style: none;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+
+
+.header-container ul {
+    list-style-type: none;
+}
+
+.header-container ul li {
+    display: block;
+    padding: 5px 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.header-container ul li:hover {
+    background-color: #444;
+}
+
+.main-menu li {
+    color: white;
+}
+
+.head-btn-sesion li {
+    position: relative;
+}
+
+.head-btn-sesion li a {
+    display: flex;
+    padding: 0 20px;
+    text-decoration: none;
+    color: white;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.head-btn-sesion li:hover .submenu {
+    display: block;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -72px;    
+    background-color: #333;
+    list-style: none;
+    padding: 0; /* Elimina el padding interno del ul */
+    margin: 0; /* Elimina los márgenes del ul */
+    list-style: none;
+
+}
+
+.submenu li {
+    white-space: nowrap;
+    margin: 0; /* Elimina los márgenes entre los li */
+    padding: 0; /* Elimina el padding entre los li */
+    list-style: none;
+}
+
+.submenu li:hover {
+    background-color: #444;
+}
+
+.submenu li a {
+    display: block; /* Hace que el <a> ocupe todo el espacio disponible en el <li> */
+    padding: 10px 20px; /* Ajusta el padding interno del enlace */
+    color: white;
+    background-color: #333;
+    text-decoration: none;
+    width: 100%; /* Asegura que el <a> ocupe el 100% del ancho del <li> */
+    box-sizing: border-box; /* Incluye el padding dentro del ancho total */
+}
+
+.submenu li a:hover {
+    background-color: #444;
 }
 
 li {
     list-style: none;
-    margin: 5px;
-    padding: 12px 20px;
+    padding: 0;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
-    width: auto;
     transition: background-color 0.3s ease;
     display: flex;
-    align-items: baseline;
-    flex-wrap: nowrap;
-    justify-content: space-evenly;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1)
+    align-items: center; /* Centrar el contenido */
+    justify-content: center; /* Centrar el contenido horizontalmente */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.imghead li{
+    display: flex;
+}
+a {
+    color: inherit; /* Para heredar el color de los padres */
+    width: 100%;
+    height: 100%;
+    display: block;
+    box-sizing: border-box;
 }
 
 .background-img-home {
@@ -246,18 +352,21 @@ button:hover {
 .site-footer {
     background-color: #f5f5f5;
     border-top: 1px solid #ccc;
-    display: block;
+    display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     padding: 20px;
     text-align: center;
     background: linear-gradient(to right, #adabab, #ffffff);
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .footer-logo {
     position: relative;
     color: #f8f8f8;
-    display: block;
+    display: flex;
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
     font-size: 1rem;
     font-weight: bold;

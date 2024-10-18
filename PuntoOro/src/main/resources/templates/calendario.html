@@ -8,20 +8,45 @@
     <link rel="stylesheet" type="text/css" href="css/StyleMenu.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="/js/init.js" defer></script>
-    
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+      });
+
+    </script>
 </head>
 
 
 <body>
     <header>
-        <nav class="header-container">
-            <ul>
-              <li>Calendario</li>
-              <li>Jugadores</li>
-              <li>Ranking</li>
-            </ul>
-        </nav>
+      <nav class="header-container">
+        <ul class="main-menu">
+            <li>Calendario</li>
+            <li>Jugadores</li>
+            <li>Ranking</li>
+        </ul>
+        <ul class="head-btn-sesion">
+          <li><img class="imghead" src="/images/PelotaPadel.png" alt="PelotaPadel"></li>
+            <li><a href="#">Mi cuenta</a>
+                <ul class="submenu">
+                    <li><a href="#">Datos</a></li>
+                    <li><a href="#">Cambiar Contraseña</a></li>
+                    <li><a href="#">Configuracion de Cancha</a></li>
+                    <li><a href="#">Configuracion de Torneo</a></li>
+                    <li><a href="#">Configuración de Usuarios</a></li>
+                    <li><a href="#">Cerrar Sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 
+    <div id='calendar'></div>
     </header>
     
     <main>
