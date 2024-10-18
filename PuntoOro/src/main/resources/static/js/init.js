@@ -3,39 +3,20 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = '/home';
     }
 
-    const modal = document.getElementById('modal');
+    
     const btnAbrir = document.getElementById('btn-login-abrir');
-    const btnCerrar = document.getElementById('btn-login-cerrar');
-    const eventForm = document.getElementById('event-form'); // Asegúrate de que este ID exista en tu HTML
+    
 
     // Asegúrate de que los botones existen antes de agregar el listener
     if (btnAbrir) {
         btnAbrir.addEventListener('click', () => {
-            modal.showModal();
+            ;
         });
     } else {
         console.error("Botón de abrir modal no encontrado");
     }
 
-    if (btnCerrar) {
-        btnCerrar.addEventListener('click', () => {
-            modal.close();
-        });
-    } else {
-        console.error("Botón de cerrar modal no encontrado");
-    }
-
-    // Cerrar el modal al hacer clic fuera del contenido
-    if (modal) {
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.close();
-            }
-        });
-    } else {
-        console.error("Modal no encontrado");
-    }
-
+    
     function actualizarCopyright() {
         const footer = document.getElementById('Copyright');
         const fechaActual = new Date();
@@ -114,3 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render(); // Renderizar el calendario
 });
 calendar.setOption('locale', 'es');
+
+/*Redirecciones*/ 
+function redireccionLogin() {
+    window.location.href = '/login';
+}

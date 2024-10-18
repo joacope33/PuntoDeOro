@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto de Oro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="/js/login.js" defer></script>
+    
+</head>
+
+
+<body>
+    <header>
+        <nav>
+          <ul>
+            <li><a class="logo" onclick="redireccionIndex()">Punto de oro</a></li>
+          </ul>
+        </nav>
+        <h1 class="title-sesion" translate="no" ></h1>
+      </header>
+        
+      
+  
+      <main>
+          <div class="formulario-login">
+              <h1>Inicio de sesión</h1>
+              <form method="post">
+                  <div class="username">
+                      <input id="username-input" name="nombreUsuario" type="text" autocomplete="off"  required>
+                      <label for="nombreUsuario">Nombre de usuario</label>
+                  </div>
+                  <div class="username">
+                      <input type="password" name="contrasena" autocomplete="off" required>
+                      <label for="contrasena">Contraseña</label>
+                  </div>
+                  <div class="recordar" onclick="redireccionForgetPassword()">¿Olvidó su contraseña?</div>
+                  <input type="submit" value="Iniciar">
+                  <div class="alerta-login" id="alerta-login" style="color: red;">
+                    <!-- Mostrar mensaje de error aquí si está presente -->
+                    <span th:text="${error}"></span>
+                </div>
+                  <div class="registrarse">
+                      ¿No tienes cuenta? <a onclick="redireccionRegister()" >Registrarse</a>.
+                  </div>
+              </form>
+            </div>
+      </main>
+
+</body>
+
+</html>

@@ -6,59 +6,12 @@
     <title>Punto de Oro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/StyleMenu.css">
+    <link rel="stylesheet" type="text/css" href="css/calendario.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js" defer></script>
+    <script src="js/calendario.js" defer></script>
     <script src="js/init.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('modal');
-            const eventForm = document.getElementById('event-form');
-            const btnCerrar = document.getElementById('btn-login-cerrar');
-            let calendar;
-
-            // Inicialización del calendario
-            var calendarEl = document.getElementById('calendar');
-            calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                selectable: true,
-                select: function(info) {
-                    // Mostrar el formulario en el modal al seleccionar una fecha
-                    modal.showModal();
-                    document.getElementById('event-start').value = info.startStr;
-                    document.getElementById('event-end').value = info.endStr;
-                },
-                eventClick: function(info) {
-                    alert('Evento: ' + info.event.title); // Muestra alerta al hacer clic en un evento
-                }
-            });
-
-            calendar.render(); // Renderiza el calendario
-
-            // Manejar el cierre del modal
-            btnCerrar.addEventListener('click', function() {
-                modal.close();
-            });
-
-            // Manejar el envío del formulario para agregar un evento
-            eventForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
-
-                const title = document.getElementById('event-title').value;
-                const start = document.getElementById('event-start').value;
-                const end = document.getElementById('event-end').value;
-
-                calendar.addEvent({
-                    title: title,
-                    start: start,
-                    end: end,
-                    allDay: true
-                });
-
-                modal.close(); // Cerrar el modal
-                eventForm.reset(); // Reiniciar el formulario
-            });
-        });
-    </script>
+    
 </head>
 
 <body>
@@ -84,6 +37,10 @@
             </ul>
         </nav>
 
+        
+    </header>
+
+    <main>
         <div id='calendar'></div>
         <dialog id="modal">
             <h2>Agregar Evento</h2>
@@ -101,25 +58,24 @@
             </form>
             <button id="btn-login-cerrar">Cerrar</button>
         </dialog>
-    </header>
 
-    <main></main>
+    </main>
 
     <footer class="site-footer">
         <div class="footer-logo" translate="no">Punto de Oro Bragado</div>
         <div class="footer-links">
-            <ul>
-                <a href="#" onclick="redireccionIndex()"></a>
-                <a href="#" onclick="redireccionJuego()"></a>
-                <a href="#" onclick="redireccionPAlabra()"></a>
-            </ul>
+          <ul>
+              <a href="#" onclick="redireccionIndex()"></a>
+              <a href="#" onclick="redireccionJuego()"></a>
+              <a href="#" onclick="redireccionPAlabra()"></a>
+          </ul>
         </div>
         <div class="footer-social">
-            <a href="#" class="social-link"><img class="social-link-facebook" src="/images/facebook.png"></a>
-            <a href="#" class="social-link"><img class="social-link-twitter" src="/images/twitter.png"></a>
-            <a href="#" target="_blank" class="social-link"><img class="social-link-instgram" src="/images/instagram.png"></a>
+          <a href="#" class="social-link"><img class="social-link-facebook"  src="/images/facebook.png"></a>
+          <a href="#" class="social-link"><img class="social-link-twitter"  src="/images/twitter.png"></a>
+          <a href="#" target="_blank" class="social-link"><img class="social-link-instgram"  src="/images/instagram.png"></a>
         </div>
-        <p id="Copyright"></p>
-    </footer>
+        <p id ="Copyright"></p>
+</footer>
 </body>
 </html>

@@ -1,0 +1,275 @@
+/* Variables de color */
+:root {
+    --color-crema-claro: #000000;
+    --color-aqua-medio: #fff01d86;
+    --color-crema-oscuro: #b9b9b9;
+    --color-azul-oscuro: #ffffff;
+    --color-gris-oscuro: #ffffff9d;
+    --color-azul-claro: #393845;
+    --color-linea: #0d3b3b;
+}
+
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #333;
+    background: linear-gradient(to right, #000000, #f3b632);
+}
+
+/* Estilos del main */
+main {
+  margin-top: 100px; /* Asegurar que el main no se superponga con el header */
+  padding: 20px;
+  margin: 100px auto 0 auto; /* Ajustar el margen superior para que no se superponga con el header */
+  max-width: 1000px; /* Ancho máximo del main */
+  transition: margin-top 0.3s ease; /* Transición suave para el margin-top */
+}
+
+.logo {
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    padding: 0;
+    height: 0;
+    -webkit-text-stroke: 1px #00000098; /* Borde alrededor de cada letra */
+    transition: color 1s;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px var(--color-gris-oscuro);
+}
+
+.logo:hover {
+    transition-duration: 1s;
+    cursor: pointer;
+    color: #b4b4b4;
+    background-color: transparent;
+}
+
+.title {
+    margin-bottom: 5px;
+    border-bottom: 3px solid #114d4d; /* Cambia el color del borde inferior del título */
+    padding-bottom: 5px; /* Añade un espacio entre el texto y el borde inferior */
+    -webkit-text-stroke: 1px #00000098; /* Borde alrededor de cada letra */
+    transition: color 1s;
+}
+
+.title-sesion {
+    font-size: 20px;
+    margin-bottom: 3px;
+    border-bottom: 3px solid #f3b632; /* Cambia el color del borde inferior del título */
+    padding-bottom: 0; /* Añade un espacio entre el texto y el borde inferior */
+    -webkit-text-stroke: 1px #00000098; /* Borde alrededor de cada letra */
+    transition: color 1s;
+}
+
+.formulario-login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: linear-gradient(to right, #00000075, #31313175);
+    border-radius: 10px;
+    color: white;
+}
+
+.formulario-login h1 {
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+
+.formulario-login form {
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+form .username {
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+}
+
+.username input {
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+    caret-color: white;
+    color: white;
+}
+
+.username label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.username span::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #0d3b3b;
+    transition: .5s;
+}
+
+/* Estilos del campo de usuario */
+.username input:valid ~ label {
+    top: -5px;
+    color: #219191;
+}
+
+.username input:focus ~ label,
+.username input:focus ~ label {
+    top: -5px;
+    color: #f3b632;
+}
+
+/* Estilos del borde inferior del campo de usuario */
+.username input:valid ~ .line {
+    background: #f3b632;
+}
+
+.username input:focus ~ span::before,
+.username input:focus ~ span::before {
+    width: 100%;
+}
+
+.recordar {
+    margin: -5px 0 20px 2px;
+    color: #6060ff8f;
+    cursor: pointer;
+}
+
+.recordar:hover {
+    text-decoration: underline;
+}
+
+input[type="submit"] {
+    width: 100%;
+    height: 50px;
+    border: 1.5px solid;
+    background: #9c741e;
+    border-radius: 25px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    border-color: #070707;
+    transition: .5s;
+}
+
+input[type="submit"]:hover {
+    border-color: #b18525;
+    transition: .5s;
+    background: #c29636;
+}
+
+input[type="submit"]:active {
+    border-color: #997321;
+    transition: .5s;
+    background: #9b782b;
+}
+
+.registrarse {
+    margin: 30px;
+    text-align: center;
+    font-size: 16px;
+    color: #adadad;
+    cursor: pointer;
+}
+
+.registrarse a {
+    color: #6060ff8f;
+    text-decoration: none;
+}
+
+.registrarse a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos del encabezado */
+header {
+  padding: 2rem;
+  background: linear-gradient(to right, #000000cb, #313131cb);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    padding: 0.5rem 1rem;
+    color: var(--color-crema-oscuro);
+    position: relative;
+    text-decoration: none;
+}
+
+/* Solucionar AUTOCOMPLETADO */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px #23232300;
+}
+
+.alerta-login {
+    font-size: 85%;
+    padding: 1%;
+    color: rgba(255, 0, 0, 0.511);
+}
+
+
+/* Media Queries para responsive design */
+@media (max-width: 1500px) {
+  .formulario-login {
+    display: flexbox;
+    position: absolute; /* Cambiado a relative para flujo normal del documento */
+    width: 90%; /* Ancho máximo del formulario */
+    max-width: 400px; /* Ancho máximo del formulario */
+    max-height: 450px;
+    margin: 70px auto 0; /* Añade espacio desde arriba y centra horizontalmente */
+    padding: 20px;
+    background: linear-gradient(to right, #00000075, #31313175);
+    border-radius: 10px;
+    color: white;
+    box-sizing: border-box; /* Incluye padding y border en el ancho */
+  }
+}

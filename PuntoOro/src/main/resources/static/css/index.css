@@ -5,7 +5,7 @@
 :root {
     --color-fondo-header: linear-gradient(90deg, rgba(254,255,0,1) 0%, rgb(255, 255, 255) 100%);
     --color-texto-header: #030303;
-    --color-fondo-boton: #000;
+    --color-fondo-boton: #292b2b;
     --color-texto-boton: #fff;
     --color-boton-hover: #444;
     --color-boton-active: #333;
@@ -24,14 +24,14 @@ header {
     display: flex;                /* Usamos flexbox para el contenedor */       
     justify-content: center; /* Espacio entre los elementos */
     padding: var(--padding-general); /* Espacio interno opcional */
-    background: #000000e1;   /* Color de fondo opcional */
+    background: #00000000;   /* Color de fondo opcional */
     width: 100%;
 }
 
 .header-container {
+    position: relative; /* Necesario para posicionar la línea */
     color: var(--color-texto-header);
-    background: linear-gradient(90deg, rgb(255, 255, 0) 0%, rgba(255, 255, 0, 0.527) 100%);
-    background: --color-fondo-header;   
+    background: rgba(0, 0, 0, 0);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,17 +43,22 @@ header {
 .left-content {   
     display: flex;
     align-items: center;
-    justify-content: center;  /* Centra el contenido horizontalmente */
-    padding: 15px;
-
+    margin-bottom: 1%;
 }
 
 .header-logo {
     height: 60px;
-    margin-right: 10px;
+    margin-left: 20px;
     display: block;
     white-space: nowrap; /* Para evitar que el título se divida en varias líneas */
     font-size: 2rem; /* Tamaño de fuente ajustado para pantallas pequeñas */
+    transition: transform 0.3s ease;  /* Suave animación */
+    cursor: pointer;
+    
+}
+
+.header-logo:hover {
+    transform: scale(1.01);  /* Efecto de agrandamiento al pasar el cursor */
 }
 
 .right-content {
@@ -92,11 +97,19 @@ header {
     vertical-align: middle;  /* Alinea verticalmente la imagen */
     transition: transform 0.3s ease;  /* Suave animación */
     vertical-align: middle;  /* Alinea la imagen verticalmente al centro del texto */
+    cursor: pointer;
 }
 
-.imghead:hover {
-    transform: scale(1.2);  /* Efecto de agrandamiento al pasar el cursor */
+.linea {
+    position: absolute; /* Posiciona la línea absolutamente dentro del header */
+    bottom: 0; /* Coloca la línea en la parte inferior del header */
+    height: 4px; /* Altura de la línea */
+    background: linear-gradient(to right, #000000 0%, #00000009 100%); /* Gradiente de izquierda a derecha */
+    width: 100%; /* La línea ocupa todo el ancho */
 }
+
+
+
 
 nav {
     background-color: rgb(53, 53, 53);
@@ -119,13 +132,19 @@ main {
     font-weight: 700;  /* Más grueso para mayor impacto */
     color: #000;  /* Color negro intenso */
     letter-spacing: 0.5px;  /* Mayor espaciado entre letras */
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);  /* Sombra más fuerte para dar profundidad */
+    cursor: pointer;
+    margin-bottom: 5px;
+    padding-bottom: 5px; /* Añade un espacio entre el texto y el borde inferior */
+    transition: color 1s;
 }
+
+
 
 body {
     margin: 0;
-    background-color: #ffffff;
+    background-color: #8d8b1bc4;
     font-family: var(--fuente-principal);
+    background: linear-gradient(to right, #929191, #c7c5c5);
 }
 
 li {
@@ -160,7 +179,7 @@ dialog {
     padding: 20px;
     max-width: 500px;
     width: 100%;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.432);
 }
 /* Formulario */
 .form-login-content{
