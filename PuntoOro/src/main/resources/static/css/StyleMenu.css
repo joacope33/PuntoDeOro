@@ -433,3 +433,20 @@ button:hover {
 .social-link i {
     font-size: 20px;
 }
+/*Calendario*/
+#calendar {
+    width: 100%;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    #calendar {
+        width: 80%; /* Ajusta el ancho para pantallas más grandes */
+    }
+}
+
+@media (min-width: 1200px) {
+    #calendar {
+        width: 60%; /* Ajusta el ancho para pantallas muy grandes */
+    }
+}
