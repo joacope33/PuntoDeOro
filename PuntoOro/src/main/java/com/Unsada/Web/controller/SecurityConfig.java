@@ -17,12 +17,12 @@ public class SecurityConfig {
         http
             .authorizeRequests()
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll() // Permitir acceso a recursos estáticos
-                .requestMatchers("/login", "/index").permitAll()  // Permitir acceso a las páginas de login y registro
+                .requestMatchers("/login", "/index", "/forgetPassword", "/register").permitAll()  // Permitir acceso a las páginas de login y registro
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")  // Ruta de la página de login
-                .defaultSuccessUrl("/index", true)  // Redirigir a /index después de un inicio de sesión exitoso
+                .defaultSuccessUrl("/startSuccessful", true)  // Redirigir a /index después de un inicio de sesión exitoso
                 .permitAll()
                 .and()
             .logout()

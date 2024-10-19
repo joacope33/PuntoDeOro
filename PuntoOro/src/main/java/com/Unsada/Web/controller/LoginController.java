@@ -28,11 +28,25 @@ public class LoginController {
         // Lógica de autenticación aquí
         if (username.equals("admin") && password.equals("admin")) {
             // Si es válido, redirigir a una página de éxito
-            return "redirect:/index";
+            return "redirect:/startSuccessful";
         } else {
             // Si falla, devolver al home con un mensaje de error
             model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "index";
+            return "login";
         }                    
     }
+
+    // Mostrar el formulario de forget
+    @GetMapping("/forgetPassword")
+    public String mostrarForgetPassword() {
+        return "forgetPassword";  // Asegúrate de tener una vista llamada "login.html" o "login.jsp"
+    }
+
+    // Mostrar el formulario de login
+    @GetMapping("/register")
+    public String mostrarRegister() {
+        return "register";  // Asegúrate de tener una vista llamada "login.html" o "login.jsp"
+    }
+
+    
 }

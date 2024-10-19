@@ -36,10 +36,9 @@ function changeColor() {
  
   // Redireccionamientos
   function redireccionIndex() {
-    window.location.href = '/home';
+    window.location.href = '/index';
   }
 
-  // Redireccionamientos
   function redireccionLogin() {
     window.location.href = '/login';
   }
@@ -65,24 +64,14 @@ function changeColor() {
 }
 
   function redireccionRegister() {
-    window.location.href = '/registro';
+    window.location.href = '/register';
   }
 
   function redireccionForgetPassword() {
-    window.location.href = '/login/recuperar-cuenta';
+    window.location.href = '/forgetPassword';
   }
 
-  function redireccionJuego(){
-    window.location.href = '/juego';
-  }
-
-  function redireccionPalabra(){
-    window.location.href = '/palabras';
-  }
-
-  function redireccionInicioExistoso(){
-    window.location.href = '/home/inicio-exitoso';
-  }
+  
 
 
 

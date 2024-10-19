@@ -21,11 +21,15 @@
 
 /*HEADER*/
 header {
+    
+    position: fixed;
     display: flex;                /* Usamos flexbox para el contenedor */       
     justify-content: center; /* Espacio entre los elementos */
-    padding: var(--padding-general); /* Espacio interno opcional */
-    background: #00000000;   /* Color de fondo opcional */
+    padding: 2rem; /* Espacio interno opcional */
+    background: linear-gradient(to right, #000000cb, #313131cb);
     width: 100%;
+    top: 0;
+    z-index: 1000;
 }
 
 .header-container {
@@ -37,7 +41,8 @@ header {
     align-items: center;
     width: 98%;
     flex-wrap: nowrap; /* Para que no se muevan hacia abajo */
-    border-radius: 10px;
+    border-bottom: 3px solid #c4932a; /* Cambia el color del borde inferior del título */
+    
 }
 
 .left-content {   
@@ -100,13 +105,7 @@ header {
     cursor: pointer;
 }
 
-.linea {
-    position: absolute; /* Posiciona la línea absolutamente dentro del header */
-    bottom: 0; /* Coloca la línea en la parte inferior del header */
-    height: 4px; /* Altura de la línea */
-    background: linear-gradient(to right, #000000 0%, #00000009 100%); /* Gradiente de izquierda a derecha */
-    width: 100%; /* La línea ocupa todo el ancho */
-}
+
 
 
 
@@ -127,15 +126,18 @@ main {
 .title {
     white-space: nowrap; /* Para evitar que el título se divida en varias líneas */
     vertical-align: middle;  /* Alinea la imagen verticalmente al centro del texto */
-    font-family: 'Montserrat', sans-serif;  /* Nueva fuente */
-    font-size: 40px;  /* Aumenta el tamaño del texto */
-    font-weight: 700;  /* Más grueso para mayor impacto */
-    color: #000;  /* Color negro intenso */
-    letter-spacing: 0.5px;  /* Mayor espaciado entre letras */
+    color: white;
     cursor: pointer;
-    margin-bottom: 5px;
-    padding-bottom: 5px; /* Añade un espacio entre el texto y el borde inferior */
+    width: 100%;
+    padding: 0;
+    height: 0;
+    -webkit-text-stroke: 1px #00000098; /* Borde alrededor de cada letra */
     transition: color 1s;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px var(--color-gris-oscuro);
 }
 
 
@@ -144,7 +146,6 @@ body {
     margin: 0;
     background-color: #8d8b1bc4;
     font-family: var(--fuente-principal);
-    background: linear-gradient(to right, #929191, #c7c5c5);
 }
 
 li {
@@ -225,7 +226,7 @@ input {
 button {
     padding: 12px 20px;
     border: none;
-    background-color: #333;
+    background-color: #adabab;
     color: white;
     cursor: pointer;
     border-radius: 5px;

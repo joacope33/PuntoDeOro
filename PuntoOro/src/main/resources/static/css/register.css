@@ -1,16 +1,17 @@
+
 /* Variables de color */
 :root {
     --color-crema-claro: #000000;
     --color-aqua-medio: #fff01d86;
     --color-crema-oscuro: #b9b9b9;
     --color-azul-oscuro: #ffffff;
-    --color-gris-oscuro: #ffffff9d;
-    --color-azul-claro: #393845;
+    --color-gris-oscuro: #ffffff9d ;
+    --color-azul-claro: #393845 ;
     --color-linea: #0d3b3b;
-}
-
-/* Estilos generales */
-body {
+  }
+  
+  /* Estilos generales */
+  body {
     font-family: "Helvetica Neue", sans-serif;
     font-size: 16px;
     line-height: 1.2;
@@ -26,18 +27,9 @@ body {
     position: relative; /* Posiciona el contenedor relativamente */
     color: white; /* Color del texto */
     text-align: center; /* Centra el texto */
-}
-
-/* Estilos del main */
-main {
-  margin-top: 100px; /* Asegurar que el main no se superponga con el header */
-  padding: 20px;
-  margin: 100px auto 0 auto; /* Ajustar el margen superior para que no se superponga con el header */
-  max-width: 1000px; /* Ancho máximo del main */
-  transition: margin-top 0.3s ease; /* Transición suave para el margin-top */
-}
-
-.logo {
+  }
+  
+  .logo {
     color: white;
     cursor: pointer;
     width: 100%;
@@ -50,54 +42,55 @@ main {
     text-align: center;
     margin-bottom: 1.5rem;
     text-shadow: 1px 1px var(--color-gris-oscuro);
-}
+  }
 
-.logo:hover {
+  .logo:hover {
     transition-duration: 1s;
     cursor: pointer;
     color: #b4b4b4;
     background-color: transparent;
-}
+  }
 
-.title {
+  .title {
     margin-bottom: 5px;
     border-bottom: 3px solid #926e1f; /* Cambia el color del borde inferior del título */
     padding-bottom: 5px; /* Añade un espacio entre el texto y el borde inferior */
     -webkit-text-stroke: 1px #00000098; /* Borde alrededor de cada letra */
     transition: color 1s;
-}
+  }
 
-.title-sesion {
+  .title-sesion {
     font-size: 20px;
     margin-bottom: 3px;
     border-bottom: 3px solid #f3b632; /* Cambia el color del borde inferior del título */
     padding-bottom: 0; /* Añade un espacio entre el texto y el borde inferior */
     -webkit-text-stroke: 1px #00000098; /* Borde alrededor de cada letra */
     transition: color 1s;
-}
+  }
 
-.formulario-login {
+  
+.formulario-register {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 400px;
-    background: linear-gradient(to right, #00000075, #31313175);
+    background: linear-gradient(to right,#00000075,#31313175 );
     border-radius: 10px;
     color: white;
 }
 
-.formulario-login h1 {
+.formulario-register h1 {
     text-align: center;
     padding: 0 0 20px 0;
     border-bottom: 1px solid silver;
 }
 
-.formulario-login form {
+.formulario-register form {
     padding: 0 40px;
     box-sizing: border-box;
 }
-
+ 
 form .username {
     position: relative;
     border-bottom: 2px solid #adadad;
@@ -138,27 +131,50 @@ form .username {
     transition: .5s;
 }
 
+
 /* Estilos del campo de usuario */
 .username input:valid ~ label {
     top: -5px;
     color: #f3b632;
 }
 
-.username input:focus ~ label,
-.username input:focus ~ label {
+
+.username input:focus ~ label{
     top: -5px;
     color: #f3b632;
+    
 }
+
+
 
 /* Estilos del borde inferior del campo de usuario */
 .username input:valid ~ .line {
     background: #f3b632;
 }
 
-.username input:focus ~ span::before,
-.username input:focus ~ span::before {
-    width: 100%;
+.username input:focus ~ span::before{
+    width: 100%; 
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px #23232300;
+}
+
+.mensaje {
+    color: rgb(170, 170, 170);
+    font-size: 14px;
+}
+
+
+
+
+
 
 .recordar {
     margin: -5px 0 20px 2px;
@@ -196,7 +212,7 @@ input[type="submit"]:active {
     background: #9b782b;
 }
 
-.registrarse {
+.iniciar {
     margin: 30px;
     text-align: center;
     font-size: 16px;
@@ -204,76 +220,68 @@ input[type="submit"]:active {
     cursor: pointer;
 }
 
-.registrarse a {
+.iniciar a {
     color: #6060ff8f;
     text-decoration: none;
 }
 
-.registrarse a:hover {
+.iniciar a:hover {
     text-decoration: underline;
 }
+  
 
+  
+  /* Estilos del encabezado */
+  
 /* Estilos del encabezado */
 header {
-  padding: 2rem;
-  background: linear-gradient(to right, #000000cb, #313131cb);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
+    padding: 2rem;
+    background: linear-gradient(to right, #000000cb, #313131cb);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  nav {
+      display: flex;
+      justify-content: space-between;
+  }
+  
+  nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+  }
+  
+  nav ul li {
+      margin: 0 1rem;
+  }
+  
+  nav ul li a {
+      padding: 0.5rem 1rem;
+      color: var(--color-crema-oscuro);
+      position: relative;
+      text-decoration: none;
+  }
+  
+.alerta{
+  font-size: 85%;
+  padding: 1%;
+  color: rgba(255, 0, 0, 0.511);
 }
-
-nav {
-    display: flex;
-    justify-content: space-between;
-}
-
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-nav ul li {
-    margin: 0 1rem;
-}
-
-nav ul li a {
-    padding: 0.5rem 1rem;
-    color: var(--color-crema-oscuro);
-    position: relative;
-    text-decoration: none;
-}
-
-/* Solucionar AUTOCOMPLETADO */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: #ffffff;
-    transition: background-color 5000s ease-in-out 0s;
-    box-shadow: inset 0 0 20px 20px #23232300;
-}
-
-.alerta-login {
-    font-size: 85%;
-    padding: 1%;
-    color: rgba(255, 0, 0, 0.511);
-}
-
 
 /* Media Queries para responsive design */
-@media (max-width: 1500px) {
-  .formulario-login {
+@media (max-width: 1300px) {
+  .formulario-register {
     display: flexbox;
     position: absolute; /* Cambiado a relative para flujo normal del documento */
     width: 90%; /* Ancho máximo del formulario */
     max-width: 400px; /* Ancho máximo del formulario */
-    max-height: 450px;
-    margin: 70px auto 0; /* Añade espacio desde arriba y centra horizontalmente */
+    max-height: 540px;
+    margin: 110px auto 0; /* Añade espacio desde arriba y centra horizontalmente */
     padding: 20px;
     background: linear-gradient(to right, #00000075, #31313175);
     border-radius: 10px;
