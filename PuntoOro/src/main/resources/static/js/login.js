@@ -119,49 +119,8 @@ async function iniciarSesion(nombreUsuario, contrasena) {
 
 
 
-/*OBTENER USUARIOS*/ 
- // Función para establecer la acción del formulario antes de enviar
-
-// Función para obtener y mostrar las palabras
-document.addEventListener("DOMContentLoaded", function() {
-  obtenerUsuarios();
-  resaltarUsuarioLogueado();
-});
-
-async function obtenerUsuarios() {
-  let tablaUsuariosRef = document.getElementById("tablaUsuarios").getElementsByTagName('tbody')[0];
 
 
-  try {
-      // Hacemos una petición al backend para obtener la lista de usuarios y puntuaciones
-      let response = await fetch("/usuario/puntuaciones");
-      if (!response.ok) {
-          throw new Error("Error al obtener usuarios: " + response.statusText);
-      }
-      
-      let usuarios = await response.json();
-      console.log("Usuarios obtenidos:", usuarios);
-
-      // Limpiar la tabla antes de agregar nuevas filas
-      tablaUsuariosRef.innerHTML = "";
-
-      // Iterar sobre los usuarios y agregarlos a la tabla
-      usuarios.forEach(usuario => {
-          let newRow = tablaUsuariosRef.insertRow();
-          let newCellUsuario = newRow.insertCell(0);
-          let newCellPuntuacion = newRow.insertCell(1);
-
-          newCellUsuario.textContent = usuario[0];  // Asumiendo que el nombre de usuario es el primer elemento
-          newCellPuntuacion.textContent = usuario[1];  // Asumiendo que la puntuación es el segundo elemento
-      
-         
-        });
-
-        resaltarUsuarioLogueado();
-  } catch (error) {
-      console.error("Error al obtener usuarios:", error.message);
-  }
-}
 
 
 

@@ -18,11 +18,6 @@ public class LoginController {
         return "login";  // Asegúrate de tener una vista llamada "login.html" o "login.jsp"
     }
 
-    @GetMapping("/index")
-    public String mostrarIndex() {
-        return "index";  // Asegúrate de tener una vista llamada "index.html"
-    }
-
     @PostMapping("/login")
     public String login(@RequestParam("username") String username, 
                         @RequestParam("password") String password,
