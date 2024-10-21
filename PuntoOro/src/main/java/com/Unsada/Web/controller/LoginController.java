@@ -1,15 +1,17 @@
 package com.Unsada.Web.controller;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import org.springframework.ui.Model;;
 
 @Controller
 public class LoginController {
-    
+
     // Mostrar el formulario de login
     @GetMapping("/login")
     public String mostrarFormularioLogin() {
@@ -42,11 +44,6 @@ public class LoginController {
         return "forgetPassword";  // Asegúrate de tener una vista llamada "login.html" o "login.jsp"
     }
 
-    // Mostrar el formulario de login
-    @GetMapping("/register")
-    public String mostrarRegister() {
-        return "register";  // Asegúrate de tener una vista llamada "login.html" o "login.jsp"
-    }
 
     
 }

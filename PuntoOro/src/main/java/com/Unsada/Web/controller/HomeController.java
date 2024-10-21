@@ -36,4 +36,9 @@ public class HomeController{
         return "torneos";
     }
 
+    @GetMapping("/index")
+    public String mostrarIndex() {
+        return "index";  // Asegúrate de tener una vista llamada "index.html"
+    }
+
 }
