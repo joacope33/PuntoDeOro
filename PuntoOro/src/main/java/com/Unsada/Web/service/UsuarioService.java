@@ -12,30 +12,15 @@ import com.Unsada.Web.repository.UsuarioRepository;
 public class UsuarioService {
     
     @Autowired
-    private UsuarioRepository usuarioRepository; // Repositorio para acceso a datos
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder; // Usar BCryptPasswordEncoder
+    private UsuarioRepository usuarioRepository;
 
-    @Transactional
-    public void registrarUsuario(String nombreCompleto, String correoElectronico, String telefono, String contrasena) {
-        
-        // Validar si el correo electrónico ya existe
-        if (usuarioRepository.existsByMail(correoElectronico)) {
+    public void registrarUsuario(Usuario usuario) {
+        // Verifica si el correo electrónico ya está registrado
+        if (usuarioRepository.existsByMail(usuario.getMail())) {
             throw new RuntimeException("El correo electrónico ya está registrado.");
         }
-
-        // Por ejemplo, si estás usando BCrypt:
-        String contrasenaEncriptada = passwordEncoder.encode(contrasena);
-        
-        Usuario nuevoUsuario = new Usuario();
-
-        nuevoUsuario.setNombreCompleto(nombreCompleto);
-        nuevoUsuario.setMail(correoElectronico);
-        nuevoUsuario.setTelefono(telefono);
-        nuevoUsuario.setContrasena(contrasenaEncriptada); // La contraseña ya debería estar encriptada
-        nuevoUsuario.setEstado(1);
-        usuarioRepository.save(nuevoUsuario); // Guarda el nuevo usuario
+        // Guarda el usuario en la base de datos
+        usuarioRepository.save(usuario);
     }
 
 

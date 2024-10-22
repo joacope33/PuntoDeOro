@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -23,9 +24,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .csrf().disable()  // Deshabilitar CSRF para las APIs REST
             .authorizeHttpRequests()
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                .requestMatchers("/login", "/index", "/forgetPassword", "/register").permitAll()
+                .requestMatchers("/login", "/index", "/forgetPassword", "/register", "/api/usuarios/registrar").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/usuarios/registrar").permitAll() // Permitir POST sin autenticación
+                .requestMatchers("/api/usuarios/registrar").permitAll() // Asegurar acceso a la ruta de registro
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -46,18 +50,15 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(); // Usar BCrypt para encriptar contraseñas
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth, @Lazy PasswordEncoder passwordEncoder) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder); // Configurar el servicio de detalles de usuario
-    }
-
-    @SuppressWarnings("removal")
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
+        AuthenticationManagerBuilder authenticationManagerBuilder = 
+            http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
             .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder())
-            .and()
-            .build();
+            .passwordEncoder(passwordEncoder()); // Aquí usamos el método para obtener el PasswordEncoder
+        return authenticationManagerBuilder.build();
     }
+
+    
 }
