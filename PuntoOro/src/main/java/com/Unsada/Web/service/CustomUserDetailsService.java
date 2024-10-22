@@ -1,7 +1,9 @@
 package com.Unsada.Web.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,20 +24,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByMail(mail)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado."));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByMail(email); // Método que debes definir en tu repositorio
     
-        boolean isAdmin = administradorRepository.existsByUsuario(usuario);
-
-        // Asignar el rol basado en si el usuario es administrador
-        String role = isAdmin ? "ROLE_ADMIN" : "ROLE_USER";
-
-        return User.builder()
-                   .username(usuario.getMail())
-                   .password(usuario.getContrasena())
-                   .roles(role)  // Spring automáticamente añade el prefijo "ROLE_"
-                   .build();
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuario no encontrado: " + email);
+        }
+    
+        return new org.springframework.security.core.userdetails.User(usuario.getMail(), usuario.getContrasena(), usuario.getAuthorities());
     }
 
 }

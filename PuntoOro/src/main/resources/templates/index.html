@@ -22,7 +22,14 @@
                 </li>
             </ul>
             <ul class="right-content">
-                <li>
+                <!-- Mostrar botón de cerrar sesión si el usuario está autenticado -->
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="btn-sesion-ini" type="submit">Cerrar sesión</button>
+                    </form>
+                </li>
+                <!-- Mostrar botón de iniciar sesión si el usuario no está autenticado -->
+                <li th:if="${!#authorization.expression('isAuthenticated()')}">
                     <button id="btn-login-abrir" class="btn-sesion-ini" type="button" onclick="redireccionLogin()">Iniciar Sesión</button>
                 </li>
             </ul>

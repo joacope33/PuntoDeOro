@@ -29,8 +29,8 @@
               <h1>Inicio de sesión</h1>
               <form action="/login" method="post">
                   <div class="username">
-                      <input id="username-input" name="nombreUsuario" type="text" autocomplete="off"  required>
-                      <label for="nombreUsuario">Nombre de usuario</label>
+                      <input id="username-input" name="mail" type="text" autocomplete="off"  required>
+                      <label for="mail">Correo electrónico</label>
                   </div>
                   <div class="username">
                       <input type="password" name="contrasena" autocomplete="off" required>
@@ -39,8 +39,10 @@
                   <div class="recordar" onclick="redireccionForgetPassword()">¿Olvidó su contraseña?</div>
                   <input type="submit" value="Iniciar">
                   <div class="alerta-login" id="alerta-login" style="color: red;">
-                    <!-- Mostrar mensaje de error aquí si está presente -->
-                    <span th:text="${error}"></span>
+                    <!-- Mensajes de error -->
+                    <div class="mensaje error" th:if="${errorMessage}">
+                      <span th:text="${errorMessage}"></span>
+                  </div>
                 </div>
                   <div class="registrarse">
                       ¿No tienes cuenta? <a onclick="redireccionRegister()" >Registrarse</a>.

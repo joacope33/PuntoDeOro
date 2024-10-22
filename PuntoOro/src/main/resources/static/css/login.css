@@ -213,6 +213,33 @@ input[type="submit"]:active {
     text-decoration: underline;
 }
 
+
+
+
+
+/*MENSAJE DE ERROR*/
+.mensaje {
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.mensaje.success {
+    color: green;
+}
+
+.mensaje.error {
+    color: red;
+}
+
+
+
+
+
+
+
+
+
+
 /* Estilos del encabezado */
 header {
   padding: 2rem;

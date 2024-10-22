@@ -1,21 +1,42 @@
 document.addEventListener('DOMContentLoaded', function() {
     function redireccionIndex() {
-        window.location.href = '/home';
+        window.location.href = '/index';
     }
 
     
     const btnAbrir = document.getElementById('btn-login-abrir');
-    
+    const btnLogout = document.getElementById('btn-logout');
 
     // Asegúrate de que los botones existen antes de agregar el listener
     if (btnAbrir) {
         btnAbrir.addEventListener('click', () => {
-            ;
+            // Aquí puedes abrir el modal para iniciar sesión
+            document.getElementById('modal').showModal();
         });
     } else {
         console.error("Botón de abrir modal no encontrado");
     }
 
+    // Función para verificar si el usuario está autenticado
+    function checkAuthStatus() {
+        fetch('/api/auth/status') // Endpoint que devuelve el estado de autenticación
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Error al verificar autenticación');
+            })
+            .then(data => {
+                const isAuthenticated = data.isAuthenticated; // Asumiendo que la respuesta tiene este campo
+                btnAbrir.style.display = isAuthenticated ? 'none' : 'block';
+                btnLogout.style.display = isAuthenticated ? 'block' : 'none';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    checkAuthStatus(); // Llamar a la función al cargar la página
     
     function actualizarCopyright() {
         const footer = document.getElementById('Copyright');
