@@ -21,11 +21,22 @@
             </ul>
             <ul class="right-content">
                 <li sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post">
-                        <button class="btn-sesion-ini" type="submit">Cerrar sesión</button>
-                    </form>
+                    
                 </li>
+                <div class="navbar">
+                    <div class="dropdown">
+                      <button class="dropbtn">Opciones
+                        <i class="fa fa-caret-down"></i>
+                      </button>
+                      <div class="dropdown-content">
+                        <a href="calendario.html">Calendario</a>
+                        <a href="ranking.html">Ranking</a>
+                        <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
+                      </div>
+                    </div>
+                </div>
             </ul>
+            
         </nav>
     </header>
 

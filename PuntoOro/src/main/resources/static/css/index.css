@@ -5,9 +5,9 @@
 :root {
     --color-fondo-header: linear-gradient(90deg, rgba(254,255,0,1) 0%, rgb(255, 255, 255) 100%);
     --color-texto-header: #030303;
-    --color-fondo-boton: #292b2b;
+    --color-fondo-boton: #292b2b63;
     --color-texto-boton: #fff;
-    --color-boton-hover: #444;
+    --color-boton-hover: #a3a3a3d0;
     --color-boton-active: #333;
     --color-fondo-footer: #8a8a8a27;
     --color-texto-footer: #a0a0a0;
@@ -108,13 +108,131 @@ header {
 
 
 
-
+/*NAV-BAR*/
+/* Navbar container */
 
 nav {
     background-color: rgb(53, 53, 53);
     color: rgb(0, 0, 0);
     display: flex;
 }
+
+
+
+.navbar {
+    color: var(--color-texto-boton); /* Texto blanco */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto de transición */
+    margin-right: 70px;
+}
+  
+  /* Links inside the navbar */
+  .navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: bold;
+
+  }
+  
+  /* The dropdown container */
+  .dropdown {
+    float: left;
+    overflow: hidden;
+
+  }
+
+  
+  
+  /* Dropdown button */
+
+.dropdown .dropbtn {
+    font-size: 18px;
+    border: none;
+    border-radius: 5px 5px 0px 0px;
+    outline: none;
+    color: rgb(0, 0, 0);
+    padding: 5px 5px;
+    background-color: inherit;
+    font-weight: bold;
+    font-family: inherit; /* Para alineación vertical en móviles */
+    margin: 0; /* Para alineación vertical en móviles */
+    transition: 0.5s;
+}
+
+/* Eliminar completamente márgenes y padding */
+.dropbtn {
+    width: 100%;
+    height: 100%;
+    margin: 0; /* Eliminar margen */
+    padding: 0; /* Eliminar padding */
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    box-sizing: border-box; /* Asegurar que el tamaño se ajuste correctamente */
+}
+
+/* Asegurar que el ícono ocupe todo el espacio del botón */
+.dropbtn i {
+    font-size: 20px; /* Tamaño del ícono */
+    margin: 0; /* Eliminar márgenes del ícono */
+    padding: 5px; /* Eliminar padding del ícono */
+    display: flex; /* Flex para el ícono */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    width: 100%; /* Asegurar que cubra todo el ancho */
+    height: 100%; /* Asegurar que cubra todo el alto */
+}
+
+
+  /* Add a red background color to navbar links on hover */
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: #a3a3a3d0;
+    color: #c5c1b8;
+}
+  
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.555); /* Color de fondo */
+    min-width: 200px;
+    width: 230px; /* Ancho fijo */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px 0px 5px 5px;
+    border: #555555 solid 1px;
+    transform: translateX(-52.85%); /* Mueve el dropdown completamente a la izquierda */
+}
+
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    float: none;
+    color: rgb(218, 217, 217);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Add a grey background color to dropdown links on hover */
+  .dropdown-content a:hover {
+    border-radius: 0px 0px 5px 5px;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+
 
 main {
     display: flex;
