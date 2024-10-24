@@ -8,9 +8,4 @@ import com.Unsada.Web.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
-    Usuario findByMail(String mail);
-
-    boolean existsByMail(String mail);
-
-
 }

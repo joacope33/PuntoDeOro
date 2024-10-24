@@ -1,21 +1,19 @@
 package com.Unsada.Web.service;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.Unsada.Web.model.Usuario;
-import com.Unsada.Web.repository.AdministradorRepository;
-import com.Unsada.Web.repository.UsuarioRepository;
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'loadUserByUsername'");
+    }
+    /* 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -24,14 +22,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByMail(email); // Método que debes definir en tu repositorio
-    
-        if (usuario == null) {
-            throw new UsernameNotFoundException("Usuario no encontrado: " + email);
-        }
-    
-        return new org.springframework.security.core.userdetails.User(usuario.getMail(), usuario.getContrasena(), usuario.getAuthorities());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByMail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        // Determina si es administrador aquí y pasa los roles correspondientes
+        boolean isAdmin = administradorRepository.existsByUsuario(usuario);
+
+        // Retorna el objeto Usuario con roles
+        return usuario;
     }
+    */
+    
 
 }

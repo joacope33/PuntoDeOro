@@ -121,3 +121,27 @@ calendar.setOption('locale', 'es');
 function redireccionLogin() {
     window.location.href = '/login';
 }
+
+
+
+
+/*BOTON DE AUTH*/
+// Realizar una petición al servidor para verificar si el usuario está autenticado
+fetch('/authenticated')
+.then(response => response.json())
+.then(data => {
+    const authButtons = document.getElementById('auth-buttons');
+    if (data.authenticated) {
+        // Usuario autenticado: mostrar botón de cerrar sesión
+        authButtons.innerHTML = `
+            <form action="/logout" method="post">
+                <button class="btn-sesion-ini" type="submit">Cerrar sesión</button>
+            </form>
+        `;
+    } else {
+        // Usuario no autenticado: mostrar botón de iniciar sesión
+        authButtons.innerHTML = `
+            <button id="btn-login-abrir" class="btn-sesion-ini" type="button" onclick="redireccionLogin()">Iniciar Sesión</button>
+        `;
+    }
+});

@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Unsada.Web.model.Administrador;
+import com.Unsada.Web.model.Rol;
 import com.Unsada.Web.repository.AdministradorRepository;
 
 
@@ -21,12 +21,12 @@ public class AdministradorService {
 
 
     // Encontar administrador por ID
-    public Optional<Administrador> findById(Long id){
+    public Optional<Rol> findById(Long id){
         return administradorRepository.findById(id);
     }
 
     // Guardar Administrador
-    public <S extends Administrador> S saveAdministrador(S entity) {
+    public <S extends Rol> S saveAdministrador(S entity) {
         return administradorRepository.save(entity);
     }
     

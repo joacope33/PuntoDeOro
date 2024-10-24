@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script type="text/javascript" src="/js/login.js"></script>
-    <title>Juego del Ahorcado</title>
+    <title>Registro - Punto de Oro</title>
     <link rel="stylesheet" href="/css/register.css">
     <script src="https://kit.fontawesome.com/3096f5aa9c.js" crossorigin="anonymous"></script>
   </head>
@@ -16,44 +16,43 @@
           <li><a class="logo" onclick="redireccionIndex()">Punto de Oro</a></li>
         </ul>
       </nav>
-      <h1 class="title-sesion" translate="no" ></h1>
+      <h1 class="title-sesion" translate="no"></h1>
     </header>
       
-
     <main>
         <div class="formulario-register" autocomplete="off">
             <h1>Registrarse</h1>
-            <form method="post" action="/register">
+            <form th:action="@{/register}" method="post" th:object="${usuario}">
               <div class="username">
-                  <input type="text" name="nombreCompleto" autocomplete="off" required>
-                  <label>Nombre completo</label>
+                  <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required outo-focus="auto-focus">
+                  <label for="nombreCompleto">Nombre completo</label>
                   <div class="alerta" id="alerta-nombre-register"></div>
               </div>
               <div class="username">
-                  <input type="text" name="mail" autocomplete="off" required>
-                  <label>Correo electrónico</label>
+                  <input type="email" name="email" autocomplete="off" required th:field="*{email}">
+                  <label for="email">Correo electrónico</label>
               </div>
               <div class="username">
-                  <input class="telefono-input" type="text" name="telefono" autocomplete="off" required>
-                  <label for="telefono-input">Teléfono</label>
+                  <input class="telefono-input" type="tel" name="telefono" autocomplete="off" th:field="*{telefono}" required>
+                  <label for="telefono">Teléfono</label>
               </div>
-              <div class="username">
-                  <input type="password" name="contrasena" autocomplete="off" required>
-                  <label>Contraseña</label>
+              <div class="username" style="margin-bottom: 5px;">
+                  <input type="password" name="contrasena" autocomplete="off" th:field="*{contrasena}" required>
+                  <label for="contrasena">Contraseña</label>
               </div>
               <!-- Mensajes de éxito o error -->
-              <div class="mensaje success" th:if="${successMessage}">
-                <span th:text="${successMessage}"></span>
+              <div class="mensaje success" th:if="${param.exito}">
+                <span>Registro exitoso. Por favor, inicia sesión.</span>
               </div>
-              <div class="mensaje error" th:if="${errorMessage}">
-                  <span th:text="${errorMessage}"></span>
+              <div class="mensaje error" th:if="${param.error}">
+                  <span>Ocurrió un error al registrar el usuario. Inténtalo de nuevo.</span>
               </div>
               <input id="btn-registrar" type="submit" value="Registrar">
               <div class="iniciar">
                   Quiero <a onclick="redireccionLogin()">iniciar sesión</a>.
               </div>
           </form>
-        
-
-          </div>
-    </main>  
+        </div>
+    </main>
+  </body>
+</html>

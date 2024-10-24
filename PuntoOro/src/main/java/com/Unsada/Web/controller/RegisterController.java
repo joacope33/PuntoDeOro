@@ -1,23 +1,13 @@
 package com.Unsada.Web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-import com.Unsada.Web.model.Usuario;
-import com.Unsada.Web.service.UsuarioService;
 
-
-@Controller
-@RequestMapping("/register")
 public class RegisterController {
 
-
+    /* 
     @Autowired
     private UsuarioService usuarioService;
 
@@ -40,5 +30,9 @@ public class RegisterController {
             return "register";  // Si hay un error, vuelve al formulario de registro
         }
     }
+    */
+
+
+
     
 }

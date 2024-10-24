@@ -95,6 +95,7 @@ form .username {
     position: relative;
     border-bottom: 2px solid #adadad;
     margin: 30px 0;
+    margin-bottom: 20px;
 }
 
 .username input {
@@ -171,8 +172,9 @@ input:-webkit-autofill:active{
 
 /*MENSAJE DE ERROR*/
 .mensaje {
-    margin-top: 5px;
-    padding: 5px;
+    margin-bottom: 20px;
+    padding: 3px;
+    font-size: 12px;
 }
 
 .mensaje.success {

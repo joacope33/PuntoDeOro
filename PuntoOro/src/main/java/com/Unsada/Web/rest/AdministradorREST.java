@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Unsada.Web.model.Administrador;
+import com.Unsada.Web.model.Rol;
 import com.Unsada.Web.service.AdministradorService;
 
 
@@ -21,7 +21,7 @@ public class AdministradorREST {
     private AdministradorService administradorService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Administrador>> getAdministradoById(@PathVariable("id") Long id) {
+    public ResponseEntity<Optional<Rol>> getAdministradoById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(administradorService.findById(id));
     }
     
