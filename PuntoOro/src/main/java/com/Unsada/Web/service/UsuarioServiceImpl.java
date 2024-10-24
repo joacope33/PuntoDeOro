@@ -1,8 +1,15 @@
 package com.Unsada.Web.service;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.Unsada.Web.dto.UsuarioRegisterDTO;
@@ -13,14 +20,37 @@ import com.Unsada.Web.repository.UsuarioRepository;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
+    
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
+    
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
+    public UsuarioServiceImpl(BCryptPasswordEncoder passwordEncoder, UsuarioRepository usuarioRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @Override
     public Usuario guardarUsuario(UsuarioRegisterDTO registerDTO) {
-        Usuario usuario = new Usuario(registerDTO.getNombreCompleto(), registerDTO.getEmail(), registerDTO.getTelefono(), registerDTO.getContrasena(), registerDTO.getEstado(), Arrays.asList(new Rol("USER")));
+        Usuario usuario = new Usuario(registerDTO.getNombreCompleto(), registerDTO.getEmail(), registerDTO.getTelefono(), 
+            passwordEncoder.encode(registerDTO.getContrasena()), registerDTO.getEstado(), 
+            Arrays.asList(new Rol("USER")));
         return usuarioRepository.save(usuario);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(username);
+        if(usuario == null){
+            throw new UsernameNotFoundException("Usuario o contraseña inválidos");
+        }
+        return new User(usuario.getEmail(), usuario.getContrasena(), mapearAutoridadesRoles(usuario.getRoles()));
+    }
     
+
+    private Collection<? extends GrantedAuthority> mapearAutoridadesRoles(Collection<Rol> roles) {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getNombre())).collect(Collectors.toList());
+    }
+
 }

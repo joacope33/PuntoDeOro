@@ -41,7 +41,7 @@
                   <label for="contrasena">Contraseña</label>
               </div>
               <!-- Mensajes de éxito o error -->
-              <div class="mensaje success" th:if="${param.exito}">
+              <div class="mensaje success" th:if="${param.exito}" style="margin-bottom: 3px;">
                 <span>Registro exitoso. Por favor, inicia sesión.</span>
               </div>
               <div class="mensaje error" th:if="${param.error}">
