@@ -36,3 +36,6 @@ function redireccionIndex() {
 
 
 });
+
+// Llamar a la función para que se ejecute cuando se cargue la página
+window.onload = actualizarCopyright;

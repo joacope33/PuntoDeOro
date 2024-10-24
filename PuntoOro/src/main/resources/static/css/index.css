@@ -9,7 +9,7 @@
     --color-texto-boton: #fff;
     --color-boton-hover: #444;
     --color-boton-active: #333;
-    --color-fondo-footer: #8a8a8a;
+    --color-fondo-footer: #8a8a8a27;
     --color-texto-footer: #a0a0a0;
     --color-fondo-principal: rgb(255, 255, 255);
     --color-titulo: rgb(0, 0, 0);
@@ -144,7 +144,7 @@ main {
 
 body {
     margin: 0;
-    background-color: #8d8b1bc4;
+    background-color: #8d8b1b00;
     font-family: var(--fuente-principal);
 }
 
@@ -260,21 +260,21 @@ button:hover {
 /*FOOTER*/
 /* Estilos específicos para el pie de página */
 .footer {
-    background-color: var(--color-fondo-footer);
+    background: linear-gradient(to right, #474747, #ffffff8f);
     color: var(--color-texto-footer);
     padding: 20px;
     text-align: center;
 }
 
 .site-footer {
-    background-color: #f5f5f5;
-    border-top: 1px solid #ccc;
+    background: linear-gradient(to right, #111111, #b6b6b6);
+    background-color: #f5f5f500;
+    border-top: 1px solid #cccccc54;
     display: block;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 20px;
     text-align: center;
-    background: linear-gradient(to right, #adabab, #ffffff);
 }
 
 .footer-logo {
