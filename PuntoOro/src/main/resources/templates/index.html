@@ -14,9 +14,11 @@
     <header>
         <nav class="header-container">
             <ul class="left-content">
-                <li class="header-logo">
-                    <label class="title">Punto de oro</label>
-                    <img class="imghead" src="/images/PelotaPadel.png" alt="PelotaPadel">
+                <li  class="header-logo">
+                    <a th:href="@{/index}">
+                        <label class="title">Punto de oro</label>
+                        <img class="imghead" th:src="@{/images/PelotaPadel.png}" alt="PelotaPadel">    
+                    </a>
                 </li>
             </ul>
             <ul class="right-content">
@@ -29,8 +31,10 @@
                         <i class="fa fa-caret-down"></i>
                       </button>
                       <div class="dropdown-content">
-                        <a href="calendario.html">Calendario</a>
-                        <a href="ranking.html">Ranking</a>
+                        <a th:href="@{/index}">Inicio</a>
+                        <a th:href="@{/jugador}">Jugador</a>
+                        <a th:href="@{/calendario}">Calendario</a>
+                        <a th:href="@{/ranking}">Ranking</a>
                         <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
                       </div>
                     </div>

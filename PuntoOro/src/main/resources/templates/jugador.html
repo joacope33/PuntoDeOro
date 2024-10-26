@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto de Oro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/jugador.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="/js/jugador.js" defer></script>
+
+</head>
+
+<body>
+    <header>
+        <nav class="header-container">
+            <ul class="left-content">
+                <li class="header-logo">
+                    <a th:href="@{/index}">
+                        <label class="title">Punto de oro</label>
+                        <img class="imghead" th:src="@{/images/PelotaPadel.png}" alt="PelotaPadel">    
+                    </a>
+                </li>
+            </ul>
+            <ul class="right-content">
+                <li sec:authorize="isAuthenticated()">
+                    <!-- Aquí puedes agregar contenido específico para usuarios autenticados -->
+                </li>
+                <div class="navbar">
+                    <div class="dropdown">
+                      <button class="dropbtn">Opciones
+                        <i class="fa fa-caret-down"></i>
+                      </button>
+                      <div class="dropdown-content">
+                        <a th:href="@{/index}">Inicio</a>
+                        <a th:href="@{/jugador}">Jugador</a>
+                        <a th:href="@{/calendario}">Calendario</a>
+                        <a th:href="@{/ranking}">Ranking</a>
+                        <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
+                      </div>
+                    </div>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="background-img-home">
+            <div class="texto">
+                <div class="jugador-info">
+                    <h2>Registrar jugador</h2>
+                    <form th:action="@{/jugador/guardar}" method="post" th:object="${jugador}">
+                        <div class="username">
+                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus">
+                            <label for="nombreCompleto">Nombre completo</label>
+                        </div>
+                        <div class="username">
+                            <input class="telefono-input" type="tel" name="telefono" autocomplete="off" th:field="*{telefono}" required value="">
+                            <label for="telefono">Teléfono</label>
+                        </div>
+                        <div class="username">
+                            <input class="telefono-input" type="number" name="categoria" autocomplete="off" th:field="*{categoria}" required value="">
+                            <label for="categoria">Categoría</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="date" id="fechaDeNacimiento" name="fechaDeNacimiento" autocomplete="off" th:field="*{fechaDeNacimiento}" required>
+                            <label for="fechaDeNacimiento">Fecha de nacimiento</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="number" id="dni" name="dni" autocomplete="off" th:field="*{dni}" required>
+                            <label for="dni">DNI</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="number" id="calificacion" name="calificacion" autocomplete="off" th:field="*{calificacion}" required>
+                            <label for="calificacion">Calificacion</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="number" id="puntos" name="puntos" autocomplete="off" th:field="*{puntos}" required >
+                            <label for="puntos">Puntos</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" name="comentario" autocomplete="off" th:field="*{comentario}" required>
+                            <label for="comentario">Comentario</label>
+                        </div>
+                        <!-- Mensajes de éxito o error -->
+                        <div class="mensaje success" th:if="${param.exito}" style="margin-bottom: 3px;">
+                          <span>Registro exitoso.</span>
+                        </div>
+                        <div class="mensaje error" th:if="${param.error}">
+                            <span>Ocurrió un error al registrar el jugador. Inténtalo de nuevo.</span>
+                        </div>
+                        <input id="btn-registrar" type="submit" value="Registrar">
+                    </form>
+                </div>
+                <div class="lista-jugadores">
+                    <h2>Jugadores Ordenados por Puntos</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Teléfono</th>
+                                <th>Categoria</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th>DNI</th>
+                                <th>Calificación</th>
+                                <th>Puntos</th>
+                                <th>Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="jugador : ${jugadores}">
+                                <td th:text="${jugador.nombreCompleto}"></td>
+                                <td th:text="${jugador.telefono}"></td>
+                                <td th:text="${jugador.categoria != null ? jugador.categoria.categoria : 'Sin categoría'}"></td>
+                                <td th:text="${jugador.fechaDeNacimiento != null ? jugador.fechaDeNacimiento.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}"></td>
+                                <td th:text="${jugador.dni}"></td>
+                                <td th:text="${jugador.calificacion}"></td>
+                                <td th:text="${jugador.puntos}"></td>
+                                <td th:text="${jugador.comentario}"></td>
+                            </tr>                        
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${jugadores}">
+                    <p>No hay jugadores registrados.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-logo" translate="no">Punto de Oro Bragado</div>
+        <div class="footer-links">
+            <ul>
+                <a href="#" onclick=""></a>
+                <a href="#" onclick=""></a>
+                <a href="#" onclick=""></a>
+            </ul>
+        </div>
+        <div class="footer-social">
+            <a href="#" class="social-link"><img class="social-link-facebook" src="/images/facebook.png"></a>
+            <a href="#" class="social-link"><img class="social-link-twitter" src="/images/twitter.png"></a>
+            <a href="#" target="_blank" class="social-link"><img class="social-link-instgram" src="/images/instagram.png"></a>
+        </div>
+        <p id="Copyright">Derechos de autor &copy; 2024 Punto de Oro</p>
+    </footer>
+</body>
+</html>

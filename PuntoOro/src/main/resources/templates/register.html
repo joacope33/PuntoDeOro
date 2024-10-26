@@ -24,7 +24,7 @@
             <h1>Registrarse</h1>
             <form th:action="@{/register}" method="post" th:object="${usuario}">
               <div class="username">
-                  <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required outo-focus="auto-focus">
+                  <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus">
                   <label for="nombreCompleto">Nombre completo</label>
                   <div class="alerta" id="alerta-nombre-register"></div>
               </div>

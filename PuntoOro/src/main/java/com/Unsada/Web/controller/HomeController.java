@@ -12,6 +12,7 @@ import com.Unsada.Web.repository.UsuarioRepository;
 
 
 
+
 @Controller
 public class HomeController{    
     
@@ -31,6 +32,18 @@ public class HomeController{
 
         return "index";
     }
+
+
+    @GetMapping("/ranking")
+    public String mostrarRanking() {
+        return "ranking";
+    }
+
+    @GetMapping("/calendario")
+    public String mostrarCalendario() {
+        return "calendario";
+    }
+    
 
 
 }

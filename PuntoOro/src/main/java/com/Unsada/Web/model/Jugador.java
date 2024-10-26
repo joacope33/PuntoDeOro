@@ -1,6 +1,6 @@
 package com.Unsada.Web.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +20,7 @@ import lombok.Setter;
 public class Jugador {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idjugador")
     private Long id;
     
@@ -35,7 +35,7 @@ public class Jugador {
     private Categoria categoria;
     
     @Column(name = "fechadenacimiento")
-    private Date fechaDeNacimiento;
+    private LocalDate fechaDeNacimiento;
     @Column(name = "dni")
     private String dni;
     @Column(name = "calificacion")
@@ -46,7 +46,7 @@ public class Jugador {
     private String comentario;
 
     
-    public Jugador(String nombreCompleto, String telefono, Categoria categoria, Date fechaDeNacimiento, String dni,
+    public Jugador(String nombreCompleto, String telefono, Categoria categoria, LocalDate fechaDeNacimiento, String dni,
             int calificacion, int puntos, String comentario) {
         this.nombreCompleto = nombreCompleto;
         this.telefono = telefono;
