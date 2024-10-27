@@ -3,17 +3,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventForm = document.getElementById('event-form');
     const btnCerrar = document.getElementById('btn-login-cerrar');
     let calendar;
+    let selectedDate = null; // Variable para almacenar la fecha seleccionada
 
     // Inicialización del calendario
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'es', // Configurar el idioma a español
         initialView: 'dayGridMonth',
         selectable: true,
-        select: function(info) {
-            // Mostrar el formulario en el modal al seleccionar una fecha
-            modal.showModal();
-            document.getElementById('event-start').value = info.startStr;
-            document.getElementById('event-end').value = info.endStr;
+        customButtons: {
+            myCustomButton: {
+                text: 'Agregar Turno!',
+                click: function() {
+                    if (selectedDate) {
+                        // Mostrar el formulario en el modal con la fecha seleccionada
+                        modal.showModal();
+                        document.getElementById('event-start').value = selectedDate.startStr;
+                        document.getElementById('event-end').value = selectedDate.endStr;
+                    } else {
+                        alert('Por favor, selecciona una fecha primero.');
+                    }
+                }
+            }
+        },
+        headerToolbar: {
+            left: 'prev,next myCustomButton',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        views: {
+            dayGridMonth: { buttonText: 'Mes' },
+            timeGridWeek: { buttonText: 'Semana' },
+            timeGridDay: { buttonText: 'Día' }
+        },
+        dateClick: function(info) {
+            // Al hacer clic en una fecha, se almacena la fecha seleccionada
+            selectedDate = info; // Guardar la fecha seleccionada
+            //alert('Fecha seleccionada: ' + info.dateStr); // Notificar al usuario
         },
         eventClick: function(info) {
             alert('Evento: ' + info.event.title); // Muestra alerta al hacer clic en un evento
@@ -44,5 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         modal.close(); // Cerrar el modal
         eventForm.reset(); // Reiniciar el formulario
+        selectedDate = null; // Reiniciar la fecha seleccionada
     });
 });
