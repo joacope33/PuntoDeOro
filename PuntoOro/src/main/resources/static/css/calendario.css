@@ -289,6 +289,7 @@ li {
     position: relative; /* Posiciona el contenedor relativamente */
     color: white; /* Color del texto */
     text-align: center; /* Centra el texto */
+    padding: 10%;
 }
 
 /* Estilo del texto */
@@ -489,11 +490,26 @@ button:hover {
 .calendario {
     display: flex;
     margin-top: 40%;
-    padding: 5%;
-    width: 60%;
-    margin-bottom: 30%;
-    background: white;
+    padding: 0;
+    width: 100%;
+    margin-bottom: 20%;
+    height: 700px;
+    background: rgba(255, 255, 255, 0);
     color: black;
     opacity: 0.90;
     font-size: x-large;
+}
+
+.modal {
+    color: white;
+    background-color: #0303035d;
+
+}
+
+#event-form label {
+    color: white;
+}
+
+#event-form button {
+    background-color: #007bff;
 }

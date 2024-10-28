@@ -38,7 +38,7 @@ public class JugadorController {
     public String obtenerFormJugador(Model model) {
         System.out.println("Método obtenerFormJugador llamado");
         
-        List<Jugador> jugadores = jugadorService.obtenerTodosLosJugadoresOrdenadosPorPuntos();
+        List<Jugador> jugadores = jugadorService.obtenerTodosLosJugadores();
         System.out.println("Cantidad de jugadores encontrados: " + jugadores.size());
         
         if (jugadores.isEmpty()) {

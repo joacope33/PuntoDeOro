@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Punto de Oro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/jugador.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="/js/jugador.js" defer></script>
@@ -94,39 +93,42 @@
                     </form>
                 </div>
                 <div class="lista-jugadores">
-                    <h2>Jugadores Ordenados por Puntos</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Categoria</th>
-                                <th>Fecha de Nacimiento</th>
-                                <th>DNI</th>
-                                <th>Calificación</th>
-                                <th>Puntos</th>
-                                <th>Comentario</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="jugador : ${jugadores}">
-                                <td th:text="${jugador.nombreCompleto}"></td>
-                                <td th:text="${jugador.telefono}"></td>
-                                <td th:text="${jugador.categoria != null ? jugador.categoria.categoria : 'Sin categoría'}"></td>
-                                <td th:text="${jugador.fechaDeNacimiento != null ? jugador.fechaDeNacimiento.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}"></td>
-                                <td th:text="${jugador.dni}"></td>
-                                <td th:text="${jugador.calificacion}"></td>
-                                <td th:text="${jugador.puntos}"></td>
-                                <td th:text="${jugador.comentario}"></td>
-                                <td>
-                                    <!-- Formulario para eliminar por DNI -->
-                                <form th:action="@{/jugador/borrar/{dni}(dni=${jugador.dni})}" method="post" style="display:inline;">
-                                    <button type="submit">Eliminar</button>
-                                </form>
-                                </td>
-                            </tr>                        
-                        </tbody>
-                    </table>
+                    <h2>Jugadores Registrados</h2>
+                    <div class="tabla-contenedor">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Teléfono</th>
+                                    <th>Categoria</th>
+                                    <th>Fecha de Nacimiento</th>
+                                    <th>DNI</th>
+                                    <th>Calificación</th>
+                                    <th>Puntos</th>
+                                    <th>Comentario</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tr-jugador" th:each="jugador : ${jugadores}">
+                                    <td th:text="${jugador.nombreCompleto}"></td>
+                                    <td th:text="${jugador.telefono}"></td>
+                                    <td th:text="${jugador.categoria != null ? jugador.categoria.categoria : 'Sin categoría'}"></td>
+                                    <td th:text="${jugador.fechaDeNacimiento != null ? jugador.fechaDeNacimiento.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}"></td>
+                                    <td th:text="${jugador.dni}"></td>
+                                    <td th:text="${jugador.calificacion}"></td>
+                                    <td th:text="${jugador.puntos}"></td>
+                                    <td th:text="${jugador.comentario}"></td>
+                                    <td>
+                                        <!-- Formulario para eliminar por DNI -->
+                                    <form th:action="@{/jugador/borrar/{dni}(dni=${jugador.dni})}" method="post" style="display:inline;">
+                                        <button class="btn-eliminar" type="submit">Eliminar</button>
+                                    </form>
+                                    </td>
+                                </tr>                        
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div th:unless="${jugadores}">
                     <p>No hay jugadores registrados.</p>
