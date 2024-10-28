@@ -31,18 +31,19 @@ document.addEventListener('DOMContentLoaded', function() {
         views: {
             timeGridWeek: {
                 buttonText: 'Semana',
-                slotDuration: '01:30:00',
-                slotLabelInterval: '01:30',
+                slotDuration: '01:30:00', // Duración de los intervalos de tiempo (1 hora y 30 minutos)
+                slotLabelInterval: '01:30', // Intervalo de etiquetas de hora
                 slotLabelFormat: { 
                     hour: '2-digit',
                     minute: '2-digit',
-                    hour12: false
+                    hour12: false // Formato de 24 horas
                 },
                 slotMinTime: '07:00:00', // Cambiado
-                //slotMaxTime: '24:00:00', // Cambiado
+                //slotMaxTime: '22:00:00', // Cambiado
                 dayHeaderFormat: { 
-                    weekday: 'long'
-                }
+                    weekday: 'long' // Nombre del día completo
+                },
+                allDaySlot: false // Desactivar el slot de todo el día
             }
         },
         dateClick: function(info) {
