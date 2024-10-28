@@ -297,6 +297,7 @@ body {
 
     
 .texto{
+
     display: flex;
     margin-top: 40%;
     margin-bottom: 30%;
@@ -304,18 +305,19 @@ body {
     gap: 20px;
     padding: 20px;
     gap: 20px;
-    width: 100%;
+    width: 90%;
     box-sizing: border-box;
     overflow-x: auto; /* Esto añade un scroll horizontal si la tabla se desborda */
 }
 
 .jugador-info {
-    width: 30%;
+   
+    width: 25%;
     background: linear-gradient(to right, #00000075, #31313175);
     border-radius: 10px;
     color: white;
     margin: 10px;
-    padding:20px;
+    padding: 20px;
     box-sizing: border-box;
 }
 
@@ -711,3 +713,5 @@ input[type="date"]:valid {
         width: 80%; /* Cambia el ancho en pantallas pequeñas */
     }
 }
+
+

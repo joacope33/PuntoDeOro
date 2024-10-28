@@ -39,9 +39,6 @@
                     <div class="mensaje error" th:if="${param.error}">
                         <span>Ususario o contraseña inválidos</span>
                     </div>
-                    <div class="mensaje success" th:if="${param.logout}">
-                      <span>Ha cerrado sesión exitosamente</span>
-                  </div>
                 </div>
                 <div class="registrarse" style="margin: 10px;">
                     ¿No tienes cuenta? <a th:onclick="|redireccionRegister()|">Registrarse</a>.
