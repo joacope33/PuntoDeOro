@@ -3,13 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventForm = document.getElementById('event-form');
     const btnCerrar = document.getElementById('btn-login-cerrar');
     let calendar;
-    let selectedDate = null; // Variable para almacenar la fecha seleccionada
+    let selectedDate = null;
 
-    // Inicialización del calendario
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
-        locale: 'es', // Configurar el idioma a español
-        initialView: 'timeGridWeek', // Cambiar la vista inicial a la vista semanal
+        locale: 'es',
+        initialView: 'timeGridWeek',
         selectable: true,
         customButtons: {
             myCustomButton: {
@@ -17,8 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 click: function() {
                     if (selectedDate) {
                         modal.showModal();
-                        // Mostrar la fecha y hora de inicio en un campo de solo lectura
-                        document.getElementById('event-start').value = selectedDate.date.toLocaleString(); // Formato local
+                        document.getElementById('event-start').value = selectedDate.date.toLocaleString();
                     } else {
                         alert('Por favor, selecciona una fecha primero.');
                     }
@@ -28,58 +26,72 @@ document.addEventListener('DOMContentLoaded', function() {
         headerToolbar: {
             left: 'prev,next myCustomButton',
             center: 'title',
-            right: 'timeGridWeek' // Eliminar otros botones y dejar solo "Semana"
+            right: 'timeGridWeek'
         },
         views: {
             timeGridWeek: {
                 buttonText: 'Semana',
-                slotDuration: '01:00:00', // Duración de los intervalos de tiempo (1 hora)
-                slotLabelInterval: '01:00', // Intervalo de etiquetas
-                minTime: '07:00:00', // Hora de inicio
-                maxTime: '02:00:00'  // Hora de fin (del día siguiente)
+                slotDuration: '01:30:00',
+                slotLabelInterval: '01:30',
+                slotLabelFormat: { 
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                },
+                slotMinTime: '07:00:00', // Cambiado
+                //slotMaxTime: '24:00:00', // Cambiado
+                dayHeaderFormat: { 
+                    weekday: 'long'
+                }
             }
         },
         dateClick: function(info) {
-            // Al hacer clic en una fecha, se almacena la fecha seleccionada
             selectedDate = info; // Guardar la fecha seleccionada
         },
         eventClick: function(info) {
-            alert('Evento: ' + info.event.title); // Muestra alerta al hacer clic en un evento
+            alert('Evento: ' + info.event.title);
         }
     });
 
     calendar.render(); // Renderiza el calendario
 
-    // Manejar el cierre del modal
     btnCerrar.addEventListener('click', function() {
         modal.close();
     });
 
-    // Manejar el envío del formulario para agregar un evento
     eventForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+        e.preventDefault();
 
         if (!selectedDate) {
             alert('Por favor, selecciona una fecha primero.');
-            return; // Si no hay fecha seleccionada, salir de la función
+            return;
         }
 
         const title = document.getElementById('event-title').value;
-        const startDateTime = new Date(selectedDate.date); // Obtener la fecha y hora seleccionadas
-
-        // Calcular la fecha de fin sumando 1 hora al inicio
+        const startDateTime = new Date(selectedDate.date);
         const endDateTime = new Date(startDateTime);
-        endDateTime.setHours(endDateTime.getHours() + 1);
+        endDateTime.setHours(endDateTime.getHours() + 1); // Sumar 1 hora
+        endDateTime.setMinutes(endDateTime.getMinutes() + 30); // Sumar 30 minutos
+
+        // Verificar solapamiento
+        const isOverlap = calendar.getEvents().some(event => {
+            return (startDateTime < event.end && endDateTime > event.start);
+        });
+
+        if (isOverlap) {
+            alert('Este evento se solapa con otro evento existente.');
+            return;
+        }
 
         calendar.addEvent({
             title: title,
             start: startDateTime.toISOString(),
             end: endDateTime.toISOString(),
-            allDay: false // Marcar como evento de tiempo específico
+            allDay: false
         });
 
-        modal.close(); // Cerrar el modal
-        eventForm.reset(); // Reiniciar el formulario
-        selectedDate = null; // Reiniciar la fecha seleccionada
+        modal.close();
+        eventForm.reset();
+        selectedDate = null;
     });
 });
