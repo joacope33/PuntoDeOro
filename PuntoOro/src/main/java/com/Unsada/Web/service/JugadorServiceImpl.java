@@ -65,6 +65,16 @@ public class JugadorServiceImpl implements JugadorService {
     }
 
     @Override
+    public void borrarJugadorPorDni(String dni) {
+        Jugador jugador = jugadorRepository.findByDni(dni); // Buscar jugador por DNI
+        if (jugador != null) { // Verificar si el jugador existe
+            jugadorRepository.deleteById(jugador.getId()); // Eliminar por ID
+        } else {
+            throw new RuntimeException("Jugador no encontrado con DNI: " + dni);
+        }
+    }
+
+    @Override
     public void actualizarPuntos(Long jugadorId, int puntos) {
         Jugador jugador = obtenerJugadorById(jugadorId);
         jugador.setPuntos(puntos);

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -60,6 +61,24 @@ public class JugadorController {
             return "redirect:/jugador?error"; // Redirige al formulario con un mensaje de error
         }
     }
+
+
+    
+    // Método para borrar un jugador por su DNI
+    @PostMapping("/borrar/{dni}")
+    public String borrarJugadorPorDni(@PathVariable String dni) {
+        try {
+            System.out.println("Intentando eliminar jugador con DNI: " + dni); // Depuración
+            jugadorService.borrarJugadorPorDni(dni);
+            System.out.println("Jugador eliminado con éxito."); // Depuración
+            return "redirect:/jugador";
+        } catch (Exception e) {
+            System.err.println("Error al eliminar jugador: " + e.getMessage()); // Depuración
+            return "redirect:/jugador";
+        }
+    }
+
+
     
 
 }
