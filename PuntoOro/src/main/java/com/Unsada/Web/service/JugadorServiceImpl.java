@@ -94,5 +94,10 @@ public class JugadorServiceImpl implements JugadorService {
         jugador.setPuntos(Math.max(jugador.getPuntos() - puntos, 0)); // Esto evita los puntos negativos
         jugadorRepository.save(jugador);
     }
+
+    @Override
+    public Jugador findByDni(String dni) {
+        return jugadorRepository.findByDni(dni);
+    }
     
 }

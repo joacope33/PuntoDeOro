@@ -16,6 +16,7 @@ public interface JugadorService {
     public void sumarPuntos(Long jugadorId, int puntos);
     public void restarPuntos(Long jugadorId, int puntos);
     public void borrarJugadorPorDni(String dni);
+    public Jugador findByDni(String dni);
     // public void inscribirseATorneo(Long jugadorId, Long torneoId); ESTO VA EN TORNEOS
     // public void registrarPartido(Long jugadorId, Partido partido, Long torneoId) ESTO VA EN PARTIDOS
     // public void verificarYAscenderCategoria(Long jugadorId) ESTO VA EN CATEGORIA

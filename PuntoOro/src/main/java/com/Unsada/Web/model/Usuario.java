@@ -34,7 +34,7 @@ public class Usuario{
 
     @Column(name = "nombrecompleto")
     private String nombreCompleto;
-    @Column(name = "correoelectronico")
+    @Column(name = "correoelectronico", unique=true)
     private String email;
     @Column(name = "telefono")
     private String telefono;

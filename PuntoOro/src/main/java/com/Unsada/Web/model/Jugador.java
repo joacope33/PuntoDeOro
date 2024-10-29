@@ -36,7 +36,7 @@ public class Jugador {
     
     @Column(name = "fechadenacimiento")
     private LocalDate fechaDeNacimiento;
-    @Column(name = "dni")
+    @Column(name = "dni", unique=true)
     private String dni;
     @Column(name = "calificacion")
     private int calificacion;
