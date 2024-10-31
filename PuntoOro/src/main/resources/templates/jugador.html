@@ -24,7 +24,7 @@
             </ul>
             <ul class="right-content">
                 <li sec:authorize="isAuthenticated()">
-                    <!-- Aquí puedes agregar contenido específico para usuarios autenticados -->
+                    
                 </li>
                 <div class="navbar">
                     <div class="dropdown">
@@ -33,9 +33,11 @@
                       </button>
                       <div class="dropdown-content">
                         <a th:href="@{/index}">Inicio</a>
-                        <a th:href="@{/jugador}">Jugador</a>
-                        <a th:href="@{/calendario}">Calendario</a>
                         <a th:href="@{/ranking}">Ranking</a>
+                        <a th:href="@{/calendario}">Calendario</a>
+                        <a th:href="@{/canchas}">Canchas</a>
+                        <a th:href="@{/jugador}">Jugador</a>
+                        <a th:href="@{/torneos}">Torneos</a>
                         <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
                       </div>
                     </div>
