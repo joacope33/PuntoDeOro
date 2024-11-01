@@ -271,12 +271,13 @@ li {
 }
 
 body {
-    margin: 0;
-    background: linear-gradient(25deg, #311717fd, #584418, #c4932a, #584418, #311717fd);
+    background: linear-gradient(25deg, #000000, #424242, #9c9c9c, #424242, #000000);
     font-family: var(--fuente-principal);
 }
 
-
+main {
+    width: 100%;
+}
 
 
 .background-img-home {
@@ -321,21 +322,26 @@ body {
 }
 
 .buscar {
-    width: 90%;
     display: flex;
+    flex-direction: row;
     margin-bottom: 50px;
     padding: 30px;
     justify-content: center;
     background: linear-gradient(to right, #00000075, #31313175);
     border-radius: 10px;
+    text-align: center;
     color: white;
-    margin: 50px;
     gap: 50px;
+    width: calc(100% - 40px); /* Resta el margen */
+    box-sizing: border-box;
+    margin: 20px auto; /* Margen vertical, sin afectar el ancho */
 }
 
 .buscar form-buscar, .buscar form-actualizar  {
     padding: 30p;
     margin: 20px;
+    display: flex;
+    width: 100%;
 }
 
 /*TABLA*/
