@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Unsada.Web.dto.JugadorDTO;
 import com.Unsada.Web.model.Jugador;
@@ -78,6 +80,31 @@ public class JugadorController {
         }
     }
 
+    // Método para actualizar el jugador
+    @PostMapping("/actualizar")
+    public String actualizarJugador(@ModelAttribute("jugadorDni") JugadorDTO jugadorDTO, Model model) {
+        try {
+            jugadorService.actualizarJugadorDesdeDTO(jugadorDTO);
+            model.addAttribute("exito", true);
+        } catch (Exception e) {
+            model.addAttribute("error", true);
+        }
+        return "redirect:/jugador";
+    }
+
+
+    @PostMapping("/buscarPorDni")
+    public String buscarJugadorPorDni(@RequestParam String dni, RedirectAttributes redirectAttributes) {
+        Jugador jugadorDni = jugadorService.findByDni(dni);
+        
+        if (jugadorDni != null) {
+            redirectAttributes.addFlashAttribute("jugadorDni", jugadorDni);
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Jugador no encontrado.");
+        }
+
+        return "redirect:/jugador"; // Redirige a la misma vista
+    }
 
     
 

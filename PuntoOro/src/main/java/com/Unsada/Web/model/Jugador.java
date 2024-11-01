@@ -7,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,10 +28,8 @@ public class Jugador {
     @Column(name = "telefono")
     private String telefono;
 
-    @ManyToOne
-    @JoinColumn(name = "idcategoria")
-    private Categoria categoria;
-    
+    @Column(name = "categoria")
+    private String categoria;
     @Column(name = "fechadenacimiento")
     private LocalDate fechaDeNacimiento;
     @Column(name = "dni", unique=true)
@@ -46,7 +42,7 @@ public class Jugador {
     private String comentario;
 
     
-    public Jugador(String nombreCompleto, String telefono, Categoria categoria, LocalDate fechaDeNacimiento, String dni,
+    public Jugador(String nombreCompleto, String telefono, String categoria, LocalDate fechaDeNacimiento, String dni,
             int calificacion, int puntos, String comentario) {
         this.nombreCompleto = nombreCompleto;
         this.telefono = telefono;
@@ -71,7 +67,5 @@ public class Jugador {
     }
 
 
-    
-    
-
+   
 }

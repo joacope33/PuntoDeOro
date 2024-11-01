@@ -115,7 +115,7 @@
                                 <tr class="tr-jugador" th:each="jugador : ${jugadores}">
                                     <td th:text="${jugador.nombreCompleto}"></td>
                                     <td th:text="${jugador.telefono}"></td>
-                                    <td th:text="${jugador.categoria != null ? jugador.categoria.categoria : 'Sin categoría'}"></td>
+                                    <td th:text="${jugador.categoria != null ? jugador.categoria : 'Sin categoría'}"></td>
                                     <td th:text="${jugador.fechaDeNacimiento != null ? jugador.fechaDeNacimiento.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}"></td>
                                     <td th:text="${jugador.dni}"></td>
                                     <td th:text="${jugador.calificacion}"></td>
@@ -134,6 +134,65 @@
                 </div>
                 <div th:unless="${jugadores}">
                     <p>No hay jugadores registrados.</p>
+                </div>
+            </div>
+            <div class="buscar">
+                <div class="form-buscar">
+                    <h2>Buscar y Editar Jugador</h2>
+                    <form th:action="@{/jugador/buscarPorDni}" method="post">
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" name="dni" id="dni" required />
+                            <label for="dni">DNI del jugador:</label>
+                        </div>
+                        <input class="btn-registrar" type="submit" value="Buscar"></input>
+                    </form>
+                </div>
+                
+                <div class="form-actualizar" th:if="${jugadorDni != null}">
+                    <h2>Editar jugador</h2>
+                    <form th:action="@{/jugador/actualizar}" method="post" th:object="${jugadorDni}">
+                        
+                        <input type="hidden" name="id" th:value="${jugadorDni.id}"/> <!-- ID del jugador -->
+                        
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" th:field="*{nombreCompleto}" required />
+                            <label>Nombre completo</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" th:field="*{telefono}" required />
+                            <label>Teléfono</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" th:field="*{categoria}" required />
+                            <label>Categoría</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="date"  autocomplete="off" th:field="*{fechaDeNacimiento}" required>
+                            <label for="fechaDeNacimiento">Fecha de nacimiento</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" th:field="*{dni}" required />
+                            <label>DNI</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" th:field="*{calificacion}" required />
+                            <label>Calificacion</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" th:field="*{puntos}" required />
+                            <label>Puntos</label>
+                        </div>
+                        <div class="username" style="margin-bottom: 10px;">
+                            <input type="text" th:field="*{comentario}" required />
+                            <label>Comentario</label>
+                        </div>
+
+                        <input type="submit" class="btn-registrar" value="Guardar cambios"></input>
+                    </form>
+                </div>
+                
+                <div th:if="${error != null}">
+                    <p th:text="${error}"></p>
                 </div>
             </div>
         </div>

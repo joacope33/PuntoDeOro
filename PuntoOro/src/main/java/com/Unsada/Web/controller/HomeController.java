@@ -33,7 +33,6 @@ public class HomeController{
         return "index";
     }
 
-
     @GetMapping("/ranking")
     public String mostrarRanking() {
         return "ranking";
@@ -49,6 +48,9 @@ public class HomeController{
         return "canchas";
     }
     
-
+    @GetMapping("/torneos")
+    public String mostrarTorneos() {
+        return "torneos";
+    }
 
 }

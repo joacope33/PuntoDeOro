@@ -11,6 +11,8 @@ import com.Unsada.Web.dto.JugadorDTO;
 import com.Unsada.Web.model.Jugador;
 import com.Unsada.Web.repository.JugadorRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class JugadorServiceImpl implements JugadorService {
 
@@ -99,5 +101,27 @@ public class JugadorServiceImpl implements JugadorService {
     public Jugador findByDni(String dni) {
         return jugadorRepository.findByDni(dni);
     }
-    
+
+    @Override
+    public void actualizarJugadorDesdeDTO(JugadorDTO jugadorDTO) {
+        // Busca el jugador existente en la base de datos
+        Jugador jugador = jugadorRepository.findByDni(jugadorDTO.getDni());
+
+        if (jugador != null) {
+            // Actualiza los campos con los valores del DTO
+            jugador.setNombreCompleto(jugadorDTO.getNombreCompleto());
+            jugador.setTelefono(jugadorDTO.getTelefono());
+            jugador.setCategoria(jugadorDTO.getCategoria());
+            jugador.setFechaDeNacimiento(jugadorDTO.getFechaDeNacimiento());
+            jugador.setDni(jugadorDTO.getDni());
+            jugador.setCalificacion(jugadorDTO.getCalificacion());
+            jugador.setPuntos(jugadorDTO.getPuntos());
+            jugador.setComentario(jugadorDTO.getComentario());
+
+            // Guarda la entidad actualizada
+            jugadorRepository.save(jugador);
+        } else {
+        throw new EntityNotFoundException("Jugador no encontrado con dni: " + jugadorDTO.getId());
+    }
+    }
 }
