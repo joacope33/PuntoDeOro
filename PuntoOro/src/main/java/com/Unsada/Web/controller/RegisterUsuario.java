@@ -17,7 +17,7 @@ import com.Unsada.Web.service.UsuarioService;
 public class RegisterUsuario {
     
     @Autowired
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
     @ModelAttribute("usuario")
     public UsuarioRegisterDTO usuarioRegistradoDTO() {

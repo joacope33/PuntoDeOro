@@ -122,6 +122,16 @@ public class JugadorServiceImpl implements JugadorService {
             jugadorRepository.save(jugador);
         } else {
         throw new EntityNotFoundException("Jugador no encontrado con dni: " + jugadorDTO.getId());
+        }
     }
+
+
+    @Override
+    public List<Jugador> obtenerRankingPorCategoria(String categoria) {
+        List<Jugador> jugadores = jugadorRepository.findByCategoria(categoria);
+        jugadores.sort(Comparator.comparingInt(Jugador::getPuntos).reversed()); // Orden descendente
+        return jugadores;
     }
 }
+
+

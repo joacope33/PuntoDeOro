@@ -1,5 +1,6 @@
 package com.Unsada.Web.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,5 @@ public interface JugadorRepository extends JpaRepository<Jugador, Long>{
     // Método para borrar un jugador por su DNI
     public Jugador deleteByDni(String dni);
     public Jugador findByDni(String dni);
+    List<Jugador> findByCategoria(String categoria);
 }

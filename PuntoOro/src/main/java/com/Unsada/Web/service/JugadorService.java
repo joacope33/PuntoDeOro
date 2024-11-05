@@ -18,6 +18,7 @@ public interface JugadorService {
     public void borrarJugadorPorDni(String dni);
     public Jugador findByDni(String dni);
     public void actualizarJugadorDesdeDTO(JugadorDTO jugadorDTO);
+    public List<Jugador> obtenerRankingPorCategoria(String categoria);
     // public void inscribirseATorneo(Long jugadorId, Long torneoId); ESTO VA EN TORNEOS
     // public void registrarPartido(Long jugadorId, Partido partido, Long torneoId) ESTO VA EN PARTIDOS
     // public void verificarYAscenderCategoria(Long jugadorId) ESTO VA EN CATEGORIA

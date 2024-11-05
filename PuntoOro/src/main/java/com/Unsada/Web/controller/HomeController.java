@@ -33,11 +33,6 @@ public class HomeController{
         return "index";
     }
 
-    @GetMapping("/ranking")
-    public String mostrarRanking() {
-        return "ranking";
-    }
-
     @GetMapping("/calendario")
     public String mostrarCalendario() {
         return "calendario";

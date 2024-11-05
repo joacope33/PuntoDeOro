@@ -27,7 +27,7 @@ public class JugadorController {
     
 
     @Autowired
-    JugadorService jugadorService;
+    private JugadorService jugadorService;
 
 
     @ModelAttribute("jugador")

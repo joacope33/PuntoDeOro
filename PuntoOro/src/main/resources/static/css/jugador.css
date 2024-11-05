@@ -296,10 +296,11 @@ main {
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
+    text-align: center;
 }
 
+
 .jugador-info {
-   
     width: 25%;
     background: linear-gradient(to right, #00000075, #31313175);
     border-radius: 10px;
@@ -307,6 +308,7 @@ main {
     margin: 10px;
     padding: 20px;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .lista-jugadores {
@@ -324,7 +326,7 @@ main {
 .buscar {
     display: flex;
     flex-direction: row;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
     padding: 30px;
     justify-content: center;
     background: linear-gradient(to right, #00000075, #31313175);
@@ -334,7 +336,7 @@ main {
     gap: 50px;
     width: calc(100% - 40px); /* Resta el margen */
     box-sizing: border-box;
-    margin: 20px auto; /* Margen vertical, sin afectar el ancho */
+    margin: 50px auto 120px auto; /* Margen vertical, sin afectar el ancho */
 }
 
 .buscar form-buscar, .buscar form-actualizar  {
