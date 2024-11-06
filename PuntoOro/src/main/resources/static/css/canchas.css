@@ -271,136 +271,144 @@ li {
 }
 
 body {
+    padding-top: 200px; /* Ajusta este valor según el tamaño del header */
     background: linear-gradient(25deg, #000000, #424242, #9c9c9c, #424242, #000000);
     font-family: var(--fuente-principal);
-    justify-content: center;
-    height: auto;
 }
 
 main {
     width: 100%;
-    justify-content: center;
 }
 
 
-.container {
+
+.background-container {
     display: flex;
     flex-direction: column;
     width: 100%;
     background: rgba(255, 255, 255, 0);
-    text-align: center;
-    justify-content: center;
-    margin-top: 300px;
-    
-    box-sizing: border-box;
 }
 
-.select-categoria {
-    color: white;
-    display: flex;
-    margin: 20px 10px; /* Espacio superior e inferior */
-    
+/* Aseguramos que el contenedor de las canchas esté bien estructurado */
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
+    grid-template-rows: repeat(2, 1fr); /* Dos filas de igual tamaño */
+    gap: 20px; /* Espacio entre los elementos */
+    padding: 20px;
+    justify-items: center; /* Centra los elementos dentro de cada celda */
+    align-items: center; /* Centra los elementos verticalmente */
+    height: 100vh; /* Asegura que la altura sea suficiente para mostrar todo */
 }
 
-.select-categoria select {
-    color: white;
-    padding: 10px; /* Espaciado interno */
-    font-size: 16px; /* Tamaño de fuente */
-    border: 2px solid #c4932a; /* Color del borde */
-    border-radius: 5px; /* Bordes redondeados */
-    background-color: #00000023; /* Color de fondo */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el select */
-    transition: border-color 0.3s; /* Efecto de transición para el borde */
-}
-
-
-.select-categoria select:focus {
-    background-color: #00000075; /* Color de fondo */
-    outline: none; /* Elimina el contorno predeterminado */
-    border-color: #b47c13; /* Color del borde al estar enfocado */
-}
-
-.select-categoria option {
-    float: none;
-    color: rgb(218, 217, 217);
-    text-decoration: none;
-    display: block;
-    background-color: #0000009d;
-}
-
-
-.lista-jugadores {
-    width: 100%;
-    border-radius: 10px;
-    color: white;
-    box-sizing: border-box;
+/* Estilo de cada cancha */
+.cancha {
+    background-color: #0000006e;
+    border-radius: 8px;
     padding: 10px;
+    text-align: center;
+    width: 100%; /* Asegura que cada cancha ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    min-height: 150px; /* Altura mínima para las celdas */
     box-sizing: border-box;
-    overflow-x: auto; /* Habilita el scroll horizontal */
-
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animación para el hover */
+    cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
 }
 
-.mensaje-vacio {
-    height: 200px;
-    padding: 30px;
-    font-size: 30px;
-    color: rgba(255, 0, 0, 0.5);
+/* Efecto hover: agrandar un poco el contenedor */
+.cancha:hover {
+    transform: scale(1.05); /* Aumenta el tamaño del contenedor */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto de elevación */
 }
 
-/*TABLA*/
-
-.tabla-contenedor {
-    background: linear-gradient(to right, #00000075, #31313175);
-    overflow: auto;
-    justify-content: center;
-    gap: 50PXpx;
-    padding: 50px;
-    justify-content: center;
-    border-radius: 10px;
-    box-sizing: border-box;
+/* Estilo para las imágenes dentro de cada cancha */
+.cancha img {
+    width: 100%; /* Hace que la imagen ocupe el 100% del contenedor de la cancha */
+    height: auto;
+    border-radius: 8px; /* Bordes redondeados en la imagen */
 }
 
-table {
-    width: 100%; /* Ancho completo */
-    border-collapse: collapse; /* Combina bordes */
-    margin: 20px 0; /* Margen superior e inferior */
-    background-color: rgba(255, 255, 255, 0); /* Fondo blanco con opacidad */
-    border-radius: 10px; /* Esquinas redondeadas */
-    overflow: hidden;
-
+/* Estilo para el texto de "Turnos" dentro de cada cancha */
+.turnos {
+    color: #fff;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
 }
 
-th, td {
-    padding: 15px; /* Espaciado interno */
-    text-align: left; /* Alineación de texto */
-    border-bottom: 1px solid #f3b632; /* Línea de separación entre filas */
+/* Estilo de los inputs del formulario */
+.turnos-form input {
+    padding: 5px;
+    margin: 5px 0;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
-th {
-    background-color: #f3b63238; /* Color de fondo para encabezados */
-    color: white; /* Color de texto de los encabezados */
-
+/* Estilo del botón de envío */
+.turnos-form button {
+    background-color: #008CBA;
+    color: white;
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
 }
 
-tr:hover {
-    background-color: rgba(255, 255, 255, 0.3); /* Color al pasar el mouse */
+/* Efecto al pasar el mouse sobre el botón de envío */
+.turnos-form button:hover {
+    background-color: #006f8f;
 }
 
 
 
 
-/* Remover max-width en elementos internos */
-.tabla-contenedor table thead,
-.tabla-contenedor table tbody,
-.tabla-contenedor table thead tr,
-.tabla-contenedor table tbody tr,
-.tabla-contenedor table thead tr td,
-.tabla-contenedor table tbody tr td {
-    padding: 8px; /* Ajusta según sea necesario */
-    margin: 0; /* Sin margen */
-    width: auto;
+.recordar {
+    margin: -5px 0 20px 2px;
+    color: #6060ff8f;
+    cursor: pointer;
 }
+
+.recordar:hover {
+    text-decoration: underline;
+}
+
+input[type="submit"] {
+    width: 100%;
+    height: 50px;
+    border: 1.5px solid;
+    background: #9c741e;
+    border-radius: 25px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    border-color: #07070798;
+    transition: .5s;
+}
+
+input[type="submit"]:hover {
+    border-color: #b18525;
+    transition: .5s;
+    background: #c29636;
+}
+
+input[type="submit"]:active {
+    border-color: #997321;
+    transition: .5s;
+    background: #9b782b;
+}
+
+
+
+
+
 
 
 /*MENSAJE DE ERROR*/
@@ -533,6 +541,24 @@ input:-webkit-autofill:active {
     .title {
         font-size: 1.5rem; /* Ajusta el tamaño del texto en pantallas más pequeñas */
     }
+}
+
+
+/* Media Queries para responsive design */
+@media (max-width: 1500px) {
+  .formulario-login {
+    display: flexbox;
+    position: absolute; /* Cambiado a relative para flujo normal del documento */
+    width: 90%; /* Ancho máximo del formulario */
+    max-width: 400px; /* Ancho máximo del formulario */
+    max-height: 450px;
+    margin: 70px auto 0; /* Añade espacio desde arriba y centra horizontalmente */
+    padding: 20px;
+    background: linear-gradient(to right, #00000075, #31313175);
+    border-radius: 10px;
+    color: white;
+    box-sizing: border-box; /* Incluye padding y border en el ancho */
+  }
 }
 
 /* Para Chrome, Safari, Edge y navegadores basados en WebKit */

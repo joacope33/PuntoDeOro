@@ -33,9 +33,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario guardarUsuario(UsuarioRegisterDTO registerDTO) {
-        Usuario usuario = new Usuario(registerDTO.getNombreCompleto(), registerDTO.getEmail(), registerDTO.getTelefono(), 
-            passwordEncoder.encode(registerDTO.getContrasena()), registerDTO.getEstado(), 
-            Arrays.asList(new Rol("USER")));
+        Usuario usuario = new Usuario( registerDTO.getNombreCompleto(), 
+                                       registerDTO.getEmail(), 
+                                       registerDTO.getTelefono(), 
+                                       passwordEncoder.encode(registerDTO.getContrasena()), 
+                                       registerDTO.getEstado(), 
+                                       Arrays.asList(new Rol("USER")));
         return usuarioRepository.save(usuario);
     }
 

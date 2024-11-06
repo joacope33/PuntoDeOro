@@ -38,9 +38,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
+            
             .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/login", "/index", "/forgetPassword", "/register").permitAll()
+
+                // Configuración de rutas para ADMIN y USER
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                .requestMatchers("/user/**").hasAuthority("USER")
+
                 .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")

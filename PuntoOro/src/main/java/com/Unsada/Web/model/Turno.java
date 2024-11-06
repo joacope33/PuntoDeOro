@@ -1,14 +1,21 @@
 package com.Unsada.Web.model;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+
+
+import com.Unsada.Web.model.enums.EstadoCancha;
+import com.Unsada.Web.model.enums.TipoTurno;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -21,34 +28,37 @@ import lombok.Setter;
 public class Turno {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idturno")
     private Long id;
 
     @Column(name = "dia")
-    private Date dia;
+    private LocalDate dia;
 
     @Column(name = "hora")
     private Time hora;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idcancha")
     private Cancha cancha;
 
-    @Column(name = "estado")
-    private String estado;
-    @Column(name = "estorneo")
-    private int esTorneo;
+    @Enumerated(EnumType.STRING)
+    private EstadoCancha estado;
+
+    @Enumerated(EnumType.STRING)
+    private TipoTurno tipoTurno;
+    
     @Column(name = "asistencia")
     private int asistencia;
 
 
-    public Turno(Date dia, Time hora, Cancha cancha, String estado, int esTorneo, int asistencia) {
+    
+    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia) {
         this.dia = dia;
         this.hora = hora;
         this.cancha = cancha;
         this.estado = estado;
-        this.esTorneo = esTorneo;
+        this.tipoTurno = tipoTurno;
         this.asistencia = asistencia;
     }
 
@@ -60,8 +70,11 @@ public class Turno {
     @Override
     public String toString() {
         return "Turno [id=" + id + ", dia=" + dia + ", hora=" + hora + ", cancha=" + cancha + ", estado=" + estado
-                + ", esTorneo=" + esTorneo + ", asistencia=" + asistencia + "]";
+                + ", tipoTurno=" + tipoTurno + ", asistencia=" + asistencia + "]";
     }
+
+
+    
 
     
 
