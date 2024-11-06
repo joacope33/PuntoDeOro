@@ -294,8 +294,7 @@ main {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
     grid-template-rows: repeat(2, 1fr); /* Dos filas de igual tamaño */
-    gap: 20px; /* Espacio entre los elementos */
-    padding: 20px;
+    padding: 40px;
     justify-items: center; /* Centra los elementos dentro de cada celda */
     align-items: center; /* Centra los elementos verticalmente */
     height: 100vh; /* Asegura que la altura sea suficiente para mostrar todo */
@@ -305,7 +304,8 @@ main {
 .cancha {
     background-color: #0000006e;
     border-radius: 8px;
-    padding: 10px;
+    padding: 20px;
+    margin: 0 auto; /* Centra el contenedor si es necesario */
     text-align: center;
     width: 100%; /* Asegura que cada cancha ocupe todo el ancho disponible */
     box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
@@ -313,7 +313,9 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 150px; /* Altura mínima para las celdas */
+    max-width: 400px;
+    min-height: 150px;
+    max-height: 400px; /* Altura máxima */
     box-sizing: border-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animación para el hover */
     cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
@@ -323,13 +325,24 @@ main {
 .cancha:hover {
     transform: scale(1.05); /* Aumenta el tamaño del contenedor */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto de elevación */
+    
 }
+
+
 
 /* Estilo para las imágenes dentro de cada cancha */
 .cancha img {
-    width: 100%; /* Hace que la imagen ocupe el 100% del contenedor de la cancha */
+    width: 80%; /* Hace que la imagen ocupe el 100% del contenedor de la cancha */
     height: auto;
     border-radius: 8px; /* Bordes redondeados en la imagen */
+    box-sizing: border-box;
+    margin: 0;
+    object-fit: cover; /* Asegura que la imagen se adapte sin deformarse */
+}
+.disponibilidad {
+    width: 100%; /* Hace que la imagen ocupe el 100% del contenedor de la cancha */
+    box-sizing: border-box;
+    
 }
 
 /* Estilo para el texto de "Turnos" dentro de cada cancha */
@@ -338,9 +351,15 @@ main {
     margin-top: 10px;
     font-weight: bold;
     font-size: 18px;
+    box-sizing: border-box;
 }
 
 /* Estilo de los inputs del formulario */
+
+.turnos-form {
+    color: #fff;
+}
+
 .turnos-form input {
     padding: 5px;
     margin: 5px 0;
