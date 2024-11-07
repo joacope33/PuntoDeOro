@@ -4,9 +4,10 @@ import java.sql.Time;
 import java.time.LocalDate;
 
 import com.Unsada.Web.model.Cancha;
+import com.Unsada.Web.model.Partido;
 import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,14 +18,21 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class TurnoDTO {
 
     private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dia;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time hora;
-    private Cancha cancha;
+
+    private Cancha cancha;  // Usamos CanchaDTO
     private int asistencia;
     private EstadoCancha estado;
     private TipoTurno tipoTurno;
+    private Partido partido; // Usamos PartidoDTO
 
 }

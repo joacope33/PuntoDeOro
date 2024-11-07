@@ -18,10 +18,10 @@ public class TurnoServiceImpl implements TurnoService {
     private TurnoRepository turnoRepository;
 
 
-   
     @Override
-    public List<Turno> obtenerTurnoByIdCancha(Cancha cancha) {
+    public List<Turno> obtenerTurnoByCancha(Cancha cancha) {
         return turnoRepository.findAllByCancha(cancha);
+            
     }
 
     @Override
@@ -43,7 +43,8 @@ public class TurnoServiceImpl implements TurnoService {
                                    turnoDTO.getCancha(),
                                    turnoDTO.getEstado(),
                                    turnoDTO.getTipoTurno(),
-                                   turnoDTO.getAsistencia()
+                                   turnoDTO.getAsistencia(),
+                                   turnoDTO.getPartido()
         );
         return turnoRepository.save(turno);
     }

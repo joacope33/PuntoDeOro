@@ -3,7 +3,6 @@ package com.Unsada.Web.model;
 import java.sql.Time;
 import java.time.LocalDate;
 
-
 import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
 
@@ -16,7 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-//import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,15 +50,19 @@ public class Turno {
     @Column(name = "asistencia")
     private int asistencia;
 
+    @OneToOne
+    @JoinColumn(name = "idpartido")
+    private Partido partido;
 
     
-    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia) {
+    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido) {
         this.dia = dia;
         this.hora = hora;
         this.cancha = cancha;
         this.estado = estado;
         this.tipoTurno = tipoTurno;
         this.asistencia = asistencia;
+        this.partido = partido;
     }
 
 
@@ -70,7 +73,7 @@ public class Turno {
     @Override
     public String toString() {
         return "Turno [id=" + id + ", dia=" + dia + ", hora=" + hora + ", cancha=" + cancha + ", estado=" + estado
-                + ", tipoTurno=" + tipoTurno + ", asistencia=" + asistencia + "]";
+                + ", tipoTurno=" + tipoTurno + ", asistencia=" + asistencia + ", partido=" + partido + "]";
     }
 
 

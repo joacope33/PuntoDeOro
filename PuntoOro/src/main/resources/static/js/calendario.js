@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnCerrar = document.getElementById('btn-login-cerrar');
     let calendar;
     let selectedDate = null;
-
+    modal.close();
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'es',
@@ -51,6 +51,38 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventClick: function(info) {
             alert('Evento: ' + info.event.title);
+        },
+        events: function(info, successCallback, failureCallback) {
+            // Hacer una solicitud a la API para obtener los turnos
+            fetch('/calendario/1') // Aquí 'id1' debe ser el ID de la cancha
+                .then(response => response.json())
+                .then(data => {
+                    const events = data.map(turno => {
+                        // Asegúrate de que turno.hora es una cadena en formato ISO (YYYY-MM-DDTHH:MM:SS)
+                        const startDate = turno.dia + 'T' + turno.hora;  // Fecha y hora de inicio
+                        
+                        // Para agregar duración, vamos a asumir que cada turno dura 1 hora (ajústalo según lo necesites)
+                        const endDate = new Date(turno.dia + 'T' + turno.hora);  // Convertir la fecha de inicio a objeto Date
+                        endDate.setHours(endDate.getHours() + 1);  // Añadir 1 hora de duración (ajustable)
+                        const endDateString = endDate.toISOString();  // Convertir a string en formato ISO
+
+                        return {
+                            title: `Turno ${turno.id}`,
+                            start: startDate,  // Hora de inicio
+                            end: endDateString,  // Hora de finalización (con duración)
+                            description: `Asistencia: ${turno.asistencia} | Estado: ${turno.estado}`,
+                            extendedProps: {
+                                tipoTurno: turno.tipoTurno,
+                                partido: turno.partido
+                            }
+                        };
+                    });
+                    successCallback(events);  // Llamamos a successCallback con los eventos
+                })
+                .catch(error => {
+                    console.error('Error fetching events:', error);
+                    failureCallback(error);
+                });
         }
     });
 
