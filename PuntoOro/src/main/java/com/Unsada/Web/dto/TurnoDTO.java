@@ -4,9 +4,9 @@ import java.sql.Time;
 import java.time.LocalDate;
 
 import com.Unsada.Web.model.Cancha;
+import com.Unsada.Web.model.Partido;
 import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,5 +26,6 @@ public class TurnoDTO {
     private int asistencia;
     private EstadoCancha estado;
     private TipoTurno tipoTurno;
+    private Partido partido;
 
 }
