@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         events: function(info, successCallback, failureCallback) {
             // Hacer una solicitud a la API para obtener los turnos
-            fetch('/Calendario/1') // Aquí 'id1' debe ser el ID de la cancha
+            fetch('/calendario/1') // Aquí 'id1' debe ser el ID de la cancha
                 .then(response => response.json())
                 .then(data => {
                     const events = data.map(turno => {

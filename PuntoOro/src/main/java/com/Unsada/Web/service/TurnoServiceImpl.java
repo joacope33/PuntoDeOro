@@ -2,7 +2,6 @@ package com.Unsada.Web.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,8 @@ public class TurnoServiceImpl implements TurnoService {
 
     @Override
     public List<Turno> obtenerTurnoByCancha(Cancha cancha) {
-        return turnoRepository.findAllByCancha(cancha)
-            .orElseThrow(() -> new RuntimeException("No se encontró la cancha con ese Id: " + cancha));
+        return turnoRepository.findAllByCancha(cancha);
+            
     }
 
     @Override

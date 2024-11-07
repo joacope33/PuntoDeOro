@@ -7,6 +7,7 @@ import com.Unsada.Web.model.Cancha;
 import com.Unsada.Web.model.Partido;
 import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TurnoDTO {
 
 public class TurnoDTO {
 
@@ -29,10 +29,10 @@ public class TurnoDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time hora;
 
-    private CanchaDTO cancha;  // Usamos CanchaDTO
+    private Cancha cancha;  // Usamos CanchaDTO
     private int asistencia;
     private EstadoCancha estado;
     private TipoTurno tipoTurno;
-    private PartidoDTO partido; // Usamos PartidoDTO
+    private Partido partido; // Usamos PartidoDTO
 
 }
