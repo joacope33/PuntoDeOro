@@ -10,6 +10,8 @@ import com.Unsada.Web.model.Usuario;
 public interface UsuarioService extends UserDetailsService {
 
     public Usuario guardarUsuario(UsuarioRegisterDTO registerDTO);
+    public Usuario findByEmail(String email);
+    public UsuarioRegisterDTO convertirUsuarioADTO(Usuario usuario);
 
 
      

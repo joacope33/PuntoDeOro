@@ -56,4 +56,28 @@ public class UsuarioServiceImpl implements UsuarioService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getNombre())).collect(Collectors.toList());
     }
 
+    @Override
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
+
+    @Override
+    public UsuarioRegisterDTO convertirUsuarioADTO(Usuario usuario) {
+        // Crear un nuevo DTO de Usuario
+        UsuarioRegisterDTO usuarioDTO = new UsuarioRegisterDTO();
+
+        // Mapear los atributos de la entidad Usuario al DTO
+        usuarioDTO.setId(usuario.getId());
+        usuarioDTO.setRole(usuario.getRole()); // Suponiendo que Role es un enum
+        usuarioDTO.setNombreCompleto(usuario.getNombreCompleto());
+        usuarioDTO.setEmail(usuario.getEmail());
+        usuarioDTO.setTelefono(usuario.getTelefono());
+        usuarioDTO.setContrasena(usuario.getContrasena());
+        usuarioDTO.setEstado(usuario.getEstado());
+
+        // Retornar el DTO con los datos del usuario
+        return usuarioDTO;
+    }
+
 }
