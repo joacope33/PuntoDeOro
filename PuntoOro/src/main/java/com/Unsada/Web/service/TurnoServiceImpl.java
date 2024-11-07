@@ -2,6 +2,7 @@ package com.Unsada.Web.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,27 @@ public class TurnoServiceImpl implements TurnoService {
     @Autowired
     private TurnoRepository turnoRepository;
 
+// Método para obtener los turnos de una cancha específica
+    public List<TurnoDTO> obtenerTurnoByIdCanchaDTO(Cancha cancha) {
+        List<Turno> turnos = turnoRepository.findAllByCancha(cancha);
+        return turnos.stream()
+                     .map(this::convertirATurnoDTO)
+                     .collect(Collectors.toList());
+    }
 
+    // Método para convertir una entidad Turno en TurnoDTO
+    private TurnoDTO convertirATurnoDTO(Turno turno) {
+        return new TurnoDTO(
+            turno.getId(),
+            turno.getDia(),
+            turno.getHora(),
+            turno.getCancha(),
+            turno.getAsistencia(),
+            turno.getEstado(),
+            turno.getTipoTurno(),
+            turno.getPartido()
+        );
+    }
    
     @Override
     public List<Turno> obtenerTurnoByIdCancha(Cancha cancha) {
