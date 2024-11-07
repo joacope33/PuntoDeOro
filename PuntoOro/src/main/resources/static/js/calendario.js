@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnCerrar = document.getElementById('btn-login-cerrar');
     let calendar;
     let selectedDate = null;
-
+    modal.close();
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'es',

@@ -32,18 +32,30 @@ public class CalendarController {
         try {
             Cancha cancha = canchaServiceImpl.obtenerCanchabyId(id);
             if (cancha == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Retorna 404 si la cancha no se encuentra
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
             }
 
-            List<TurnoDTO> turnos = turnoServiceImpl.obtenerTurnoByCancha(cancha);
-            
-            // Depuración: Verificar qué datos se están devolviendo
-            System.out.println("Turnos obtenidos: " + turnos);
+            // Obtener lista de Turno
+            List<Turno> turnos = turnoServiceImpl.obtenerTurnoByCancha(cancha);
 
-            return ResponseEntity.ok(turnos); // Retorna los turnos si todo es correcto
+            // Convertir cada Turno en TurnoDTO
+            List<TurnoDTO> turnosDTO = turnos.stream()
+                .map(turno -> new TurnoDTO(
+                    turno.getId(),
+                    turno.getDia(),
+                    turno.getHora(),
+                    turno.getCancha(),
+                    turno.getAsistencia(),
+                    turno.getEstado(),
+                    turno.getTipoTurno(),
+                    turno.getPartido()
+                ))
+                .collect(Collectors.toList());
+
+            return ResponseEntity.ok(turnosDTO);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Manejo de excepción
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }
