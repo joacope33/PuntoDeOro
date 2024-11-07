@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Unsada.Web.dto.TurnoDTO;
+import com.Unsada.Web.model.Cancha;
 import com.Unsada.Web.model.Turno;
 import com.Unsada.Web.repository.TurnoRepository;
 
@@ -19,8 +20,8 @@ public class TurnoServiceImpl implements TurnoService {
 
    
     @Override
-    public List<Turno> obtenerTurnoByIdCancha(long  idCancha) {
-        return turnoRepository.findAllByCancha(idCancha);
+    public List<Turno> obtenerTurnoByIdCancha(Cancha cancha) {
+        return turnoRepository.findAllByCancha(cancha);
     }
 
     @Override
