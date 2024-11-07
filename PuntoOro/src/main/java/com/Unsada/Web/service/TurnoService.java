@@ -11,7 +11,7 @@ import com.Unsada.Web.model.Turno;
 
 public interface TurnoService {
     public Turno guardarTurno(TurnoDTO turnoDTO);
-    public List<Turno> obtenerTurnoByIdCancha(Cancha cncha);
+    public List<Turno> obtenerTurnoByCancha(Cancha cancha);
     public Turno findById(Long idTurno);
     public List<Turno> obtenerTurnoByDia(LocalDate dia);
 }

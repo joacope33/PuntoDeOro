@@ -18,31 +18,11 @@ public class TurnoServiceImpl implements TurnoService {
     @Autowired
     private TurnoRepository turnoRepository;
 
-// Método para obtener los turnos de una cancha específica
-    public List<TurnoDTO> obtenerTurnoByIdCanchaDTO(Cancha cancha) {
-        List<Turno> turnos = turnoRepository.findAllByCancha(cancha);
-        return turnos.stream()
-                     .map(this::convertirATurnoDTO)
-                     .collect(Collectors.toList());
-    }
 
-    // Método para convertir una entidad Turno en TurnoDTO
-    private TurnoDTO convertirATurnoDTO(Turno turno) {
-        return new TurnoDTO(
-            turno.getId(),
-            turno.getDia(),
-            turno.getHora(),
-            turno.getCancha(),
-            turno.getAsistencia(),
-            turno.getEstado(),
-            turno.getTipoTurno(),
-            turno.getPartido()
-        );
-    }
-   
     @Override
-    public List<Turno> obtenerTurnoByIdCancha(Cancha cancha) {
-        return turnoRepository.findAllByCancha(cancha);
+    public List<Turno> obtenerTurnoByCancha(Cancha cancha) {
+        return turnoRepository.findAllByCancha(cancha)
+            .orElseThrow(() -> new RuntimeException("No se encontró la cancha con ese Id: " + cancha));
     }
 
     @Override

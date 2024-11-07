@@ -19,13 +19,20 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TurnoDTO {
 
+public class TurnoDTO {
+
     private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dia;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time hora;
-    private Cancha cancha;
+
+    private CanchaDTO cancha;  // Usamos CanchaDTO
     private int asistencia;
     private EstadoCancha estado;
     private TipoTurno tipoTurno;
-    private Partido partido;
+    private PartidoDTO partido; // Usamos PartidoDTO
 
 }

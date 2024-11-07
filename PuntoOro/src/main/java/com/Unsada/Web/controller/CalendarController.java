@@ -35,7 +35,7 @@ public class CalendarController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Retorna 404 si la cancha no se encuentra
             }
 
-            List<TurnoDTO> turnos = turnoServiceImpl.obtenerTurnoByIdCanchaDTO(cancha);
+            List<TurnoDTO> turnos = turnoServiceImpl.obtenerTurnoByCancha(cancha);
             
             // Depuración: Verificar qué datos se están devolviendo
             System.out.println("Turnos obtenidos: " + turnos);
