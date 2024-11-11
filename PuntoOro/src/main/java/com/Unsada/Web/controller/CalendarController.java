@@ -39,11 +39,15 @@ public class CalendarController {
             // Obtener lista de Turno
             List<Turno> turnos = turnoServiceImpl.obtenerTurnoByCancha(cancha);
             System.out.println(turnos);
-                    
+            List<TurnoDTO> turnosDTO = turnos.stream()
+                .map(turno -> new TurnoDTO(
+                    turno.getDia(),
+                    turno.getHora(),
+                    turno.getTipoTurno()
+                ))
+                .collect(Collectors.toList());
 
-
-            return ResponseEntity.ok(turnos);
-        } catch (Exception e) {
+            return ResponseEntity.ok(turnosDTO);
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
