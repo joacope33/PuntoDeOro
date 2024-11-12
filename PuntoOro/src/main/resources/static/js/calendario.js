@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             center: 'title',
             right: 'timeGridWeek'
         },
-        views: {W
+        views: {
             timeGridWeek: {
                 buttonText: 'Semana',
                 slotDuration: canchaData ? canchaData.duracion : '01:00:00',
