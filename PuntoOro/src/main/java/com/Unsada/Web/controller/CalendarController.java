@@ -43,7 +43,7 @@ public class CalendarController {
 
             return ResponseEntity.ok(turnos);
 
-        } catch (Exception e) {
+       } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

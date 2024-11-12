@@ -64,10 +64,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Para agregar duración, vamos a asumir que cada turno dura 1 hora (ajústalo según lo necesites)
                         const endDate = new Date(turno.dia + 'T' + turno.hora);  // Convertir la fecha de inicio a objeto Date
                         endDate.setHours(endDate.getHours() + 1);  // Añadir 1 hora de duración (ajustable)
+                        endDate.setMinutes(endDate.getMinutes() + 30);
                         const endDateString = endDate.toISOString();  // Convertir a string en formato ISO
 
                         return {
-                            title: `${turno.jugadores && turno.jugadores[0] ? turno.jugadores[0].nombreCompleto : 'Sin nombre'}`,
+                            title: ` ${turno.jugadores && turno.jugadores[0] ? turno.jugadores[0].nombreCompleto : 'Sin nombre'}`,
                             start: startDate,  // Hora de inicio
                             end: endDateString,  // Hora de finalización (con duración)
                             description: `Asistencia: ${turno.asistencia} | Estado: ${turno.estado}`,
