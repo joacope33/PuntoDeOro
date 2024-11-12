@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.util.List;
 
 import com.Unsada.Web.model.enums.EstadoCancha;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,6 +38,7 @@ public class Cancha {
     @Column(name = "duracion")
     private Time duracion;
 
+    @JsonBackReference  // Evita que los turnos se serialicen dentro de Cancha, evitando recursión infinita
     @OneToMany(mappedBy = "cancha")
     private List<Turno> turnos;
 

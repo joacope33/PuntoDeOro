@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,6 +40,7 @@ public class Turno {
 
     @ManyToOne
     @JoinColumn(name = "idcancha")
+    @JsonManagedReference  // Evita la recursión infinita serializando solo el lado principal de la relación
     private Cancha cancha;
 
     @Enumerated(EnumType.STRING)
