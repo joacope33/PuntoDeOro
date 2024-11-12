@@ -1,11 +1,27 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const modal = document.getElementById('modal');
     const eventForm = document.getElementById('event-form');
     const btnCerrar = document.getElementById('btn-login-cerrar');
     let calendar;
     let selectedDate = null;
+    let canchaData = null;
     modal.close();
-    var calendarEl = document.getElementById('calendar');
+
+    // Obtener los detalles de la cancha al cargar la página
+    const canchaId = 1; // Reemplaza con el ID de la cancha que necesitas
+    try {
+        const response = await fetch(`/cancha/${canchaId}`);
+        if (response.ok) {
+            canchaData = await response.json();
+            console.log('Datos de la cancha:', canchaData);
+        } else {
+            console.error('Error al obtener los datos de la cancha:', response.status);
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+    }
+
+    const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'es',
         initialView: 'timeGridWeek',
@@ -31,19 +47,19 @@ document.addEventListener('DOMContentLoaded', function() {
         views: {
             timeGridWeek: {
                 buttonText: 'Semana',
-                slotDuration: '01:30:00', // Duración de los intervalos de tiempo (1 hora y 30 minutos)
-                slotLabelInterval: '01:30', // Intervalo de etiquetas de hora
-                slotLabelFormat: { 
+                slotDuration: canchaData ? canchaData.duracion : '01:30:00', // Duración de los intervalos de tiempo usando el valor de cancha
+                slotLabelInterval: canchaData ? canchaData.duracion : '01:30',
+                slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
-                    hour12: false // Formato de 24 horas
+                    hour12: false
                 },
-                slotMinTime: '07:00:00', // Cambiado
-                //slotMaxTime: '22:00:00', // Cambiado
-                dayHeaderFormat: { 
-                    weekday: 'long' // Nombre del día completo
+                slotMinTime: canchaData ? canchaData.horarioApertura : '07:00:00',
+                //slotMaxTime: canchaData ? canchaData.horarioCierre : '23:00:00',
+                dayHeaderFormat: {
+                    weekday: 'long'
                 },
-                allDaySlot: false // Desactivar el slot de todo el día
+                allDaySlot: false
             }
         },
         dateClick: function(info) {
@@ -54,23 +70,20 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         events: function(info, successCallback, failureCallback) {
             // Hacer una solicitud a la API para obtener los turnos
-            fetch('/calendario/1') // Aquí 'id1' debe ser el ID de la cancha
+            fetch(`/calendario/${canchaId}`)
                 .then(response => response.json())
                 .then(data => {
                     const events = data.map(turno => {
-                        // Asegúrate de que turno.hora es una cadena en formato ISO (YYYY-MM-DDTHH:MM:SS)
-                        const startDate = turno.dia + 'T' + turno.hora;  // Fecha y hora de inicio
-                        
-                        // Para agregar duración, vamos a asumir que cada turno dura 1 hora (ajústalo según lo necesites)
-                        const endDate = new Date(turno.dia + 'T' + turno.hora);  // Convertir la fecha de inicio a objeto Date
-                        endDate.setHours(endDate.getHours() + 1);  // Añadir 1 hora de duración (ajustable)
-                        endDate.setMinutes(endDate.getMinutes() + 30);
-                        const endDateString = endDate.toISOString();  // Convertir a string en formato ISO
+                        const startDate = turno.dia + 'T' + turno.hora;
+                        const endDate = new Date(turno.dia + 'T' + turno.hora);
+                        endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
+                        endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
+                        const endDateString = endDate.toISOString();
 
                         return {
                             title: ` ${turno.jugadores && turno.jugadores[0] ? turno.jugadores[0].nombreCompleto : 'Sin nombre'}`,
-                            start: startDate,  // Hora de inicio
-                            end: endDateString,  // Hora de finalización (con duración)
+                            start: startDate,
+                            end: endDateString,
                             description: `Asistencia: ${turno.asistencia} | Estado: ${turno.estado}`,
                             extendedProps: {
                                 tipoTurno: turno.tipoTurno,
@@ -78,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         };
                     });
-                    successCallback(events);  // Llamamos a successCallback con los eventos
+                    successCallback(events);
                 })
                 .catch(error => {
                     console.error('Error fetching events:', error);
@@ -104,10 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const title = document.getElementById('event-title').value;
         const startDateTime = new Date(selectedDate.date);
         const endDateTime = new Date(startDateTime);
-        endDateTime.setHours(endDateTime.getHours() + 1); // Sumar 1 hora
-        endDateTime.setMinutes(endDateTime.getMinutes() + 30); // Sumar 30 minutos
+        endDateTime.setHours(endDateTime.getHours() + parseInt(canchaData.duracion.split(':')[0]));
+        endDateTime.setMinutes(endDateTime.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
 
-        // Verificar solapamiento
         const isOverlap = calendar.getEvents().some(event => {
             return (startDateTime < event.end && endDateTime > event.start);
         });
