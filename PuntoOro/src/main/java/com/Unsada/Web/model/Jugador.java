@@ -1,12 +1,16 @@
 package com.Unsada.Web.model;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +44,16 @@ public class Jugador {
     private int puntos;
     @Column(name = "comentario")
     private String comentario;
+
+    // Relación Muchos a Muchos con Turno
+    @ManyToMany
+    @JoinTable(
+        name = "jugadores_turnos",  // Nombre de la tabla intermedia
+        joinColumns = @JoinColumn(name = "idjugador"),  // Columna de clave foránea en la tabla intermedia para jugadores
+        inverseJoinColumns = @JoinColumn(name = "idturno")  // Columna de clave foránea en la tabla intermedia para turnos
+    )
+    private Set<Turno> turnos;  // Colección de turnos asociados
+
 
     
     public Jugador(String nombreCompleto, String telefono, String categoria, LocalDate fechaDeNacimiento, String dni,
