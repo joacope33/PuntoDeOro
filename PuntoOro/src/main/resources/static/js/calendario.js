@@ -44,18 +44,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             center: 'title',
             right: 'timeGridWeek'
         },
-        views: {
+        views: {W
             timeGridWeek: {
                 buttonText: 'Semana',
-                slotDuration: canchaData ? canchaData.duracion : '01:30:00', // Duración de los intervalos de tiempo usando el valor de cancha
-                slotLabelInterval: canchaData ? canchaData.duracion : '01:30',
+                slotDuration: canchaData ? canchaData.duracion : '01:00:00',
+                slotLabelInterval: canchaData ? canchaData.duracion : '01:00',
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
                 },
                 slotMinTime: canchaData ? canchaData.horarioApertura : '07:00:00',
-                //slotMaxTime: canchaData ? canchaData.horarioCierre : '23:00:00',
                 dayHeaderFormat: {
                     weekday: 'long'
                 },
@@ -63,13 +62,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         },
         dateClick: function(info) {
-            selectedDate = info; // Guardar la fecha seleccionada
+            selectedDate = info;
         },
         eventClick: function(info) {
             alert('Evento: ' + info.event.title);
         },
         events: function(info, successCallback, failureCallback) {
-            // Hacer una solicitud a la API para obtener los turnos
             fetch(`/calendario/${canchaId}`)
                 .then(response => response.json())
                 .then(data => {
@@ -80,6 +78,25 @@ document.addEventListener('DOMContentLoaded', async function() {
                         endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
                         const endDateString = endDate.toISOString();
 
+                        // Asignar color según el estado del turno
+                        let color;
+                        switch (turno.estado) {
+                            case 'DISPONIBLE':
+                                color = 'green';
+                                break;
+                            case 'OCUPADA':
+                                color = 'red';
+                                break;
+                            case 'TURNO_FIJO':
+                                color = 'yellow';
+                                break;
+                            case 'RESERVADA_PARA_TORNEO':
+                                color = 'gray';
+                                break;
+                            default:
+                                color = 'blue'; // Color por defecto si el estado es desconocido
+                        }
+
                         return {
                             title: ` ${turno.jugadores && turno.jugadores[0] ? turno.jugadores[0].nombreCompleto : 'Sin nombre'}`,
                             start: startDate,
@@ -88,7 +105,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                             extendedProps: {
                                 tipoTurno: turno.tipoTurno,
                                 partido: turno.partido
-                            }
+                            },
+                            backgroundColor: color, // Asigna el color al evento
+                            borderColor: color // Opcional: establece el mismo color para el borde
                         };
                     });
                     successCallback(events);
@@ -100,7 +119,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
-    calendar.render(); // Renderiza el calendario
+    calendar.render();
 
     btnCerrar.addEventListener('click', function() {
         modal.close();
