@@ -3,6 +3,8 @@ package com.Unsada.Web.model;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,6 +54,7 @@ public class Jugador {
         joinColumns = @JoinColumn(name = "idjugador"),  // Columna de clave foránea en la tabla intermedia para jugadores
         inverseJoinColumns = @JoinColumn(name = "idturno")  // Columna de clave foránea en la tabla intermedia para turnos
     )
+    @JsonBackReference  // Evita la recursión infinita serializando solo el lado secundario de la relación
     private Set<Turno> turnos;  // Colección de turnos asociados
 
 

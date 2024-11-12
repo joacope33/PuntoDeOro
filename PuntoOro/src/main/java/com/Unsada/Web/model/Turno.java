@@ -60,6 +60,7 @@ public class Turno {
     
     // Relación Muchos a Muchos con Jugador
     @ManyToMany(mappedBy = "turnos")  // "turnos" es el atributo en la clase Jugador que maneja esta relación
+    @JsonManagedReference  // Gestiona la relación de Turno a Jugador
     private Set<Jugador> jugadores;  // Colección de jugadores asociados a este turno
 
     

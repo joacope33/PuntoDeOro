@@ -40,9 +40,8 @@ public class CalendarController {
             List<Turno> turnos = turnoServiceImpl.obtenerTurnoByCancha(cancha);
             System.out.println(turnos);
 
-            
-            return ResponseEntity.ok(turnos);
 
+            return ResponseEntity.ok(turnos);
 
         } catch (Exception e) {
             e.printStackTrace();

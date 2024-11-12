@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const endDateString = endDate.toISOString();  // Convertir a string en formato ISO
 
                         return {
-                            title: `Turno ${turno.id}`,
+                            title: `${turno.jugadores && turno.jugadores[0] ? turno.jugadores[0].nombreCompleto : 'Sin nombre'}`,
                             start: startDate,  // Hora de inicio
                             end: endDateString,  // Hora de finalización (con duración)
                             description: `Asistencia: ${turno.asistencia} | Estado: ${turno.estado}`,
