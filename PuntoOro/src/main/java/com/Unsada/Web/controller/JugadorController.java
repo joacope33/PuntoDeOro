@@ -4,6 +4,7 @@ package com.Unsada.Web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.Unsada.Web.dto.JugadorDTO;
 import com.Unsada.Web.model.Jugador;
@@ -93,18 +94,19 @@ public class JugadorController {
     }
 
 
-    @PostMapping("/buscarPorDni")
-    public String buscarJugadorPorDni(@RequestParam String dni, RedirectAttributes redirectAttributes) {
-        Jugador jugadorDni = jugadorService.findByDni(dni);
-        
-        if (jugadorDni != null) {
-            redirectAttributes.addFlashAttribute("jugadorDni", jugadorDni);
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Jugador no encontrado.");
+    @GetMapping("/editar/{dni}")
+    @ResponseBody // Esto es importante para devolver solo el cuerpo de la respuesta
+    public JugadorDTO mostrarFormularioEdicion(@PathVariable("dni") String dni) {
+        dni = dni.replaceAll("^\"|\"$", "");  // Eliminar comillas al inicio y al final
+        Jugador jugador = jugadorService.findByDni(dni);
+        if (jugador == null) {
+            System.out.println("No se encuantra al jugador");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND); // Maneja el error adecuadamente
         }
-
-        return "redirect:/jugador"; // Redirige a la misma vista
+        System.out.println("Se encuantró al jugador" + jugador);
+        return new JugadorDTO(jugador); // Asegúrate de tener un DTO adecuado para devolver los datos
     }
+
 
     
 

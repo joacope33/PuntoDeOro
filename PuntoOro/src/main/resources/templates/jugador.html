@@ -6,6 +6,7 @@
     <title>Jugadores - Punto de Oro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/jugador.css">
+    <link rel="stylesheet" href="/css/jugador.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="/js/jugador.js" defer></script>
 
@@ -46,8 +47,10 @@
         </nav>
     </header>
 
+    
+
     <main>
-        <div class="background-img-home">
+        <div class="background-img-home" >
             <div class="texto">
                 <div class="jugador-info">
                     <h2>Registrar jugador</h2>
@@ -97,6 +100,25 @@
                 <div class="lista-jugadores">
                     <h2>Jugadores Registrados</h2>
                     <div class="tabla-contenedor">
+                        <div class="selector-container">
+                            <!-- Campo de Selección para Elegir el Atributo de Búsqueda -->
+                            <label for="atributo">Buscar por:</label>
+                            <select id="atributo">
+                                <option value="0">Nombre</option>
+                                <option value="1">Teléfono</option>
+                                <option value="2">Categoría</option>
+                                <option value="3">Fecha de Nacimiento</option>
+                                <option value="4">DNI</option>
+                                <option value="5">Calificación</option>
+                                <option value="6">Puntos</option>
+                                <option value="7">Comentario</option>
+                            </select>
+                        </div>
+                        
+
+                        <!-- Campo de Búsqueda para Filtrar -->
+                        <input class="buscar-input" type="text" id="filtro" onkeyup="filtrarTabla()" placeholder="Escribe para buscar...">
+
                         <table>
                             <thead>
                                 <tr>
@@ -108,93 +130,110 @@
                                     <th>Calificación</th>
                                     <th>Puntos</th>
                                     <th>Comentario</th>
+                                    <th>Editar</th>
                                     <th></th>
+                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="tr-jugador" th:each="jugador : ${jugadores}">
-                                    <td th:text="${jugador.nombreCompleto}"></td>
-                                    <td th:text="${jugador.telefono}"></td>
-                                    <td th:text="${jugador.categoria != null ? jugador.categoria : 'Sin categoría'}"></td>
-                                    <td th:text="${jugador.fechaDeNacimiento != null ? jugador.fechaDeNacimiento.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}"></td>
-                                    <td th:text="${jugador.dni}"></td>
-                                    <td th:text="${jugador.calificacion}"></td>
-                                    <td th:text="${jugador.puntos}"></td>
-                                    <td th:text="${jugador.comentario}"></td>
+                                    <td th:text="${jugador.nombreCompleto}">
+                                        <span th:text="${jugador.nombreCompleto}"></span>
+                                    </td>
+                                    
+                                    <td th:text="${jugador.telefono}">
+                                        <span th:text="${jugador.telefono}"></span>
+                                    </td>
+                                    <td th:text="${jugador.categoria != null ? jugador.categoria : 'Sin categoría'}">
+                                        <span th:text="${jugador.categoria}"></span>
+                                    </td>
+                                    <td th:text="${jugador.fechaDeNacimiento != null ? jugador.fechaDeNacimiento.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}" style="cursor: pointer;">
+                                        <span th:text="${jugador.fechaDeNacimiento}"></span>
+                                    </td>
+                                    <td th:text="${jugador.dni}">
+                                        <span th:text="${jugador.dni}"></span>
+                                    </td>
+                                    <td th:text="${jugador.calificacion}">
+                                        <span th:text="${jugador.calificacion}"></span>
+                                    </td>
+                                    <td th:text="${jugador.puntos}">
+                                        <span th:text="${jugador.puntos}"></span>
+                                    </td>
+                                    <td th:text="${jugador.comentario}">
+                                        <span th:text="${jugador.comentario}"></span>
+                                    </td>
+                                     <!-- Botón Editar en una celda separada -->
+                                     <td>
+                                        <button type="button" 
+                                                th:onclick="editarJugador('[[${jugador.dni}]]')" 
+                                                data-nombre-completo="[[${jugador.nombreCompleto}]]"
+                                                data-telefono="[[${jugador.telefono}]]"
+                                                data-categoria="[[${jugador.categoria != null ? jugador.categoria : 'Sin categoría'}]]"
+                                                data-fecha-nacimiento="[[${jugador.fechaDeNacimiento != null ? jugador.fechaDeNacimiento.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}]]"
+                                                data-calificacion="[[${jugador.calificacion}]]"
+                                                data-puntos="[[${jugador.puntos}]]"
+                                                data-comentario="[[${jugador.comentario}]]">
+                                            Editar
+                                        </button>
+                                    </td>
+                                    
+                                    <!-- Botón Eliminar -->
                                     <td>
-                                        <!-- Formulario para eliminar por DNI -->
-                                    <form th:action="@{/jugador/borrar/{dni}(dni=${jugador.dni})}" method="post" style="display:inline;">
-                                        <button class="btn-eliminar" type="submit">Eliminar</button>
-                                    </form>
+                                        <form th:action="@{/jugador/borrar/{dni}(dni=${jugador.dni})}" method="post" style="display:inline;">
+                                            <button class="btn-eliminar" type="submit">Eliminar</button>
+                                        </form>
                                     </td>
                                 </tr>                        
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div th:unless="${jugadores}">
-                    <p>No hay jugadores registrados.</p>
-                </div>
-            </div>
-            <div class="buscar">
-                <div class="form-buscar">
-                    <h2>Buscar y Editar Jugador</h2>
-                    <form th:action="@{/jugador/buscarPorDni}" method="post">
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" name="dni" id="dni" required />
-                            <label for="dni">DNI del jugador:</label>
+                <!-- Formulario de edición, inicialmente oculto -->
+                <div class="form-overlay" id="formularioEditar" style="display: none;">
+                    <div class="form">
+                        <div class="cruz" onclick="cerrarFormulario()">
+                            <i class="fa-solid fa-x"></i>
                         </div>
-                        <input class="btn-registrar" type="submit" value="Buscar"></input>
-                    </form>
-                </div>
-                
-                <div class="form-actualizar" th:if="${jugadorDni != null}">
-                    <h2>Editar jugador</h2>
-                    <form th:action="@{/jugador/actualizar}" method="post" th:object="${jugadorDni}">
-                        
-                        <input type="hidden" name="id" th:value="${jugadorDni.id}"/> <!-- ID del jugador -->
-                        
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" th:field="*{nombreCompleto}" required />
-                            <label>Nombre completo</label>
-                        </div>
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" th:field="*{telefono}" required />
-                            <label>Teléfono</label>
-                        </div>
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" th:field="*{categoria}" required />
-                            <label>Categoría</label>
-                        </div>
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="date"  autocomplete="off" th:field="*{fechaDeNacimiento}" required>
-                            <label for="fechaDeNacimiento">Fecha de nacimiento</label>
-                        </div>
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" th:field="*{dni}" required />
-                            <label>DNI</label>
-                        </div>
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" th:field="*{calificacion}" required />
-                            <label>Calificacion</label>
-                        </div>
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" th:field="*{puntos}" required />
-                            <label>Puntos</label>
-                        </div>
-                        <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" th:field="*{comentario}" required />
-                            <label>Comentario</label>
-                        </div>
-
-                        <input type="submit" class="btn-registrar" value="Guardar cambios"></input>
-                    </form>
+                        <form class="form-actualizar" th:action="@{/jugador/actualizar}" method="post" th:object="${jugador}">
+                            <div class="username">
+                                <input type="text" id="nombreCompletoEditar" th:field="*{nombreCompleto}" required />
+                                <label>Nombre completo</label>
+                            </div>
+                            <div class="username">
+                                <input type="text" id="telefonoEditar" th:field="*{telefono}" required />
+                                <label>Teléfono</label>
+                            </div>
+                            <div class="username">
+                                <input type="text" id="categoriaEditar" th:field="*{categoria}" required />
+                                <label>Categoría</label>
+                            </div>
+                            <div class="username">
+                                <input type="date" id="fechaEditar" th:field="*{fechaDeNacimiento}" required />
+                                <label>Fecha de nacimiento</label>
+                            </div>
+                            <div class="username">
+                                <input type="text" id="dniEditar" th:field="*{dni}" required />
+                                <label>DNI</label>
+                            </div>
+                            <div class="username">
+                                <input type="text" id="calificacionEditar" th:field="*{calificacion}" required />
+                                <label>Calificación</label>
+                            </div>
+                            <div class="username">
+                                <input type="text" id="puntosEditar" th:field="*{puntos}" required />
+                                <label>Puntos</label>
+                            </div>
+                            <div class="username">
+                                <input type="text" id="comentarioEditar" th:field="*{comentario}" required />
+                                <label>Comentario</label>
+                            </div>
+                            <input type="submit" value="Guardar cambios"/>
+                        </form>
+                    </div>
                 </div>
                 
-                <div th:if="${error != null}">
-                    <p th:text="${error}"></p>
-                </div>
             </div>
+            
         </div>
     </main>
 

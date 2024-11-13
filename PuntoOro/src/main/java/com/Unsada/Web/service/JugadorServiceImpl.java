@@ -99,7 +99,17 @@ public class JugadorServiceImpl implements JugadorService {
 
     @Override
     public Jugador findByDni(String dni) {
-        return jugadorRepository.findByDni(dni);
+        System.out.println(dni);
+        Jugador jugador = jugadorRepository.findByDni(dni);
+        
+        if (jugador == null) {
+            // Aquí puedes manejar el caso en el que no se encuentra un jugador con ese DNI.
+            System.out.println("No se encontró un jugador con el DNI: " + dni);
+            return null;  // O lanzar una excepción, dependiendo de cómo desees manejarlo.
+        }
+        
+        System.out.println(jugador.getNombreCompleto());
+        return jugador;
     }
 
     @Override

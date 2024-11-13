@@ -320,7 +320,7 @@ main {
     font-size: 20px;
     padding: 50px;
     border-radius: 10px;
-    color: #fff;
+    color: #ffffff;
 
 
 }
@@ -351,9 +351,8 @@ main {
 
 .tabla {
     width: 100%;
-
     background-color: #c4932a1f;
-    padding: 10px;
+    padding: 5x;
     border: 1px solid #c4932a; /* Borde normal */
     border-radius: 10px; /* Redondeo de los bordes */
 }
@@ -365,7 +364,7 @@ main {
 }
 
 .tabla td {
-    text-align: center;
+    text-align: left;
     display: flex;
     padding: 12px 15px;
     justify-content: space-between
@@ -384,22 +383,29 @@ main {
 
 .tabla input {
     position: relative;
+    display: flex;
     font-family: var(--fuente-principal);
     background: #ffffff11;
-    border: none;
     color: #fff;
     font-size: 20px;
-    transition: none !important;
-    bottom: 1px;
-    right: 2px;
     border-radius: 5px;
-    color: #000000;
-    max-width: 600px;
+    max-width: 800px;
+    border: none;
+    margin: 0;
+    width: 100%;
 }
 
 /* Si hay transiciones en focus o hover, eliminarlas también */
 .tabla input:focus, .tabla input:hover, .tabla input:active {
     transition: none; 
+    border: none;
+    margin: 0;
+
+}
+
+.tabla input:active {
+    max-width: 800px;
+    border: none;
 }
 
 

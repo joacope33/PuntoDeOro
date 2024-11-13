@@ -56,6 +56,7 @@ public class Usuario{
             joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "idusuario"),
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName= "id")
     )
+    
     private Collection<Rol> roles;
 
 

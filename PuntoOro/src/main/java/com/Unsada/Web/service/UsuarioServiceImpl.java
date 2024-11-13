@@ -17,6 +17,8 @@ import com.Unsada.Web.model.Rol;
 import com.Unsada.Web.model.Usuario;
 import com.Unsada.Web.repository.UsuarioRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
@@ -78,6 +80,26 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         // Retornar el DTO con los datos del usuario
         return usuarioDTO;
+    }
+
+    @Override
+    public void actualizarUsuario(String email, UsuarioRegisterDTO registerDTO) {
+        // Busca el jugador existente en la base de datos
+        Usuario usuario = usuarioRepository.findByEmail(email);
+
+        if (usuario != null) {
+            // Actualiza los campos con los valores del DTO
+
+            usuario.setNombreCompleto(registerDTO.getNombreCompleto());
+            usuario.setEmail(registerDTO.getEmail());
+            usuario.setTelefono(registerDTO.getTelefono());
+            usuario.setEstado(registerDTO.getEstado());
+
+            // Guarda la entidad actualizada
+            usuarioRepository.save(usuario);
+        } else {
+        throw new EntityNotFoundException("Jugador no encontrado con dni: " + registerDTO.getId());
+        }
     }
 
 }

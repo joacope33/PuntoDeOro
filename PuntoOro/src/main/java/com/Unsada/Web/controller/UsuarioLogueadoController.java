@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Unsada.Web.dto.UsuarioRegisterDTO;
 import com.Unsada.Web.model.Usuario;
 import com.Unsada.Web.service.UsuarioService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 
 @Controller
@@ -30,43 +33,33 @@ public class UsuarioLogueadoController {
         // Buscar el usuario por correo electrónico
         Usuario usuario = usuarioService.findByEmail(email);
 
-        // ID
-        model.addAttribute("id", usuario.getId());
-        // Role
-        model.addAttribute("role", usuario.getRole());
-        // Agregar el nombre del usuario al modelo
-        model.addAttribute("nombreUsuario", usuario.getNombreCompleto());
-        // Agregar el nombre del usuario al modelo
-        model.addAttribute("email", usuario.getEmail());
-        // Telefono
-        model.addAttribute("telefono", usuario.getTelefono());
-        // Estado
-        model.addAttribute("estado", usuario.getEstado());
+        // Agregar el usuario completo al modelo
+        model.addAttribute("usuario", usuario);
+        
         return "miCuenta";
     }
 
     @PostMapping("/editar")
-    public String editarPerfil(Usuario usuarioActualizado, Principal principal) {
-        // Obtener el correo electrónico (username)
-        String email = principal.getName();
+    public String editarPerfil(@ModelAttribute("usuario") UsuarioRegisterDTO usuarioDTO, Principal principal, Model model) {
+        try {
+            // Obtener el correo electrónico (username)
+            String email = principal.getName();
 
-        // Buscar el usuario actual en la base de datos
-        Usuario usuario = usuarioService.findByEmail(email);
-        
-        // Actualizar los datos del usuario
-        usuario.setNombreCompleto(usuarioActualizado.getNombreCompleto());
-        usuario.setEmail(usuarioActualizado.getEmail());
-        usuario.setTelefono(usuarioActualizado.getTelefono());
-        usuario.setEstado(usuarioActualizado.getEstado());
-
-        // Convertimos el usuario a usuarioDTO
-        UsuarioRegisterDTO usuarioRegisterDTO = usuarioService.convertirUsuarioADTO(usuario);
-
-        // Guardar el usuario actualizado en la base de datos
-        usuarioService.guardarUsuario(usuarioRegisterDTO);
-
-        // Redirigir a la página de perfil
-        return "redirect:/miCuenta";
+            // Actualizamos el usuario
+            usuarioService.actualizarUsuario(email, usuarioDTO);
+            
+            System.out.println("Funciona " + usuarioDTO);
+            // Redirigir a la página de perfil
+            return "redirect:/miCuenta";
+        } catch (EntityNotFoundException e) {
+            // Si no se encuentra el usuario, agregar el error al modelo
+            model.addAttribute("error", "No se encontró el usuario.");
+            return "miCuenta"; // Volver a la misma página con el mensaje de error
+        } catch (Exception e) {
+            // Manejo del error genérico
+            model.addAttribute("error", "Ocurrió un error al actualizar el perfil. Inténtalo nuevamente.");
+            return "miCuenta"; // Volver a la misma página con el mensaje de error
+        }
     }
     
 }

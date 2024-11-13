@@ -2,6 +2,8 @@ package com.Unsada.Web.dto;
 
 import java.time.LocalDate;
 
+import com.Unsada.Web.model.Jugador;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +39,16 @@ public class JugadorDTO {
         this.comentario = comentario;
     }
 
-    
+    // Constructor que acepta un objeto Jugador
+    public JugadorDTO(Jugador jugador) {
+        this.nombreCompleto = jugador.getNombreCompleto();
+        this.telefono = jugador.getTelefono();
+        this.categoria = jugador.getCategoria();
+        this.fechaDeNacimiento = jugador.getFechaDeNacimiento();
+        this.dni = jugador.getDni();
+        this.calificacion = jugador.getCalificacion();
+        this.puntos = jugador.getPuntos();
+        this.comentario = jugador.getComentario();
+    }
     
 }

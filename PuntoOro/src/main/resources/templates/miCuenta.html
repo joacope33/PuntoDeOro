@@ -57,53 +57,49 @@
     <main>
         <div class="background-container">
             <div class="container">
-                
+
                 <div class="datos">
                     <div class="title-form "><i class="fa-solid fa-user"></i>Ajustes de Usuario</div>
                     <div class="formulario">
-                        <form action="/miCuenta/editar" method="POST" id="formEditar">
+                        <form th:action="@{/miCuenta/editar}" method="POST" id="formEditar" th:object="${usuario}">
                             <table class="tabla">
                                 <tr>
                                     <th><label for="id">ID</label></th>
-                                    <td><span th:text="${id}" id="id"></span></td>
+                                    <td><span th:text="${usuario.id}" id="id"></span></td>
                                 </tr>
                                 <tr>
                                     <th><label for="role">Role</label></th>
-                                    <td><span th:text="${role}" id="role"></span></td>
+                                    <td><span th:text="${usuario.role}" id="role"></span></td>
                                 </tr>
                                 <tr>
                                     <th><label for="nombreUsuarioInput">Nombre Usuario</label></th>
                                     <td>
-                                        <span th:text="${nombreUsuario}" id="nombreUsuario"></span>
-                                        <input type="text" id="nombreUsuarioInput" name="nombreCompleto"
-                                            th:value="${nombreUsuario}" style="display: none;">
+                                        <span th:text="${usuario.nombreCompleto}" id="nombreUsuario"></span>
+                                        <input type="text" id="nombreUsuarioInput" name="nombreCompleto" th:field="*{nombreCompleto}" style="display: none;">
                                         <i class="fa-regular fa-pen-to-square" onclick="toggleEdit('nombreUsuario')"></i>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th><label for="emailInput">Email</label></th>
                                     <td>
-                                        <span th:text="${email}" id="email"></span>
-                                        <input type="email" id="emailInput" name="email" th:value="${email}"
-                                            style="display: none;">
+                                        <span th:text="${usuario.email}" id="email"></span>
+                                        <input type="email" id="emailInput" name="email" th:field="*{email}" style="display: none;">
                                         <i class="fa-regular fa-pen-to-square" onclick="toggleEdit('email')"></i>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th><label for="telefonoInput">Teléfono</label></th>
                                     <td>
-                                        <span th:text="${telefono}" id="telefono"></span>
-                                        <input type="text" id="telefonoInput" name="telefono" th:value="${telefono}"
-                                            style="display: none;">
+                                        <span th:text="${usuario.telefono}" id="telefono"></span>
+                                        <input type="text" id="telefonoInput" name="telefono" th:field="*{telefono}" style="display: none;">
                                         <i class="fa-regular fa-pen-to-square" onclick="toggleEdit('telefono')"></i>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th><label for="estadoInput">Estado</label></th>
                                     <td>
-                                        <span th:text="${estado}" id="estado"></span>
-                                        <input type="text" id="estadoInput" name="estado" th:value="${estado}"
-                                            style="display: none;">
+                                        <span th:text="${usuario.estado}" id="estado"></span>
+                                        <input type="text" id="estadoInput" name="estado" th:field="*{estado}" style="display: none;">
                                         <i class="fa-regular fa-pen-to-square" onclick="toggleEdit('estado')"></i>
                                     </td>
                                 </tr>

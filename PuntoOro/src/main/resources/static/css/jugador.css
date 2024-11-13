@@ -299,6 +299,55 @@ main {
     text-align: center;
 }
 
+.selector-container {
+    margin: 0;
+    justify-content: left;
+    display: flex;
+    gap: 15px;
+    padding: 3px;
+}
+
+.selector-container select {
+    background: transparent;
+    background-color: #ffffff10;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-style: #000;
+    font-size: 15px;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.selector-container option {
+    border-radius: 5px;
+    color: #ffffff;
+    background: transparent;
+    background-color: #000000ab; /* Quita el fondo del option */
+}
+
+.selector-container option:hover {
+    border-radius: 5px;
+    color: #ffffff;
+    background: transparent;
+    background-color: #0000006c; /* Quita el fondo del option */
+}
+
+
+
+.buscar-input {
+    border-radius: 5px;
+    max-width: 300px;
+    justify-content: left;
+    display: flex;
+    background-color: #00000025;
+    color: #fff;
+    padding: 8px;
+    font-size: 15px;
+    width: 100%;
+    margin: 0%;
+    margin-top: 5px;
+}
 
 .jugador-info {
     width: 25%;
@@ -345,6 +394,9 @@ main {
     display: flex;
     width: 100%;
 }
+
+
+
 
 /*TABLA*/
 
@@ -425,7 +477,7 @@ tr:hover {
 form .username {
     position: relative;
     border-bottom: 2px solid #adadad;
-    margin: 30px 0;
+    margin: 20px 0;
 }
 
 .username input {
@@ -539,7 +591,61 @@ input[type="submit"]:active {
 
 
 
+/*ACTUALIZAR JUGADOR*/
+/* El overlay oscuro de fondo */
+.form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 120vh;
+    background-color: rgba(255, 255, 255, 0.171); /* Fondo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Se asegura de que esté por encima del resto */
+}
 
+.form {
+    display: fixed;
+    flex-direction: column;
+    color: #fff;
+    max-width: 300px;
+    max-height: 650px;
+    width: 30%;
+    margin-bottom: 100px;
+    background: #000000d5;
+    padding: 20px;
+    border-radius: 10px;
+    
+}
+
+.form-actualizar {
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.cruz {
+    padding: 3px;
+    position: relative;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    bottom: 15px;
+    left: 15px;
+    
+    font-size: 20px;
+}
+
+.cruz i {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.cruz i:hover{
+    background-color: rgba(255, 0, 0, 0.5);
+}
 
 
 /*MENSAJE DE ERROR*/

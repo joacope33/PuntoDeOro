@@ -48,6 +48,9 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/user/**").hasAuthority("USER")
 
+                // Permitir acceso autenticado a /miCuenta
+                .requestMatchers("/miCuenta/**").authenticated()
+                .requestMatchers("/editar/**").authenticated()
                 .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")
