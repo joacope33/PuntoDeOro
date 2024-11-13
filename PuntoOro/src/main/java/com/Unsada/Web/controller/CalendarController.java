@@ -42,13 +42,7 @@ public class CalendarController {
 
 
             return ResponseEntity.ok(turnos);
-<<<<<<< HEAD
         } catch (Exception e) {
-=======
-
-       } catch (Exception e) {
-            e.printStackTrace();
->>>>>>> 9409b337f24a15b653c1f0c256a7e049bb776462
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

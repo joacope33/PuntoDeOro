@@ -23,22 +23,29 @@
             </ul>
             <ul class="right-content">
                 <li sec:authorize="isAuthenticated()">
-                    
+
                 </li>
+
                 <div class="navbar">
-                    <div class="dropdown">
-                      <button class="dropbtn">Opciones
-                        <i class="fa fa-caret-down"></i>
-                      </button>
-                      <div class="dropdown-content">
+                    <div class="red-index">
                         <a th:href="@{/index}">Inicio</a>
-                        <a th:href="@{/ranking}">Ranking</a>
+                    </div>
+                    <div class="red-calendario">
                         <a th:href="@{/calendario}">Calendario</a>
-                        <a th:href="@{/canchas}">Canchas</a>
-                        <a th:href="@{/jugador}">Jugador</a>
-                        <a th:href="@{/torneos}">Torneos</a>
-                        <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
-                      </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                        <div class="dropdown-content">
+
+                            <a th:href="@{/ranking}">Ranking</a>
+                            <a href="">Usuarios</a>
+                            <a th:href="@{/canchas}">Canchas</a>
+                            <a th:href="@{/jugador}">Jugador</a>
+                            <a th:href="@{/torneos}">Torneos</a>
+                            <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
+                        </div>
                     </div>
                 </div>
             </ul>

@@ -136,6 +136,7 @@ nav {
 
 
 .navbar {
+    display: flex;
     color: var(--color-texto-boton); /* Texto blanco */
     border: none; /* Sin borde */
     cursor: pointer; /* Cambia el cursor al pasar el ratón */
@@ -152,14 +153,24 @@ nav {
     padding: 14px 16px;
     text-decoration: none;
     font-weight: bold;
-
+    border-radius: 5px 0 0 0px;
+    
   }
+
+  .red-calendario a {
+    border-radius: 0px 0 0 0px;
+    border-bottom: #c4932a solid 2px;
+  } 
+
+  .red-index a {
+    border-bottom: #c4932a solid 2px;
+  } 
   
   /* The dropdown container */
   .dropdown {
     float: left;
     overflow: hidden;
-
+    
   }
 
   
@@ -169,13 +180,11 @@ nav {
 .dropdown .dropbtn {
     font-size: 18px;
     border: none;
-    border-radius: 5px 5px 0px 0px;
+    border-radius: 0px 5px 0px 0px;
     outline: none;
     color: rgb(255, 255, 255);
     padding: 5px 5px;
-    border-bottom: #c4932a solid 3px;
-    background: #00000021;
-    font-weight: bold;
+    border-bottom: #c4932a solid 2px;
     font-family: inherit; /* Para alineación vertical en móviles */
     margin: 0; /* Para alineación vertical en móviles */
     transition: 0.5s;
@@ -225,18 +234,18 @@ nav {
     z-index: 1;
     border-radius: 5px 0px 5px 5px;
     border: #555555 solid 1px;
-    transform: translateX(-52.85%); /* Mueve el dropdown completamente a la izquierda */
+    transform: translateX(-83.22%); /* Mueve el dropdown completamente a la izquierda */
 }
 
   /* Links inside the dropdown */
   .dropdown-content a {
     float: none;
     color: rgb(218, 217, 217);
-    padding: 12px 16px;
+    padding: 15px 16px;
     text-decoration: none;
     display: block;
     text-align: center;
-    margin-top: 20px;
+
   }
   
   /* Add a grey background color to dropdown links on hover */
@@ -248,6 +257,7 @@ nav {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+  
   
 li {
     list-style: none;
@@ -445,7 +455,7 @@ tr:hover {
     width: auto;
 }
 
-.btn-eliminar {
+.btn-eliminar, .btn-editar {
     border-radius: 5px;
     background-color: #c4932a;
     cursor: pointer;
@@ -453,15 +463,16 @@ tr:hover {
     box-shadow: inset;
 }
 
-.btn-eliminar:hover {
+.btn-eliminar:hover, .btn-editar:hover  {
     border-radius: 5px;
     background-color: #faae0a;
 }
 
-.btn-eliminar:active {
+.btn-eliminar:active .btn-editar:active {
     border-radius: 5px;
     background-color: rgb(168, 121, 20);
 }
+
 
 .jugador-info h1 {
     text-align: center;
