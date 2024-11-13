@@ -1,31 +1,50 @@
 document.addEventListener('DOMContentLoaded', async function() {
+    /*CONSTANTES*/
+    //Constante de ventana modal para dar de alta turno.
     const modal = document.getElementById('modal');
+    //Constante de eventos de formularios.
     const eventForm = document.getElementById('event-form');
+    //Constante de cerrar ventana modal.
     const btnCerrar = document.getElementById('btn-login-cerrar');
+    
+    /*VARIABLES*/
+    //Variable calendario.
     let calendar;
+    //Variable que guarda la seleccion de fecha segun el grid elegido.
     let selectedDate = null;
+    //Variable que guarda los valores de la cancha.
     let canchaData = null;
+
     modal.close();
 
-    // Obtener los detalles de la cancha al cargar la página
+    // Obtener los detalles de la cancha al cargar la página.
     const canchaId = 1; // Reemplaza con el ID de la cancha que necesitas
     try {
+        // 1. Define una constante y realiza una solicitud
         const response = await fetch(`/cancha/${canchaId}`);
+        
         if (response.ok) {
+            //Si la solicitud fue exitosa convierte la respuesta en un formato json
             canchaData = await response.json();
+            //E imprime los valores de la cancha en consola.
             console.log('Datos de la cancha:', canchaData);
+
         } else {
             console.error('Error al obtener los datos de la cancha:', response.status);
         }
     } catch (error) {
         console.error('Error en la solicitud:', error);
     }
-
+    //trae del html calendario, el objeto calendar por su id="calendar"
     const calendarEl = document.getElementById('calendar');
+    
+    // Crea e inicia un objeto de calendario usando la biblioteca FullCalendar y le asigna configuraciones.
     calendar = new FullCalendar.Calendar(calendarEl, {
-        locale: 'es',
-        initialView: 'timeGridWeek',
-        selectable: true,
+        locale: 'es',  // Configura el idioma del calendario a español.
+        initialView: 'timeGridWeek', // Vista inicial en formato de cuadrícula semanal.
+        selectable: true, // Permite seleccionar rangos de tiempo en el calendario.
+
+         // Agrega un botón personalizado para agregar un turno.
         customButtons: {
             myCustomButton: {
                 text: 'Agregar Turno!',
@@ -39,11 +58,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             }
         },
+        //Metodos para botones y titulo
         headerToolbar: {
             left: 'prev,next myCustomButton',
             center: 'title',
             right: 'timeGridWeek'
         },
+        //ajusta la vista views
         views: {
             timeGridWeek: {
                 buttonText: 'Semana',
@@ -61,6 +82,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 allDaySlot: false
             }
         },
+    
         dateClick: function(info) {
             selectedDate = info;
         },
