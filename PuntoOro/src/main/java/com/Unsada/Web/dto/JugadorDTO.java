@@ -1,6 +1,7 @@
 package com.Unsada.Web.dto;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.Unsada.Web.model.Jugador;
 
@@ -24,6 +25,8 @@ public class JugadorDTO {
     private int calificacion;
     private int puntos;
     private String comentario;
+    private Set<TurnoDTO> turnos; // Relación muchos a muchos con turnos
+
 
 
     public JugadorDTO(String nombreCompleto, String telefono, String categoria, LocalDate fechaDeNacimiento, String dni,

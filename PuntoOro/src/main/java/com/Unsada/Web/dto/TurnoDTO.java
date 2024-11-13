@@ -2,6 +2,7 @@ package com.Unsada.Web.dto;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Set;
 
 import com.Unsada.Web.model.Cancha;
 import com.Unsada.Web.model.Partido;
@@ -34,5 +35,7 @@ public class TurnoDTO {
     private EstadoCancha estado;
     private TipoTurno tipoTurno;
     private Partido partido; // Usamos PartidoDTO
+    private Set<JugadorDTO> jugadores; // Relación muchos a muchos con jugadores
+
 
 }
