@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', async function() {
     /*CONSTANTES*/
+    //Constante para ventana modal de agregar
+    const playerModal = document.getElementById('player-modal');
+    //Constante para agergar jugadores
+    const btnAddPlayer = document.getElementById('btn-add-player');
+
     //Constante de ventana modal para dar de alta turno.
     const modal = document.getElementById('modal');
     //Constante de eventos de formularios.
@@ -48,13 +53,38 @@ document.addEventListener('DOMContentLoaded', async function() {
     loadPlayers();
 
     // Evento de botón para agregar jugador rápidamente
-    addPlayerBtn.addEventListener('click', () => {
+    addPlayerBtn.addEventListener('click', async () => {
         const newPlayerName = prompt("Nombre completo del jugador:");
         if (newPlayerName) {
-            // Aquí podrías llamar a una función para guardar el jugador en la DB
-            console.log("Agregando jugador:", newPlayerName);
-            // Recargar la lista de jugadores tras agregar
-            loadPlayers();
+            try {
+                // Hacemos una solicitud POST para agregar un nuevo jugador.
+                const response = await fetch('/jugador/guardar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'jugador.nombreCompleto': newPlayerName,
+                        'jugador.telefono': '', // Si se requiere más información, agregar los campos necesarios
+                        'jugador.categoria': '', 
+                        'jugador.fechaDeNacimiento': '',
+                        'jugador.dni': '',
+                        'jugador.calificacion': '',
+                        'jugador.puntos': '',
+                        'jugador.comentario': ''
+                    })
+                });
+    
+                if (response.ok) {
+                    alert("Jugador agregado con éxito");
+                    loadPlayers();  // Recargar la lista de jugadores tras agregar
+                } else {
+                    alert("Error al agregar el jugador");
+                }
+            } catch (error) {
+                console.error('Error al agregar el jugador:', error);
+                alert("Hubo un error al agregar el jugador.");
+            }
         }
     });
 
@@ -198,6 +228,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         modal.close();
     });
 
+    btnCloseModal.addEventListener('click', () => {
+        modal.close();
+    });
+
     eventForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -242,7 +276,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         // Guardar el turno en la DB
         try {
-            const response = await fetch('/turnos', {
+            const response = await fetch('/turnos/todos', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

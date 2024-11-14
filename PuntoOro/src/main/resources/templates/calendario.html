@@ -71,14 +71,45 @@
             
                     <label for="turn-type">Tipo de Turno:</label>
                     <select id="turn-type" required>
-                        <option value="DISPONIBLE">Disponible</option>
-                        <option value="OCUPADA">Ocupada</option>
-                        <option value="TURNO_FIJO">Turno Fijo</option>
-                        <option value="RESERVADA_PARA_TORNEO">Reservada para Torneo</option>
+                        <option value="PRACTICA">PRACTICA</option>
+                        <option value="TORNEO">TORNEO</option>
+                        <option value="TURNO">TURNO</option>
+                        <option value="TURNO_FIJO">TURNO FIJO</option>
                     </select>
                     <button type="submit">Agregar Turno</button>
                 </form>
                 <button id="btn-close-modal">Cerrar</button>
+            </dialog>
+            <dialog class="modal" id="player-modal">
+                <h2>Agregar Jugador</h2>
+                <form id="add-player-form">
+                    <label for="player-name">Nombre Completo:</label>
+                    <input type="text" id="player-name" required>
+            
+                    <label for="player-phone">Teléfono:</label>
+                    <input type="text" id="player-phone" required>
+            
+                    <label for="player-category">Categoría:</label>
+                    <input type="text" id="player-category" required>
+            
+                    <label for="player-birthday">Fecha de Nacimiento:</label>
+                    <input type="date" id="player-birthday" required>
+            
+                    <label for="player-dni">DNI:</label>
+                    <input type="text" id="player-dni" required>
+            
+                    <label for="player-rating">Calificación:</label>
+                    <input type="number" id="player-rating" required>
+            
+                    <label for="player-points">Puntos:</label>
+                    <input type="number" id="player-points" required>
+            
+                    <label for="player-comment">Comentario:</label>
+                    <textarea id="player-comment"></textarea>
+            
+                    <button type="submit">Agregar Jugador</button>
+                </form>
+                <button id="btn-close-player-modal">Cerrar</button>
             </dialog>
         </div>
     </main>
