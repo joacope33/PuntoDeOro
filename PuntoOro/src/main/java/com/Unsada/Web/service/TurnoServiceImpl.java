@@ -49,9 +49,14 @@ public class TurnoServiceImpl implements TurnoService {
         return turnoRepository.save(turno);
     }
 
+
     @Override
     public List<Turno> obtenerTodosLosTurnos() {
-        return turnoRepository.findAll();  // Método que implementa la interfaz
+        try {
+            return turnoRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los turnos", e);
+        }
     }
 
 
