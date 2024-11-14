@@ -14,4 +14,5 @@ public interface TurnoService {
     public List<Turno> obtenerTurnoByCancha(Cancha cancha);
     public Turno findById(Long idTurno);
     public List<Turno> obtenerTurnoByDia(LocalDate dia);
+    public List<Turno> obtenerTodosLosTurnos();  // Método de la interfaz
 }

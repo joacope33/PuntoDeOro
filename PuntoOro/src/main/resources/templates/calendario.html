@@ -57,18 +57,28 @@
     <main>
         <div class="background-img-home">
             <div class="calendario" id='calendar'></div>
-            <dialog class="modal" id="modal" open="">
+            <dialog class="modal" id="modal">
                 <h2>Agregar Turno</h2>
                 <form id="event-form">
-                    <label for="event-title">Jugador:</label>
-                    <input type="text" id="event-title" required="">
+                    <label for="select-player">Jugador:</label>
+                    <select id="select-player" required>
+                        <!-- Opciones cargadas dinámicamente -->
+                    </select>
+                    <button type="button" id="add-player-btn">Agregar Jugador</button>
             
                     <label for="event-start">Fecha y Horario de Inicio:</label>
-                    <input type="text" id="event-start" readonly required=""> <!-- Campo de solo lectura -->
+                    <input type="text" id="event-start" readonly required>
             
+                    <label for="turn-type">Tipo de Turno:</label>
+                    <select id="turn-type" required>
+                        <option value="DISPONIBLE">Disponible</option>
+                        <option value="OCUPADA">Ocupada</option>
+                        <option value="TURNO_FIJO">Turno Fijo</option>
+                        <option value="RESERVADA_PARA_TORNEO">Reservada para Torneo</option>
+                    </select>
                     <button type="submit">Agregar Turno</button>
                 </form>
-                <button id="btn-login-cerrar">Cerrar</button>
+                <button id="btn-close-modal">Cerrar</button>
             </dialog>
         </div>
     </main>

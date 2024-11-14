@@ -2,6 +2,7 @@ package com.Unsada.Web.dto;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.Unsada.Web.model.Jugador;
 
@@ -44,14 +45,23 @@ public class JugadorDTO {
 
     // Constructor que acepta un objeto Jugador
     public JugadorDTO(Jugador jugador) {
-        this.nombreCompleto = jugador.getNombreCompleto();
-        this.telefono = jugador.getTelefono();
-        this.categoria = jugador.getCategoria();
-        this.fechaDeNacimiento = jugador.getFechaDeNacimiento();
-        this.dni = jugador.getDni();
-        this.calificacion = jugador.getCalificacion();
-        this.puntos = jugador.getPuntos();
-        this.comentario = jugador.getComentario();
+        if (jugador != null) {
+            this.id = jugador.getId();
+            this.nombreCompleto = jugador.getNombreCompleto();
+            this.telefono = jugador.getTelefono();
+            this.categoria = jugador.getCategoria();
+            this.fechaDeNacimiento = jugador.getFechaDeNacimiento();
+            this.dni = jugador.getDni();
+            this.calificacion = jugador.getCalificacion();
+            this.puntos = jugador.getPuntos();
+            this.comentario = jugador.getComentario();
+            this.turnos = jugador.getTurnos().stream()
+                                .map(turno -> new TurnoDTO()) // Aquí mapeas los turnos si es necesario
+                                .collect(Collectors.toSet());
+        } else {
+            // Manejar el caso cuando el jugador es null
+            throw new IllegalArgumentException("Jugador no encontrado");
+        }
     }
     
 }
