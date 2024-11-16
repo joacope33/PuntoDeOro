@@ -107,7 +107,14 @@ public class JugadorController {
         return new JugadorDTO(jugador); // Asegúrate de tener un DTO adecuado para devolver los datos
     }
 
-
+    @GetMapping("/todos")
+    @ResponseBody
+    public List<JugadorDTO> obtenerTodosLosJugadores() {
+        List<Jugador> jugadores = jugadorService.obtenerTodosLosJugadores();
+        return jugadores.stream()
+                        .map(jugador -> new JugadorDTO(jugador))  // Usamos la lambda en lugar de la referencia al constructor
+                        .toList();
+    }
     
 
 }

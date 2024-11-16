@@ -14,4 +14,6 @@ import com.Unsada.Web.model.Turno;
 public interface TurnoRepository extends JpaRepository<Turno, Long>{
     public List<Turno> findAllByDia(LocalDate dia);
     public List<Turno> findAllByCancha(Cancha  cancha);
+
+
 }

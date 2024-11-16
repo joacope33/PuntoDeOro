@@ -15,7 +15,7 @@ import com.Unsada.Web.repository.TurnoRepository;
 public class TurnoServiceImpl implements TurnoService {
 
     @Autowired
-    private TurnoRepository turnoRepository;
+    public TurnoRepository turnoRepository;
 
 
     @Override
@@ -48,5 +48,16 @@ public class TurnoServiceImpl implements TurnoService {
         );
         return turnoRepository.save(turno);
     }
-    
+
+
+    @Override
+    public List<Turno> obtenerTodosLosTurnos() {
+        try {
+            return turnoRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los turnos", e);
+        }
+    }
+
+
 }

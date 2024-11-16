@@ -1,12 +1,24 @@
 document.addEventListener('DOMContentLoaded', async function() {
     /*CONSTANTES*/
+    //Constante para ventana modal de agregar
+    const playerModal = document.getElementById('player-modal');
+    //Constante para agergar jugadores
+    const btnAddPlayer = document.getElementById('btn-add-player');
+
     //Constante de ventana modal para dar de alta turno.
     const modal = document.getElementById('modal');
     //Constante de eventos de formularios.
     const eventForm = document.getElementById('event-form');
     //Constante de cerrar ventana modal.
-    const btnCerrar = document.getElementById('btn-login-cerrar');
-    
+    const btnCerrar = document.getElementById('btn-close-modal');
+    //constante para agregarjugadores
+    const addPlayerBtn = document.getElementById('add-player-btn');
+    //constante para seleccionar jugadores
+    const playerSelect = document.getElementById('select-player');
+
+
+
+
     /*VARIABLES*/
     //Variable calendario.
     let calendar;
@@ -16,6 +28,75 @@ document.addEventListener('DOMContentLoaded', async function() {
     let canchaData = null;
 
     modal.close();
+
+    // Cargar jugadores al abrir el modal
+    async function loadPlayers() {
+        try {
+            const response = await fetch('/jugador/todos');
+            if (response.ok) {
+                const players = await response.json();
+                console.log('Jugadores cargados:', players);  // Asegúrate de que los datos lleguen aquí
+                playerSelect.innerHTML = '';  // Limpia las opciones previas
+                players.forEach(player => {
+                    const option = document.createElement('option');
+                    option.value = player.id;  // Usa el id del jugador
+                    option.text = player.nombreCompleto;  // Usa el nombre completo del jugador
+                    playerSelect.appendChild(option);
+                });
+            } else {
+                console.error('Error al obtener jugadores:', response.status);
+            }
+        } catch (error) {
+            console.error('Error al cargar jugadores:', error);
+        }
+    }
+    loadPlayers();
+
+    // Evento de botón para agregar jugador rápidamente
+    addPlayerBtn.addEventListener('click', async () => {
+        const newPlayerName = prompt("Nombre completo del jugador:");
+        if (newPlayerName) {
+            try {
+                // Hacemos una solicitud POST para agregar un nuevo jugador.
+                const response = await fetch('/jugador/guardar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'jugador.nombreCompleto': newPlayerName,
+                        'jugador.telefono': '', // Si se requiere más información, agregar los campos necesarios
+                        'jugador.categoria': '', 
+                        'jugador.fechaDeNacimiento': '',
+                        'jugador.dni': '',
+                        'jugador.calificacion': '',
+                        'jugador.puntos': '',
+                        'jugador.comentario': ''
+                    })
+                });
+    
+                if (response.ok) {
+                    alert("Jugador agregado con éxito");
+                    loadPlayers();  // Recargar la lista de jugadores tras agregar
+                } else {
+                    alert("Error al agregar el jugador");
+                }
+            } catch (error) {
+                console.error('Error al agregar el jugador:', error);
+                alert("Hubo un error al agregar el jugador.");
+            }
+        }
+    });
+
+
+
+
+
+
+
+
+
+
 
     // Obtener los detalles de la cancha al cargar la página.
     const canchaId = 1; // Reemplaza con el ID de la cancha que necesitas
@@ -147,6 +228,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         modal.close();
     });
 
+    btnCloseModal.addEventListener('click', () => {
+        modal.close();
+    });
+
     eventForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -181,4 +266,35 @@ document.addEventListener('DOMContentLoaded', async function() {
         eventForm.reset();
         selectedDate = null;
     });
+
+    eventForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const selectedPlayerId = playerSelect.value;
+        const startDateTime = document.getElementById('event-start').value;
+        const turnType = document.getElementById('turn-type').value;
+
+        // Guardar el turno en la DB
+        try {
+            const response = await fetch('/turnos/todos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    idjugador: selectedPlayerId,
+                    dia: startDateTime,
+                    tipo_turno: turnType
+                })
+            });
+            if (response.ok) {
+                alert("Turno agregado con éxito");
+                modal.close();
+                eventForm.reset();
+            } else {
+                alert("Error al agregar el turno");
+            }
+        } catch (error) {
+            console.error('Error al guardar el turno:', error);
+        }
+    });
+
 });
