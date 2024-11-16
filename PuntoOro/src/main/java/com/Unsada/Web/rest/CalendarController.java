@@ -1,4 +1,4 @@
-package com.Unsada.Web.controller;
+package com.Unsada.Web.rest;
 
 import java.util.List;
 

@@ -103,7 +103,7 @@ public class JugadorController {
             System.out.println("No se encuantra al jugador");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND); // Maneja el error adecuadamente
         }
-        System.out.println("Se encuantró al jugador" + jugador);
+        System.out.println("Se encontró al jugador" + jugador);
         return new JugadorDTO(jugador); // Asegúrate de tener un DTO adecuado para devolver los datos
     }
 

@@ -18,7 +18,7 @@ import com.Unsada.Web.service.CanchaServiceImpl;
 @RequestMapping("/cancha")
 public class CanchaController {
 
-    private final CanchaServiceImpl canchaService;
+    private CanchaServiceImpl canchaService;
 
     @Autowired
     public CanchaController(CanchaServiceImpl canchaService) {

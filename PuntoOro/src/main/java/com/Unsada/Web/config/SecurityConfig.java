@@ -51,6 +51,7 @@ public class SecurityConfig {
                 // Permitir acceso autenticado a /miCuenta
                 .requestMatchers("/miCuenta/**").authenticated()
                 .requestMatchers("/editar/**").authenticated()
+                .requestMatchers("/usuario/**").authenticated()
                 .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")
@@ -71,4 +72,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManager.class);
     }
+
+    
 }
