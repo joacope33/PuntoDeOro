@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const playerModal = document.getElementById('player-modal');
     //Constante para agergar jugadores
     const btnAddPlayer = document.getElementById('btn-add-player');
-
     //Constante de ventana modal para dar de alta turno.
     const modal = document.getElementById('modal');
     //Constante de eventos de formularios.
@@ -50,50 +49,78 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.error('Error al cargar jugadores:', error);
         }
     }
+    //cargar los jugadores en la opcion
     loadPlayers();
 
-    // Evento de botón para agregar jugador rápidamente
-    addPlayerBtn.addEventListener('click', async () => {
-        const newPlayerName = prompt("Nombre completo del jugador:");
-        if (newPlayerName) {
-            try {
-                // Hacemos una solicitud POST para agregar un nuevo jugador.
-                const response = await fetch('/jugador/guardar', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams({
-                        'jugador.nombreCompleto': newPlayerName,
-                        'jugador.telefono': '', // Si se requiere más información, agregar los campos necesarios
-                        'jugador.categoria': '', 
-                        'jugador.fechaDeNacimiento': '',
-                        'jugador.dni': '',
-                        'jugador.calificacion': '',
-                        'jugador.puntos': '',
-                        'jugador.comentario': ''
-                    })
-                });
-    
-                if (response.ok) {
-                    alert("Jugador agregado con éxito");
-                    loadPlayers();  // Recargar la lista de jugadores tras agregar
-                } else {
-                    alert("Error al agregar el jugador");
-                }
-            } catch (error) {
-                console.error('Error al agregar el jugador:', error);
-                alert("Hubo un error al agregar el jugador.");
-            }
-        }
+
+    //mostrar formulario para
+    addPlayerBtn.addEventListener('click', () => {
+        playerModal.showModal(); // Abre el modal cuando se hace clic en el botón
     });
 
+    // Evento para manejar el envío del formulario en el modal
+    document.getElementById('add-player-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+    
+        // Captura los valores de los campos del formulario dentro del modal
+        const newPlayerName = document.getElementById('player-name').value;
+        const playerPhone = document.getElementById('player-phone').value;
+        const playerCategory = document.getElementById('player-category').value;
+        const playerBirthdate = document.getElementById('player-birthday').value;
+        const playerDni = document.getElementById('player-dni').value;
+        const playerRating = document.getElementById('player-rating').value;
+        const playerPoints = document.getElementById('player-points').value;
+        const playerComment = document.getElementById('player-comment').value;
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+        // Verifica si algún campo está vacío antes de enviarlo
 
 
+    
+        // Verifica que el token CSRF también esté presente
+        if (!csrfToken) {
+            console.error("El token CSRF no se encontró");
+        }
+        try {
 
+            const formData = new URLSearchParams();
+            formData.append("nombreCompleto", newPlayerName);
+            formData.append("telefono", playerPhone);
+            formData.append("categoria", playerCategory);
+            formData.append("fechaDeNacimiento", playerBirthdate);
+            formData.append("dni", playerDni);
+            formData.append("calificacion", playerRating);
+            formData.append("puntos", playerPoints);
+            formData.append("comentario", playerComment);
 
+            const response = await fetch('/jugador/guardar', {
+                method: 'POST',
+                headers: {  
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: formData
+            });
+        
+    
+            if (response.ok) {
+                alert("Jugador agregado con éxito");
+                document.getElementById('player-modal').close();
+                document.getElementById('add-player-form').reset();
 
-
+            } else {
+                const errorData = await response.json();
+                console.error('Error al agregar jugador:', errorData);
+                alert("Error al agregar el jugador: " + (errorData.message || response.statusText));
+            }
+        } catch (error) {
+            console.error('Error al agregar el jugador:', error);
+            alert("Hubo un error al agregar el jugador.");
+        }
+    });
+    const btnClosePlayerModal = document.getElementById('btn-close-player-modal');
+    btnClosePlayerModal.addEventListener('click', () => {
+        playerModal.close();
+    });
 
 
 
@@ -118,14 +145,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     //trae del html calendario, el objeto calendar por su id="calendar"
     const calendarEl = document.getElementById('calendar');
-    
-    // Crea e inicia un objeto de calendario usando la biblioteca FullCalendar y le asigna configuraciones.
     calendar = new FullCalendar.Calendar(calendarEl, {
-        locale: 'es',  // Configura el idioma del calendario a español.
-        initialView: 'timeGridWeek', // Vista inicial en formato de cuadrícula semanal.
-        selectable: true, // Permite seleccionar rangos de tiempo en el calendario.
-
-         // Agrega un botón personalizado para agregar un turno.
+        locale: 'es',
+        initialView: 'timeGridWeek',
+        selectable: true,
         customButtons: {
             myCustomButton: {
                 text: 'Agregar Turno!',
@@ -139,13 +162,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             }
         },
-        //Metodos para botones y titulo
         headerToolbar: {
             left: 'prev,next myCustomButton',
             center: 'title',
             right: 'timeGridWeek'
         },
-        //ajusta la vista views
         views: {
             timeGridWeek: {
                 buttonText: 'Semana',
@@ -163,62 +184,39 @@ document.addEventListener('DOMContentLoaded', async function() {
                 allDaySlot: false
             }
         },
-    
         dateClick: function(info) {
             selectedDate = info;
         },
         eventClick: function(info) {
             alert('Evento: ' + info.event.title);
         },
-        events: function(info, successCallback, failureCallback) {
-            fetch(`/calendario/${canchaId}`)
-                .then(response => response.json())
-                .then(data => {
+        events: async function(info, successCallback, failureCallback) {
+            try {
+                const response = await fetch(`/calendario/${canchaId}`);
+                if (response.ok) {
+                    const data = await response.json();
                     const events = data.map(turno => {
                         const startDate = turno.dia + 'T' + turno.hora;
                         const endDate = new Date(turno.dia + 'T' + turno.hora);
                         endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                         endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                        const endDateString = endDate.toISOString();
-
-                        // Asignar color según el estado del turno
-                        let color;
-                        switch (turno.estado) {
-                            case 'DISPONIBLE':
-                                color = 'green';
-                                break;
-                            case 'OCUPADA':
-                                color = 'red';
-                                break;
-                            case 'TURNO_FIJO':
-                                color = 'yellow';
-                                break;
-                            case 'RESERVADA_PARA_TORNEO':
-                                color = 'gray';
-                                break;
-                            default:
-                                color = 'blue'; // Color por defecto si el estado es desconocido
-                        }
+                        const color = turno.estado === 'DISPONIBLE' ? 'green' : turno.estado === 'OCUPADA' ? 'red' : turno.estado === 'TURNO_FIJO' ? 'yellow' : 'blue';
 
                         return {
-                            title: ` ${turno.jugadores && turno.jugadores[0] ? turno.jugadores[0].nombreCompleto : 'Sin nombre'}`,
+                            title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                             start: startDate,
-                            end: endDateString,
+                            end: endDate.toISOString(),
                             description: `Asistencia: ${turno.asistencia} | Estado: ${turno.estado}`,
-                            extendedProps: {
-                                tipoTurno: turno.tipoTurno,
-                                partido: turno.partido
-                            },
-                            backgroundColor: color, // Asigna el color al evento
-                            borderColor: color // Opcional: establece el mismo color para el borde
+                            backgroundColor: color,
+                            borderColor: color
                         };
                     });
                     successCallback(events);
-                })
-                .catch(error => {
-                    console.error('Error fetching events:', error);
-                    failureCallback(error);
-                });
+                }
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                failureCallback(error);
+            }
         }
     });
 
@@ -227,45 +225,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     btnCerrar.addEventListener('click', function() {
         modal.close();
     });
-
-    btnCloseModal.addEventListener('click', () => {
-        modal.close();
-    });
-
-    eventForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        if (!selectedDate) {
-            alert('Por favor, selecciona una fecha primero.');
-            return;
-        }
-
-        const title = document.getElementById('event-title').value;
-        const startDateTime = new Date(selectedDate.date);
-        const endDateTime = new Date(startDateTime);
-        endDateTime.setHours(endDateTime.getHours() + parseInt(canchaData.duracion.split(':')[0]));
-        endDateTime.setMinutes(endDateTime.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-
-        const isOverlap = calendar.getEvents().some(event => {
-            return (startDateTime < event.end && endDateTime > event.start);
-        });
-
-        if (isOverlap) {
-            alert('Este evento se solapa con otro evento existente.');
-            return;
-        }
-
-        calendar.addEvent({
-            title: title,
-            start: startDateTime.toISOString(),
-            end: endDateTime.toISOString(),
-            allDay: false
-        });
-
-        modal.close();
-        eventForm.reset();
-        selectedDate = null;
-    });
+    // Evento de botón para abrir el modal de agregar jugador
 
     eventForm.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -274,7 +234,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         const startDateTime = document.getElementById('event-start').value;
         const turnType = document.getElementById('turn-type').value;
 
-        // Guardar el turno en la DB
         try {
             const response = await fetch('/turnos/todos', {
                 method: 'POST',
@@ -289,6 +248,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 alert("Turno agregado con éxito");
                 modal.close();
                 eventForm.reset();
+                loadPlayers(); // Refresca los jugadores
             } else {
                 alert("Error al agregar el turno");
             }
@@ -296,5 +256,4 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.error('Error al guardar el turno:', error);
         }
     });
-
 });

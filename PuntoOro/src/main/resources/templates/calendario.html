@@ -83,30 +83,32 @@
             <dialog class="modal" id="player-modal">
                 <h2>Agregar Jugador</h2>
                 <form id="add-player-form">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+  
                     <label for="player-name">Nombre Completo:</label>
-                    <input type="text" id="player-name" required>
-            
+                    <input type="text" id="player-name" required="">
+                    
                     <label for="player-phone">Teléfono:</label>
-                    <input type="text" id="player-phone" required>
-            
+                    <input type="text" id="player-phone" required="">
+                    
                     <label for="player-category">Categoría:</label>
-                    <input type="text" id="player-category" required>
-            
+                    <input type="text" id="player-category" required="">
+                    
                     <label for="player-birthday">Fecha de Nacimiento:</label>
-                    <input type="date" id="player-birthday" required>
-            
+                    <input type="date" id="player-birthday" required="">
+                    
                     <label for="player-dni">DNI:</label>
-                    <input type="text" id="player-dni" required>
-            
+                    <input type="text" id="player-dni" required="">
+                    
                     <label for="player-rating">Calificación:</label>
-                    <input type="number" id="player-rating" required>
-            
+                    <input type="number" id="player-rating" required="">
+                    
                     <label for="player-points">Puntos:</label>
-                    <input type="number" id="player-points" required>
-            
+                    <input type="number" id="player-points" required="">
+                    
                     <label for="player-comment">Comentario:</label>
                     <textarea id="player-comment"></textarea>
-            
+                    
                     <button type="submit">Agregar Jugador</button>
                 </form>
                 <button id="btn-close-player-modal">Cerrar</button>
