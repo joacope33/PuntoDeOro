@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Unsada.Web.dto.TurnoDTO;
 import com.Unsada.Web.model.Turno;
-import com.Unsada.Web.service.CanchaServiceImpl;
 import com.Unsada.Web.service.TurnoServiceImpl;
 
 
@@ -24,10 +23,7 @@ public class TurnoController {
     @Autowired
     private TurnoServiceImpl turnoServiceImpl;
 
-    @Autowired
-    private CanchaServiceImpl CanchaServiceImpl;
 
-    
     @GetMapping("/todos")
     public ResponseEntity<List<Turno>> getEvents() {
         try {
@@ -46,6 +42,7 @@ public class TurnoController {
         try {
             System.out.print(turnoDTO);
            turnoServiceImpl.guardarTurno(turnoDTO);
+
             return "redirect:/calendario"; // Redirige al formulario con un mensaje de éxito
         } catch (Exception e) {
             return "redirect:/calendario"; // Redirige al formulario con un mensaje de error

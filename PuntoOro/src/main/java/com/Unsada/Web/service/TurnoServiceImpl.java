@@ -44,7 +44,8 @@ public class TurnoServiceImpl implements TurnoService {
                                    turnoDTO.getEstado(),
                                    turnoDTO.getTipoTurno(),
                                    turnoDTO.getAsistencia(),
-                                   turnoDTO.getPartido()
+                                   turnoDTO.getPartido(),
+                                   turnoDTO.getJugadores()
         );
         return turnoRepository.save(turno);
     }

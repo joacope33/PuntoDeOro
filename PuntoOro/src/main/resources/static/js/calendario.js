@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                             const endDate = new Date(turno.dia + 'T' + turno.hora);
                             endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                             endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                            const color = turno.tipoTurno === 'PRACTICA' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'green' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
+                            const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
                             console.log('turnos tipo',turno.tipoTurno);
                             return {
                                 title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         const endDate = new Date(turno.dia + 'T' + turno.hora);
                         endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                         endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                        const color = turno.tipoTurno === 'PRACTICA' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'green' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
+                        const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
                         console.log('turnos tipo',turno.tipoTurno);
                         return {
                             title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
