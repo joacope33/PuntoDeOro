@@ -2,12 +2,14 @@ package com.Unsada.Web.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Unsada.Web.dto.TurnoDTO;
 import com.Unsada.Web.model.Cancha;
+import com.Unsada.Web.model.Jugador;
 import com.Unsada.Web.model.Turno;
 import com.Unsada.Web.repository.TurnoRepository;
 
@@ -17,6 +19,8 @@ public class TurnoServiceImpl implements TurnoService {
     @Autowired
     public TurnoRepository turnoRepository;
 
+    @Autowired
+    public JugadorTurnoService jugadorTurnoService;
 
     @Override
     public List<Turno> obtenerTurnoByCancha(Cancha cancha) {
@@ -44,8 +48,15 @@ public class TurnoServiceImpl implements TurnoService {
                                    turnoDTO.getEstado(),
                                    turnoDTO.getTipoTurno(),
                                    turnoDTO.getAsistencia(),
-                                   turnoDTO.getPartido()
+                                   turnoDTO.getPartido(),
+                                   turnoDTO.getJugadores()
         );
+        Set<Jugador> jugadores = turno.getJugadores(); // Obtener el conjunto de jugadores
+
+        // Recorrer cada jugador y asignarlo al turno
+        for (Jugador jugador : jugadores) {
+            jugadorTurnoService.asignarJugadorATurno(jugador.getId(), turno.getId());
+        }
         return turnoRepository.save(turno);
     }
 

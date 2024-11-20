@@ -22,7 +22,7 @@
 /*HEADER*/
 header {
     
-    position: fixed;
+    position: absolute;
     display: flex;                /* Usamos flexbox para el contenedor */       
     justify-content: center; /* Espacio entre los elementos */
     padding: 2rem; /* Espacio interno opcional */
@@ -303,6 +303,7 @@ li {
     color: white; /* Color del texto */
     text-align: center; /* Centra el texto */
     padding: 10%;
+    display: block;
 }
 
 /* Estilo del texto */
@@ -319,8 +320,9 @@ dialog {
     padding: 20px;
     max-width: 500px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.432);
+    background-color: #000000d5;
 }
+
 /* Formulario */
 .form-login-content{
     justify-content: center;
@@ -349,7 +351,7 @@ dialog {
 label {
     font-size: 25px;
     margin-bottom: 0px;
-    color: #333;
+    color: #f3b632;
 }
 
 
@@ -366,7 +368,7 @@ input {
 button {
     padding: 12px 20px;
     border: none;
-    background-color: #adabab;
+    background-color: #172897;
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -511,20 +513,20 @@ form{
 
 .calendario {
     display: flex;
-    margin-top: 40%;
+    margin-top: 6%;
     padding: 0;
     width: 100%;
     margin-bottom: 20%;
     height: 700px;
     background: rgb(133, 133, 133);
     color: black;
-    opacity: 0.80;
+    opacity: 0.90;
     font-size: large;
 }
 
 .modal {
     color: white;
-    background-color: #0303035d;
+    background-color: #030303d4;
 
 }
 
@@ -534,4 +536,33 @@ form{
 
 #event-form button {
     background-color: #007bff;
+}
+#event-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+}
+#select-player {
+    flex: 1; /* Opcional: Ajusta el tamaño del selector según sea necesario */
+    height: 2.5rem;
+    font-size: large;
+}
+#add-player-btn {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+#add-player-btn img {
+    width: 40px;
+    height: 40px;
+}
+
+div{
+    display:flex;
+}
+#cancha-buttons-container button {
+    padding: 1rem; /* Ajusta estos valores según lo que necesites */
 }

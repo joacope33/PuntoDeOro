@@ -64,7 +64,7 @@ public class Turno {
     private Set<Jugador> jugadores;  // Colección de jugadores asociados a este turno
 
     
-    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido) {
+    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido, Set<Jugador> jugadores) {
         this.dia = dia;
         this.hora = hora;
         this.cancha = cancha;
@@ -72,6 +72,7 @@ public class Turno {
         this.tipoTurno = tipoTurno;
         this.asistencia = asistencia;
         this.partido = partido;
+        this.jugadores= jugadores;
     }
 
 
