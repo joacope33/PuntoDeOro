@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     /*CONSTANTES*/
     //Constante para ventana modal de agregar
     const playerModal = document.getElementById('player-modal');
-    //Constante para agergar jugadores
-    const btnAddPlayer = document.getElementById('btn-add-player');
     //Constante de ventana modal para dar de alta turno.
     const modal = document.getElementById('modal');
     //Constante de eventos de formularios.
@@ -14,9 +12,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const addPlayerBtn = document.getElementById('add-player-btn');
     //constante para seleccionar jugadores
     const playerSelect = document.getElementById('select-player');
-
-
-
 
     /*VARIABLES*/
     //Variable calendario.
@@ -225,8 +220,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     btnCerrar.addEventListener('click', function() {
         modal.close();
     });
-    // Evento de botón para abrir el modal de agregar jugador
 
+    evento
     eventForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -234,6 +229,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         const startDateTime = document.getElementById('event-start').value;
         const turnType = document.getElementById('turn-type').value;
 
+        console.log('Jugador',selectedPlayerId);
+        console.log('Hora de turno',startDateTime);
+        console.log('Tipo de turno',turnType);
         try {
             const response = await fetch('/turnos/todos', {
                 method: 'POST',

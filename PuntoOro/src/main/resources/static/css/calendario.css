@@ -321,6 +321,7 @@ dialog {
     width: 100%;
     background-color: #000000d5;
 }
+
 /* Formulario */
 .form-login-content{
     justify-content: center;
@@ -349,7 +350,7 @@ dialog {
 label {
     font-size: 25px;
     margin-bottom: 0px;
-    color: #333;
+    color: #f3b632;
 }
 
 
@@ -524,7 +525,7 @@ form{
 
 .modal {
     color: white;
-    background-color: #0303035d;
+    background-color: #030303d4;
 
 }
 
@@ -534,4 +535,30 @@ form{
 
 #event-form button {
     background-color: #007bff;
+}
+#event-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+}
+#select-player {
+    flex: 1; /* Opcional: Ajusta el tamaño del selector según sea necesario */
+    height: 2.5rem;
+    font-size: large;
+}
+#add-player-btn {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+#add-player-btn img {
+    width: 40px;
+    height: 40px;
+}
+
+div{
+    display:flex;
 }
