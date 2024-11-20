@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 alert("Jugador agregado con éxito");
                 document.getElementById('player-modal').close();
                 document.getElementById('add-player-form').reset();
+                loadPlayers();
 
             } else {
                 const errorData = await response.json();

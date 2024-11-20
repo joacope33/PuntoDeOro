@@ -22,7 +22,7 @@
 /*HEADER*/
 header {
     
-    position: fixed;
+    position: absolute;
     display: flex;                /* Usamos flexbox para el contenedor */       
     justify-content: center; /* Espacio entre los elementos */
     padding: 2rem; /* Espacio interno opcional */
@@ -367,7 +367,7 @@ input {
 button {
     padding: 12px 20px;
     border: none;
-    background-color: #adabab;
+    background-color: #172897;
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -512,14 +512,14 @@ form{
 
 .calendario {
     display: flex;
-    margin-top: 40%;
+    margin-top: 15%;
     padding: 0;
     width: 100%;
     margin-bottom: 20%;
     height: 700px;
     background: rgb(133, 133, 133);
     color: black;
-    opacity: 0.80;
+    opacity: 0.90;
     font-size: large;
 }
 
