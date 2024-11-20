@@ -1,35 +1,27 @@
-document.addEventListener('DOMContentLoaded', async function() {
-    /*CONSTANTES*/
-    //Constante para ventana modal de agregar
-    const playerModal = document.getElementById('player-modal');
-    //Constante de ventana modal para dar de alta turno.
-    const modal = document.getElementById('modal');
-    //Constante de eventos de formularios.
-    const eventForm = document.getElementById('event-form');
-    //Constante de cerrar ventana modal.
-    const btnCerrar = document.getElementById('btn-close-modal');
-    //constante para agregarjugadores
-    const addPlayerBtn = document.getElementById('add-player-btn');
-    //constante para seleccionar jugadores
-    const playerSelect = document.getElementById('select-player');
+document.addEventListener('DOMContentLoaded', async function () {
 
-    /*VARIABLES*/
-    //Variable calendario.
+    /* CONSTANTES */
+    const playerModal = document.getElementById('player-modal');
+    const btnAddPlayer = document.getElementById('btn-add-player');
+    const modal = document.getElementById('modal');
+    const eventForm = document.getElementById('event-form');
+    const btnCerrar = document.getElementById('btn-close-modal');
+    const addPlayerBtn = document.getElementById('add-player-btn');
+    const playerSelect = document.getElementById('select-player');
     let calendar;
-    //Variable que guarda la seleccion de fecha segun el grid elegido.
     let selectedDate = null;
-    //Variable que guarda los valores de la cancha.
     let canchaData = null;
 
     modal.close();
 
-    // Cargar jugadores al abrir el modal
+    /* FUNCIONES */
+    // Función para cargar los jugadores al abrir el modal
     async function loadPlayers() {
         try {
             const response = await fetch('/jugador/todos');
             if (response.ok) {
                 const players = await response.json();
-                console.log('Jugadores cargados:', players);  // Asegúrate de que los datos lleguen aquí
+                console.log('Jugadores cargados:', players);
                 playerSelect.innerHTML = '';  // Limpia las opciones previas
                 players.forEach(player => {
                     const option = document.createElement('option');
@@ -44,20 +36,187 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.error('Error al cargar jugadores:', error);
         }
     }
-    //cargar los jugadores en la opcion
-    loadPlayers();
+
+    //funcion para cargar cancha:
+    async function cargarCanchas() {
+        const canchaSelect = document.getElementById('select-cancha'); // Seleccionamos el <select>
+    
+        try {
+            // Realizar la solicitud GET para obtener las canchas
+            const response = await fetch('/cancha/todas'); // Asegúrate de que esta ruta sea correcta en tu API
+            console.log('canchas', response)
+            if (!response.ok) {
+                throw new Error('Error al obtener las canchas');
+            }
+    
+            const canchas = await response.json(); // Suponemos que el servidor devuelve un array de objetos JSON con las canchas
+    
+            // Limpiar las opciones anteriores (si las hubiera)
+            canchaSelect.innerHTML = '';
+    
+            // Crear una opción por defecto
+            const opcionDefault = document.createElement('option');
+            opcionDefault.textContent = 'Selecciona una cancha';
+            opcionDefault.value = ''; // Sin valor por defecto
+            canchaSelect.appendChild(opcionDefault);
+    
+            // Agregar las canchas al <select>
+            canchas.forEach(cancha => {
+                const option = document.createElement('option');
+                option.value = cancha.id; // ID de la cancha
+                // Aquí mostramos, por ejemplo, el ID y el estado de la cancha
+                option.textContent = `Cancha ${cancha.id} - ${cancha.estado}`;
+                canchaSelect.appendChild(option); // Añadir la opción al <select>
+            });
+    
+        } catch (error) {
+            console.error('Error al cargar las canchas:', error);
+            alert('Hubo un problema al cargar las canchas. Intenta de nuevo más tarde.');
+        }
+    }
+    //funcion que genera los botones de la cancha
+    async function cargarBotonesDeCancha() {
+        const canchaButtonsContainer = document.getElementById('cancha-buttons-container'); 
+
+        try {
+            const response = await fetch('/cancha/todas');
+            if (!response.ok) {
+                throw new Error('Error al obtener las canchas');
+            }
+            const canchas = await response.json();
+
+            // Limpiar los botones previos (si los hubiera)
+            canchaButtonsContainer.innerHTML = '';
+
+            // Crear un botón para cada cancha
+            canchas.forEach(cancha => {
+                const button = document.createElement('button');
+                button.textContent = `Cancha ${cancha.id} - ${cancha.estado}`;
+                button.addEventListener('click', () => cambiarCancha(cancha.id));
+                canchaButtonsContainer.appendChild(button);
+            });
+
+        } catch (error) {
+            console.error('Error al cargar las canchas:', error);
+            alert('Hubo un problema al cargar las canchas. Intenta de nuevo más tarde.');
+        }
+    }
+
+    /* funcion cambiar la cancha seleccionada */
+    async function cambiarCancha(canchaId) {
+        try {
+            const response = await fetch(`/cancha/${canchaId}`);
+            if (response.ok) {
+                canchaData = await response.json();
+                console.log('Datos de la cancha seleccionada:', canchaData);
+                actualizarCalendario(canchaId);
+            } else {
+                console.error('Error al obtener los datos de la cancha:', response.status);
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }
+    }
+/* Actualizar el calendario según la cancha seleccionada */
+    async function actualizarCalendario(canchaId) {
+        calendar.destroy();  // Destruir el calendario actual
+
+        const calendarEl = document.getElementById('calendar');
+        calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'es',
+            initialView: 'timeGridWeek',
+            selectable: true,
+            customButtons: {
+                myCustomButton: {
+                    text: 'Agregar Turno!',
+                    click: function () {
+                        if (selectedDate) {
+                            modal.showModal();
+                            document.getElementById('event-start').value = selectedDate.date.toLocaleString();
+                        } else {
+                            alert('Por favor, selecciona una fecha primero.');
+                        }
+                    }
+                }
+            },
+            headerToolbar: {
+                left: 'prev,next myCustomButton',
+                center: 'title',
+                right: 'timeGridWeek'
+            },
+            views: {
+                timeGridWeek: {
+                    buttonText: 'Semana',
+                    slotDuration: canchaData ? canchaData.duracion : '01:00:00',
+                    slotLabelInterval: canchaData ? canchaData.duracion : '01:00',
+                    slotLabelFormat: {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                    },
+                    slotMinTime: canchaData ? canchaData.horarioApertura : '07:00:00',
+                    dayHeaderFormat: {
+                        weekday: 'long'
+                    },
+                    allDaySlot: false
+                }
+            },
+            dateClick: function (info) {
+                selectedDate = info;
+            },
+            eventClick: function (info) {
+                alert('Evento: ' + info.event.title);
+            },
+            events: async function (info, successCallback, failureCallback) {
+                try {
+                    const response = await fetch(`/calendario/${canchaId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const events = data.map(turno => {
+                            const startDate = turno.dia + 'T' + turno.hora;
+                            const endDate = new Date(turno.dia + 'T' + turno.hora);
+                            endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
+                            endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
+                            const color = turno.estado === 'DISPONIBLE' ? 'green' : turno.estado === 'OCUPADA' ? 'red' : turno.estado === 'TURNO_FIJO' ? 'yellow' : 'blue';
+    
+                            return {
+                                title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
+                                start: startDate,
+                                end: endDate.toISOString(),
+                                description: `Asistencia: ${turno.asistencia} | Estado: ${turno.estado}`,
+                                backgroundColor: color,
+                                borderColor: color
+                            };
+                        });
+                        successCallback(events);
+                    }
+                } catch (error) {
+                    console.error('Error fetching events:', error);
+                    failureCallback(error);
+                }
+            }
+        });
+
+        calendar.render();
+    }
+
+    
+    //llamada de funciones
+    cargarCanchas();//cargar canchas
+    loadPlayers();  // Carga los jugadores al iniciar
+    cargarBotonesDeCancha();
 
 
-    //mostrar formulario para
+    // Mostrar formulario para agregar jugador
     addPlayerBtn.addEventListener('click', () => {
-        playerModal.showModal(); // Abre el modal cuando se hace clic en el botón
+        playerModal.showModal();
     });
 
     // Evento para manejar el envío del formulario en el modal
     document.getElementById('add-player-form').addEventListener('submit', async (event) => {
         event.preventDefault();
-    
-        // Captura los valores de los campos del formulario dentro del modal
+
+        // Captura los valores del formulario
         const newPlayerName = document.getElementById('player-name').value;
         const playerPhone = document.getElementById('player-phone').value;
         const playerCategory = document.getElementById('player-category').value;
@@ -67,16 +226,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         const playerPoints = document.getElementById('player-points').value;
         const playerComment = document.getElementById('player-comment').value;
         const csrfToken = document.querySelector('input[name="_csrf"]').value;
-        // Verifica si algún campo está vacío antes de enviarlo
 
-
-    
         // Verifica que el token CSRF también esté presente
         if (!csrfToken) {
             console.error("El token CSRF no se encontró");
         }
-        try {
 
+        try {
             const formData = new URLSearchParams();
             formData.append("nombreCompleto", newPlayerName);
             formData.append("telefono", playerPhone);
@@ -95,14 +251,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                 },
                 body: formData
             });
-        
-    
+
             if (response.ok) {
                 alert("Jugador agregado con éxito");
                 document.getElementById('player-modal').close();
                 document.getElementById('add-player-form').reset();
-                loadPlayers();
-
+                loadPlayers();  // Recarga la lista de jugadores
             } else {
                 const errorData = await response.json();
                 console.error('Error al agregar jugador:', errorData);
@@ -113,33 +267,29 @@ document.addEventListener('DOMContentLoaded', async function() {
             alert("Hubo un error al agregar el jugador.");
         }
     });
+
+    // Cerrar modal de jugador
     const btnClosePlayerModal = document.getElementById('btn-close-player-modal');
     btnClosePlayerModal.addEventListener('click', () => {
         playerModal.close();
     });
 
-
-
-
-    // Obtener los detalles de la cancha al cargar la página.
-    const canchaId = 1; // Reemplaza con el ID de la cancha que necesitas
+    /* Cargar los detalles de la cancha */
+    const canchaId = 1;  // Reemplaza con el ID de la cancha que necesitas
     try {
-        // 1. Define una constante y realiza una solicitud
         const response = await fetch(`/cancha/${canchaId}`);
         
         if (response.ok) {
-            //Si la solicitud fue exitosa convierte la respuesta en un formato json
             canchaData = await response.json();
-            //E imprime los valores de la cancha en consola.
             console.log('Datos de la cancha:', canchaData);
-
         } else {
             console.error('Error al obtener los datos de la cancha:', response.status);
         }
     } catch (error) {
         console.error('Error en la solicitud:', error);
     }
-    //trae del html calendario, el objeto calendar por su id="calendar"
+
+    /* INICIALIZACIÓN DEL CALENDARIO */
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'es',
@@ -148,7 +298,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         customButtons: {
             myCustomButton: {
                 text: 'Agregar Turno!',
-                click: function() {
+                click: function () {
                     if (selectedDate) {
                         modal.showModal();
                         document.getElementById('event-start').value = selectedDate.date.toLocaleString();
@@ -180,13 +330,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                 allDaySlot: false
             }
         },
-        dateClick: function(info) {
+        dateClick: function (info) {
             selectedDate = info;
         },
-        eventClick: function(info) {
+        eventClick: function (info) {
             alert('Evento: ' + info.event.title);
         },
-        events: async function(info, successCallback, failureCallback) {
+        events: async function (info, successCallback, failureCallback) {
             try {
                 const response = await fetch(`/calendario/${canchaId}`);
                 if (response.ok) {
@@ -218,47 +368,41 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     calendar.render();
 
-    btnCerrar.addEventListener('click', function() {
+    // Cerrar modal al hacer clic en el botón de cerrar
+    btnCerrar.addEventListener('click', function () {
         modal.close();
     });
 
-    evento
-    eventForm.addEventListener('submit', async function(e) {
+    // Evento para agregar el turno
+    eventForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-    
-        // Capturar el token CSRF
-        const csrfToken = document.querySelector('input[name="_csrf"]').value;
-    
-        // Crear un objeto FormData a partir del formulario
-        const formData = new FormData(eventForm);
-    
-        // Agregar el token CSRF al FormData (en caso de que no esté ya incluido)
-        formData.append('_csrf', csrfToken);
-    
-        // Mostrar los valores del formulario para asegurarse de que todo está correcto
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
-    
+
+        const selectedPlayerId = playerSelect.value;
+        const startDateTime = document.getElementById('event-start').value;
+        const turnType = document.getElementById('turn-type').value;
+
         try {
-            const response = await fetch('/turnos/reservar', {
+            const response = await fetch('/turnos/todos', {
                 method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken, // Agregar el token CSRF en los encabezados
-                },
-                body: formData // Enviar el FormData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    idjugador: selectedPlayerId,
+                    dia: startDateTime,
+                    tipo_turno: turnType
+                })
             });
-    
             if (response.ok) {
                 alert("Turno agregado con éxito");
                 modal.close();
                 eventForm.reset();
-                loadPlayers(); // Refresca los jugadores
+                loadPlayers();  // Refresca los jugadores
             } else {
                 alert("Error al agregar el turno");
             }
         } catch (error) {
-            console.error('Error al guardar el turno:', error);
+            console.error('Error al agregar el turno:', error);
+            alert('Hubo un error al agregar el turno.');
         }
     });
+
 });

@@ -303,6 +303,7 @@ li {
     color: white; /* Color del texto */
     text-align: center; /* Centra el texto */
     padding: 10%;
+    display: block;
 }
 
 /* Estilo del texto */
@@ -512,7 +513,7 @@ form{
 
 .calendario {
     display: flex;
-    margin-top: 15%;
+    margin-top: 6%;
     padding: 0;
     width: 100%;
     margin-bottom: 20%;
@@ -561,4 +562,7 @@ form{
 
 div{
     display:flex;
+}
+#cancha-buttons-container button {
+    padding: 1rem; /* Ajusta estos valores según lo que necesites */
 }
