@@ -186,13 +186,13 @@ document.addEventListener('DOMContentLoaded', async function () {
                             const endDate = new Date(turno.dia + 'T' + turno.hora);
                             endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                             endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                            const color = turno.estado === 'DISPONIBLE' ? 'green' : turno.estado === 'OCUPADA' ? 'red' : turno.estado === 'TURNO_FIJO' ? 'yellow' : 'blue';
-        
+                            const color = turno.tipoTurno === 'PRACTICA' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'green' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
+                            console.log('turnos tipo',turno.tipoTurno);
                             return {
                                 title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                                 start: startDate,
                                 end: endDate.toISOString(),
-                                description: `Asistencia: ${turno.asistencia} | Estado: ${turno.estado}`,
+                                description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
                                 backgroundColor: color,
                                 borderColor: color
                             };
@@ -363,13 +363,13 @@ document.addEventListener('DOMContentLoaded', async function () {
                         const endDate = new Date(turno.dia + 'T' + turno.hora);
                         endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                         endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                        const color = turno.estado === 'DISPONIBLE' ? 'green' : turno.estado === 'OCUPADA' ? 'red' : turno.estado === 'TURNO_FIJO' ? 'yellow' : 'blue';
-    
+                        const color = turno.tipoTurno === 'PRACTICA' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'green' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
+                        console.log('turnos tipo',turno.tipoTurno);
                         return {
                             title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                             start: startDate,
                             end: endDate.toISOString(),
-                            description: `Asistencia: ${turno.asistencia} | Estado: ${turno.estado}`,
+                            description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
                             backgroundColor: color,
                             borderColor: color
                         };
@@ -411,10 +411,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Crear un objeto FormData para enviar el formulario
         const formData = new FormData();
         formData.append('_csrf', csrfToken);  // Incluir el CSRF token
-        formData.append('Jugador', selectedPlayerId);
+        formData.append('jugadores', selectedPlayerId);
         formData.append('dia', dia); // Solo la fecha
         formData.append('hora', hora); // Solo la hora
-        formData.append('tipo_turno', turnType);
+        formData.append('tipoTurno', turnType);
         formData.append('Cancha', selectedCanchaId);
         
        
