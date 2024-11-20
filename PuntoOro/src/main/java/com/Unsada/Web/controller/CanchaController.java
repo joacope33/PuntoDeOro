@@ -1,5 +1,8 @@
 package com.Unsada.Web.controller;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,7 @@ import com.Unsada.Web.service.CanchaServiceImpl;
 @RestController
 @RequestMapping("/cancha")
 public class CanchaController {
-
+    @Autowired
     private CanchaServiceImpl canchaService;
 
     @Autowired
@@ -44,6 +47,20 @@ public class CanchaController {
             return ResponseEntity.status(HttpStatus.CREATED).body(canchaGuardada);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/todas")
+    public ResponseEntity<List<Cancha>> obtenerTodasLasCanchas() {
+        try {
+            List<Cancha> canchas = canchaService.getAll();
+            if (canchas.isEmpty()) {
+                return ResponseEntity.noContent().build(); // Retorna 204 si no hay canchas
+            }
+            return ResponseEntity.ok(canchas); // Retorna 200 si hay canchas
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(Collections.emptyList()); // Retorna 500 con una lista vacía
         }
     }
 }

@@ -59,26 +59,41 @@
             <div class="calendario" id='calendar'></div>
             <dialog class="modal" id="modal">
                 <h2>Agregar Turno</h2>
-                <form id="event-form" style="display: flex; align-items: center; gap: 10px;">
+                <form id="event-form" style="display: flex; flex-direction: column; gap: 15px;">
+                    <!-- Incluir el token CSRF de Spring Security -->
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    
+                    <!-- Los demás campos del formulario -->
                     <div>
                         <label for="select-player" style="margin-right: 5px;">Jugador:</label>
                         <select id="select-player" required>
                             <!-- Opciones cargadas dinámicamente -->
                         </select>
-                        <button type="button" id="add-player-btn" style="padding: 0; border: none; background: transparent;">
-                            <img src="/images/jugadorAgregar.png" alt="Agregar Jugador" style="width: 40px; height: 40px;">
-                        </button>
                     </div>
-                    <label for="event-start">Fecha y Horario de Inicio:</label>
-                    <input type="text" id="event-start" readonly required>
-            
-                    <label for="turn-type">Tipo de Turno:</label>
-                    <select id="turn-type" required>
-                        <option value="PRACTICA">PRACTICA</option>
-                        <option value="TORNEO">TORNEO</option>
-                        <option value="TURNO">TURNO</option>
-                        <option value="TURNO_FIJO">TURNO FIJO</option>
-                    </select>
+                    
+                    <div>
+                        <label for="event-start">Fecha y Hora de Inicio:</label>
+                        <input type="datetime-local" id="event-start" required>
+                    </div>
+                    
+                    <div>
+                        <label for="turn-type">Tipo de Turno:</label>
+                        <select id="turn-type" required>
+                            <option value="PRACTICA">PRACTICA</option>
+                            <option value="TORNEO">TORNEO</option>
+                            <option value="TURNO">TURNO</option>
+                            <option value="TURNO_FIJO">TURNO FIJO</option>
+                        </select>
+                    </div>
+                
+                    <div>
+                        <label for="select-cancha">Cancha:</label>
+                        <select id="select-cancha" required>
+                            <!-- Opciones de canchas cargadas dinámicamente -->
+                        </select>
+                    </div>
+
+                
                     <button type="submit">Agregar Turno</button>
                 </form>
                 <button id="btn-close-modal">Cerrar</button>

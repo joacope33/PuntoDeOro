@@ -1,5 +1,7 @@
 package com.Unsada.Web.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,8 @@ public class CanchaServiceImpl implements CanchaService {
         return canchaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No se encontró la cancha con ese Id: " + id));
     }
-    
+    @Override
+    public List<Cancha> getAll(){
+        return canchaRepository.findAll();
+    }
 }

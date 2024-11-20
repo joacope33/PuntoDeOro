@@ -225,24 +225,30 @@ document.addEventListener('DOMContentLoaded', async function() {
     evento
     eventForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-
-        const selectedPlayerId = playerSelect.value;
-        const startDateTime = document.getElementById('event-start').value;
-        const turnType = document.getElementById('turn-type').value;
-
-        console.log('Jugador',selectedPlayerId);
-        console.log('Hora de turno',startDateTime);
-        console.log('Tipo de turno',turnType);
+    
+        // Capturar el token CSRF
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+    
+        // Crear un objeto FormData a partir del formulario
+        const formData = new FormData(eventForm);
+    
+        // Agregar el token CSRF al FormData (en caso de que no esté ya incluido)
+        formData.append('_csrf', csrfToken);
+    
+        // Mostrar los valores del formulario para asegurarse de que todo está correcto
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+    
         try {
-            const response = await fetch('/turnos/todos', {
+            const response = await fetch('/turnos/reservar', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    idjugador: selectedPlayerId,
-                    dia: startDateTime,
-                    tipo_turno: turnType
-                })
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken, // Agregar el token CSRF en los encabezados
+                },
+                body: formData // Enviar el FormData
             });
+    
             if (response.ok) {
                 alert("Turno agregado con éxito");
                 modal.close();
