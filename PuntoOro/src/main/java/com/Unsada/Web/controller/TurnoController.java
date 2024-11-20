@@ -44,10 +44,11 @@ public class TurnoController {
     @PostMapping("/reservar")
     public String agregarTurno(@ModelAttribute("turno") TurnoDTO turnoDTO) {
         try {
+            System.out.print(turnoDTO);
            turnoServiceImpl.guardarTurno(turnoDTO);
             return "redirect:/calendario"; // Redirige al formulario con un mensaje de éxito
         } catch (Exception e) {
             return "redirect:/calendario"; // Redirige al formulario con un mensaje de error
-        }
+        }   
     }
 }

@@ -132,7 +132,16 @@ document.addEventListener('DOMContentLoaded', async function () {
                     click: function () {
                         if (selectedDate) {
                             modal.showModal();
-                            document.getElementById('event-start').value = selectedDate.date.toLocaleString();
+                            const formattedDate = selectedDate.date.toLocaleString('es-ES', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second:'2-digit',
+                                hour12: false,
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            }).replace(',', ''); // Para eliminar la coma que puede aparecer
+                            document.getElementById('event-start').value = formattedDate;
                         } else {
                             alert('Por favor, selecciona una fecha primero.');
                         }
@@ -152,7 +161,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     slotLabelFormat: {
                         hour: '2-digit',
                         minute: '2-digit',
-                        hour12: false
+                        hour12: false // Esto asegura que el formato de hora sea de 24 horas
                     },
                     slotMinTime: canchaData ? canchaData.horarioApertura : '07:00:00',
                     dayHeaderFormat: {
@@ -178,7 +187,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                             endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                             endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
                             const color = turno.estado === 'DISPONIBLE' ? 'green' : turno.estado === 'OCUPADA' ? 'red' : turno.estado === 'TURNO_FIJO' ? 'yellow' : 'blue';
-    
+        
                             return {
                                 title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                                 start: startDate,
@@ -196,7 +205,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
             }
         });
-
         calendar.render();
     }
 
@@ -212,7 +220,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         playerModal.showModal();
     });
 
-    // Evento para manejar el envío del formulario en el modal
+    // Crear alta de usuarios
     document.getElementById('add-player-form').addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -301,7 +309,16 @@ document.addEventListener('DOMContentLoaded', async function () {
                 click: function () {
                     if (selectedDate) {
                         modal.showModal();
-                        document.getElementById('event-start').value = selectedDate.date.toLocaleString();
+                        const formattedDate = selectedDate.date.toLocaleString('es-ES', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second:'2-digit',
+                            hour12: false,
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                        }).replace(',', ''); // Para eliminar la coma que puede aparecer
+                        document.getElementById('event-start').value = formattedDate;
                     } else {
                         alert('Por favor, selecciona una fecha primero.');
                     }
@@ -321,7 +338,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
-                    hour12: false
+                    hour12: false // Esto asegura que el formato de hora sea de 24 horas
                 },
                 slotMinTime: canchaData ? canchaData.horarioApertura : '07:00:00',
                 dayHeaderFormat: {
@@ -347,7 +364,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                         endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
                         const color = turno.estado === 'DISPONIBLE' ? 'green' : turno.estado === 'OCUPADA' ? 'red' : turno.estado === 'TURNO_FIJO' ? 'yellow' : 'blue';
-
+    
                         return {
                             title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                             start: startDate,
@@ -376,30 +393,48 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Evento para agregar el turno
     eventForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-
-        const selectedPlayerId = playerSelect.value;
+    
+        // Obtener CSRF token
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+    
+        // Obtener los valores del formulario
+        const selectedPlayerId = document.getElementById('select-player').value;
         const startDateTime = document.getElementById('event-start').value;
         const turnType = document.getElementById('turn-type').value;
+        const selectedCanchaId = document.getElementById('select-cancha').value;
+        
+        console.log('cancha',selectedCanchaId);
+        const dia = startDateTime.split(" ")[0];
+        const hora = startDateTime.split(" ")[1];
 
+
+        // Crear un objeto FormData para enviar el formulario
+        const formData = new FormData();
+        formData.append('_csrf', csrfToken);  // Incluir el CSRF token
+        formData.append('Jugador', selectedPlayerId);
+        formData.append('dia', dia); // Solo la fecha
+        formData.append('hora', hora); // Solo la hora
+        formData.append('tipo_turno', turnType);
+        formData.append('Cancha', selectedCanchaId);
+        
+       
         try {
-            const response = await fetch('/turnos/todos', {
+            // Enviar la solicitud POST con FormData
+            const response = await fetch('/turnos/reservar', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    idjugador: selectedPlayerId,
-                    dia: startDateTime,
-                    tipo_turno: turnType
-                })
+                body: formData
             });
+    
             if (response.ok) {
                 alert("Turno agregado con éxito");
                 modal.close();
                 eventForm.reset();
-                loadPlayers();  // Refresca los jugadores
+                loadPlayers();  // Refrescar jugadores
+
             } else {
                 alert("Error al agregar el turno");
             }
-        } catch (error) {
+        } catch (error) {   
             console.error('Error al agregar el turno:', error);
             alert('Hubo un error al agregar el turno.');
         }

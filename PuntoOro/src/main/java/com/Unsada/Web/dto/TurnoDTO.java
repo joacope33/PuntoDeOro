@@ -4,7 +4,10 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.Unsada.Web.model.Cancha;
+import com.Unsada.Web.model.Jugador;
 import com.Unsada.Web.model.Partido;
 import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
@@ -24,7 +27,7 @@ public class TurnoDTO {
 
     private Long id;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dia;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
@@ -35,7 +38,7 @@ public class TurnoDTO {
     private EstadoCancha estado;
     private TipoTurno tipoTurno;
     private Partido partido; // Usamos PartidoDTO
-    private Set<JugadorDTO> jugadores; // Relación muchos a muchos con jugadores
+    private Set<Jugador> jugadores; // Relación muchos a muchos con jugadores
 
 
 }
