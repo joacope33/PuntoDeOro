@@ -1,32 +1,68 @@
-// Función para abrir y cerrar el formulario
 function toggleForm(formId) {
-    const form = document.getElementById(formId);
-    const forms = document.querySelectorAll('.turnos-form');
-
-    // Cerrar todos los formularios antes de abrir el seleccionado
-    forms.forEach(f => {
-        if (f !== form) {
-            f.style.display = 'none';
-        }
+    // Ocultar todos los formularios
+    const allForms = document.querySelectorAll('.turnos-form');
+    allForms.forEach(form => {
+        form.style.display = "none";
     });
 
-    // Alternar la visibilidad del formulario actual
-    form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+    // Mostrar u ocultar el formulario seleccionado
+    const form = document.getElementById(formId);
+    if (form.style.display === "none" || form.style.display === "") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
 }
 
-// Evitar que el formulario se cierre cuando se hace clic dentro de él
-document.querySelectorAll('.turnos-form').forEach(form => {
-    form.addEventListener('click', function(event) {
-        event.stopPropagation(); // Detiene la propagación del evento de clic
-    });
-});
 
-// Cerrar el formulario si el usuario hace clic fuera de él
-document.addEventListener('click', function(event) {
-    const forms = document.querySelectorAll('.turnos-form');
-    forms.forEach(form => {
-        if (form.style.display === "block" && !form.contains(event.target) && !event.target.closest('.cancha')) {
-            form.style.display = "none"; // Ocultar el formulario si se hace clic fuera de él
+// Función para editar el jugador
+function editarCancha(id) {
+    fetch(`/canchas/editar/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la solicitud');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('canchaIdEditar').value = id;
+            document.getElementById('horarioAperturaEditar').value = data.horarioApertura;
+            document.getElementById('horarioCierreEditar').value = data.horarioCierre;
+            document.getElementById('disponibilidadEditar').checked = data.disponibilidad; // Marca el checkbox si es true
+            document.getElementById('duracionEditar').value = data.duracion;
+
+            // Establecer el título con el ID de la cancha
+            document.getElementById('tituloCancha').textContent = `Cancha ${id}`;
+            console.log(data); // Agregar un log para ver los datos recibidos
+            document.querySelector('.form-overlay').style.display = 'flex';
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+// Función para cerrar el formulario
+function cerrarFormulario() {
+    document.querySelector('.form-overlay').style.display = 'none';
+}
+
+// Función para guardar los cambios
+function guardarCambios() {
+    const formData = new FormData(document.getElementById('formActualizarCancha'));
+
+    fetch('/canchas/actualizar', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al guardar los cambios');
         }
-    });
-});
+        return response.json(); // Si esperas una respuesta JSON
+    })
+    .then(data => {
+        console.log(data);
+        cerrarFormulario(); // Cierra el formulario después de guardar
+    })
+    .catch(error => console.error('Error:', error));
+}
+

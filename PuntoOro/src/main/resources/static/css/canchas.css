@@ -304,6 +304,7 @@ main {
     grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
     grid-template-rows: repeat(2, 1fr); /* Dos filas de igual tamaño */
     padding: 40px;
+    gap: 40px;
     justify-items: center; /* Centra los elementos dentro de cada celda */
     align-items: center; /* Centra los elementos verticalmente */
     height: 100vh; /* Asegura que la altura sea suficiente para mostrar todo */
@@ -314,9 +315,9 @@ main {
     background-color: #0000006e;
     border-radius: 8px;
     padding: 20px;
-    margin: 0 auto; /* Centra el contenedor si es necesario */
+    margin: 150px auto; /* Centra el contenedor si es necesario */
     text-align: center;
-    width: 100%; /* Asegura que cada cancha ocupe todo el ancho disponible */
+    width: 90%; /* Asegura que cada cancha ocupe todo el ancho disponible */
     box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
     display: flex;
     flex-direction: column;
@@ -324,7 +325,7 @@ main {
     justify-content: center;
     max-width: 600px;
     min-height: 150px;
-    max-height: 500px; /* Altura máxima */
+    max-height: 700px; /* Altura máxima */
     box-sizing: border-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animación para el hover */
     cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
@@ -366,7 +367,21 @@ main {
 /* Estilo de los inputs del formulario */
 
 .turnos-form {
+    margin: 10px;
+    padding: 10px;
+    text-align: left;
     color: #fff;
+    margin-left: 50px;
+    width: 100%;
+}
+
+.turnos-form div {
+    padding: 2px;
+    font-size: 15px;
+}
+
+.turnos-form div label {
+    font-weight: bold;
 }
 
 .turnos-form input {
@@ -434,6 +449,171 @@ input[type="submit"]:active {
 }
 
 
+form .username {
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 20px 0;
+}
+
+.username input {
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+    caret-color: white;
+    color: white;
+}
+
+.username label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.username span::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #635014;
+    transition: .5s;
+}
+
+/* Estilos del campo de usuario */
+.username input:valid ~ label {
+    top: -5px;
+    color: #f3b632;
+}
+
+.username input:focus ~ label,
+.username input:focus ~ label {
+    top: -5px;
+    color: #f3b632;
+}
+
+/* Estilos del borde inferior del campo de usuario */
+.username input:valid ~ .line {
+    background: #f3b632;
+}
+
+.username input:focus ~ span::before,
+.username input:focus ~ span::before {
+    width: 100%;
+}
+
+.tituloCancha {
+    margin: 0;
+    padding: 5px;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#tituloCancha span{
+    margin: 0;
+    padding: 5px;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+}
+
+
+.container button{
+    color: #fff;
+    width: 50%;
+    background-color: #c4932a;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+}
+
+.container button:hover {
+    color: #fff;
+    background-color: #8d6a1f;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+}
+
+.container button:active {
+    color: #fff;
+    background-color: #dfa72e;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+}
+
+/*ACTUALIZAR CANCHA*/
+/* El overlay oscuro de fondo */
+.form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 120vh;
+    background-color: rgba(255, 255, 255, 0.171); /* Fondo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Se asegura de que esté por encima del resto */
+}
+
+.form {
+    display: fixed;
+    flex-direction: column;
+    color: #fff;
+    max-width: 300px;
+    max-height: 650px;
+    width: 30%;
+    margin-bottom: 100px;
+    background: #000000d5;
+    padding: 20px;
+    border-radius: 10px;
+    
+}
+
+.form-actualizar {
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.cruz {
+    padding: 3px;
+    position: relative;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    bottom: 15px;
+    left: 15px;
+    
+    font-size: 20px;
+}
+
+.cruz i {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.cruz i:hover{
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
 
 
 
@@ -452,6 +632,15 @@ input[type="submit"]:active {
 .mensaje.error {
     color: red;
 }
+
+.text-success {
+    color: green;
+}
+
+.text-danger {
+    color: red;
+}
+
 
 
 /* Solucionar AUTOCOMPLETADO */

@@ -1,6 +1,6 @@
 package com.Unsada.Web.model;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 import com.Unsada.Web.model.enums.EstadoCancha;
@@ -30,13 +30,13 @@ public class Cancha {
     private Long id;
     
     @Column(name = "horarioapertura")
-    private Time horarioApertura; 
+    private LocalTime  horarioApertura; 
     @Column(name = "horariocierre")
-    private Time horarioCierre;
+    private LocalTime  horarioCierre;
     @Column(name = "disponibilidad")
     private boolean disponibilidad;
     @Column(name = "duracion")
-    private Time duracion;
+    private LocalTime  duracion;
 
     @JsonBackReference  // Evita que los turnos se serialicen dentro de Cancha, evitando recursión infinita
     @OneToMany(mappedBy = "cancha")
@@ -47,7 +47,7 @@ public class Cancha {
 
     
 
-    public Cancha(Time horarioApertura, Time horarioCierre, boolean disponibilidad, Time duracion, List<Turno> turnos,
+    public Cancha(LocalTime  horarioApertura, LocalTime  horarioCierre, boolean disponibilidad, LocalTime  duracion, List<Turno> turnos,
             EstadoCancha estado) {
         this.horarioApertura = horarioApertura;
         this.horarioCierre = horarioCierre;
@@ -58,7 +58,7 @@ public class Cancha {
     }
 
 
-    public Cancha(Time horarioApertura, Time horarioCierre, boolean disponibilidad, Time duracion,
+    public Cancha(LocalTime  horarioApertura, LocalTime  horarioCierre, boolean disponibilidad, LocalTime  duracion,
             EstadoCancha estado) {
         this.horarioApertura = horarioApertura;
         this.horarioCierre = horarioCierre;
@@ -68,7 +68,7 @@ public class Cancha {
     }
 
 
-    public Cancha(Long id, Time horarioApertura, Time horarioCierre, boolean disponibilidad, Time duracion,
+    public Cancha(Long id, LocalTime  horarioApertura, LocalTime  horarioCierre, boolean disponibilidad, LocalTime  duracion,
             EstadoCancha estado) {
         this.id = id;
         this.horarioApertura = horarioApertura;

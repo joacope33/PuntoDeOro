@@ -30,7 +30,7 @@ public class CalendarController {
     @GetMapping("/{id}")
     public ResponseEntity<List<Turno>> getEvents(@PathVariable Long id) {
         try {
-            Cancha cancha = canchaServiceImpl.obtenerCanchabyId(id);
+            Cancha cancha = canchaServiceImpl.findById(id);
             System.out.println(cancha);
             if (cancha == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 

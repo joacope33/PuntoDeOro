@@ -23,9 +23,7 @@
                 </li>
             </ul>
             <ul class="right-content">
-                <li sec:authorize="isAuthenticated()">
 
-                </li>
 
                 <div class="navbar">
                     <div class="red-index">
@@ -57,84 +55,90 @@
     <main>
         <div class="background-container">
             <div class="container">
-                <div class="cancha" onclick="toggleForm('form-1')">
+                <div th:each="cancha : ${canchas}" class="cancha" 
+                    th:onclick="|toggleForm('form-' + ${cancha.id})|">
                     <div class="disponibilidad">
                         <img th:src="@{/images/cancha.png}" class="cancha-img">
                     </div>
                     <div class="turnos">
-                        Cancha 1
+                        <span th:text="'Cancha ' + ${cancha.id}" th:classappend="${cancha.disponibilidad ? 'text-success' : 'text-danger'}"></span>
                     </div>
-                    <div id="form-1" class="turnos-form" style="display: none;">
-                        <form method="post">
-                            <label for="fecha1">Seleccionar día:</label>
-                            <input type="date" id="fecha1" name="fecha1" required>
-                            
-                            <label for="hora1">Seleccionar hora:</label>
-                            <input type="time" id="hora1" name="hora1" required>
-                            
-                            <button type="submit">Agregar Turno</button>
+                    <div th:id="'form-' + ${cancha.id}" class="turnos-form" style="display: none;">
+                        <div>
+                            <label>Horario de Apertura:</label>
+                            <span th:text="${cancha.horarioApertura}"></span>
+                        </div>
+                        <div>
+                            <label>Horario de Cierre:</label>
+                            <span th:text="${cancha.horarioCierre}"></span>
+                        </div>
+                        <div>
+                            <label>Disponibilidad:</label>
+                            <span th:text="${cancha.disponibilidad ? 'Sí' : 'No'}" 
+                                  th:classappend="${cancha.disponibilidad ? 'text-success' : 'text-danger'}"></span>
+                        </div>
+                        
+                        <div>
+                            <label>Duración:</label>
+                            <span th:text="${cancha.duracion}"></span>
+                        </div>
+                    </div>
+                    <button type="button" 
+                                    th:onclick="editarCancha('[[${cancha.id}]]')" 
+                                    data-horario-apertura="[[${cancha.horarioApertura}]]"
+                                    data-horario-cierre="[[${cancha.horarioCierre}]]"
+                                    data-disponibilidad="[[${cancha.disponibilidad}]]"
+                                    data-duracion="[[${cancha.duracion}]]" class="btn-editar">
+                                Editar
+                    </button>
+                </div>
+                <div class="form-overlay" id="formularioEditar" style="display: none;">
+                    <div class="form">
+                        <div class="cruz" onclick="cerrarFormulario()">
+                            <i class="fa-solid fa-x"></i>
+                        </div>
+                        <div class="tituloCancha">
+                            <span id="tituloCancha"></span>
+                        </div>
+                        <form class="form-actualizar" id="formActualizarCancha" th:action="@{/canchas/actualizar}" method="post" th:object="${cancha}">
+                            <!-- ID (Long) -->
+                            <div class="username">
+                                <input type="number" id="canchaIdEditar" th:field="*{id}" readonly required>
+                                <label for="id">Cancha</label>
+                            </div>
+                        
+                            <!-- Horario de apertura (Time) -->
+                            <div class="username">
+                                <input type="time" id="horarioAperturaEditar" th:field="*{horarioApertura}" required>
+                                <label for="horarioApertura">Horario de apertura</label>
+                            </div>
+                        
+                            <!-- Horario de cierre (Time) -->
+                            <div class="username">
+                                <input type="time" id="horarioCierreEditar" th:field="*{horarioCierre}" required>
+                                <label for="horarioCierre">Horario de cierre</label>
+                            </div>
+                        
+                            <!-- Disponibilidad (boolean) -->
+                            <div class="username">
+                                <input type="checkbox" id="disponibilidadEditar" th:field="*{disponibilidad}">
+                                <label for="disponibilidad">Disponibilidad</label>
+                            </div>
+                        
+                            <!-- Duración (Time) -->
+                            <div class="username">
+                                <input type="time" id="duracionEditar" th:field="*{duracion}" required>
+                                <label for="duracion">Duración</label>
+                            </div>
+                        
+                            <!-- Botón para guardar -->
+                            <input type="submit" value="Guardar cambios"/>
                         </form>
+                        
                     </div>
                 </div>
-    
-                <div class="cancha" onclick="toggleForm('form-2')">
-                    <div class="disponibilidad">
-                        <img th:src="@{/images/cancha.png}" class="cancha-img">
-                    </div>
-                    <div class="turnos">
-                        Cancha 2
-                    </div>
-                    <div id="form-2" class="turnos-form" style="display: none;">
-                        <form method="post">
-                            <label for="fecha2">Seleccionar día:</label>
-                            <input type="date" id="fecha2" name="fecha2" required>
-                            
-                            <label for="hora2">Seleccionar hora:</label>
-                            <input type="time" id="hora2" name="hora2" required>
-                            
-                            <button type="submit">Agregar Turno</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="cancha" onclick="toggleForm('form-3')">
-                    <div class="disponibilidad">
-                        <img th:src="@{/images/cancha.png}" class="cancha-img">
-                    </div>
-                    <div class="turnos">
-                        Cancha 3
-                    </div>
-                    <div id="form-3" class="turnos-form" style="display: none;">
-                        <form method="post">
-                            <label for="fecha3">Seleccionar día:</label>
-                            <input type="date" id="fecha3" name="fecha3" required>
-                            
-                            <label for="hora3">Seleccionar hora:</label>
-                            <input type="time" id="hora3" name="hora3" required>
-                            
-                            <button type="submit">Agregar Turno</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="cancha" onclick="toggleForm('form-4')">
-                    <div class="disponibilidad">
-                        <img th:src="@{/images/cancha.png}" class="cancha-img">
-                    </div>
-                    <div class="turnos">
-                        Cancha 4
-                    </div>
-                    <div id="form-4" class="turnos-form" style="display: none;">
-                        <form method="post">
-                            <label for="fecha4">Seleccionar día:</label>
-                            <input type="date" id="fecha4" name="fecha4" required>
-                            
-                            <label for="hora4">Seleccionar hora:</label>
-                            <input type="time" id="hora4" name="hora4" required>
-                            
-                            <button type="submit">Agregar Turno</button>
-                        </form>
-                    </div>
+                <div th:if="${#lists.isEmpty(canchas)}">
+                    <p>No hay canchas disponibles.</p>
                 </div>
             </div>
         </div>

@@ -38,10 +38,6 @@ public class HomeController{
         return "calendario";
     }
 
-    @GetMapping("/canchas")
-    public String mostrarCanchas() {
-        return "canchas";
-    }
     
     @GetMapping("/torneos")
     public String mostrarTorneos() {

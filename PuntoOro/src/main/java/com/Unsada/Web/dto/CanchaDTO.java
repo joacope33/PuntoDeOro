@@ -1,9 +1,11 @@
 package com.Unsada.Web.dto;
 
-import java.sql.Time;
+import java.time.LocalTime;
+import java.util.List;
 
+import com.Unsada.Web.model.Cancha;
+import com.Unsada.Web.model.Turno;
 import com.Unsada.Web.model.enums.EstadoCancha;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,17 +20,26 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CanchaDTO {
     
+
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    private Time horarioApertura; 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    private Time horarioCierre;
+    private LocalTime  horarioApertura; 
+    private LocalTime  horarioCierre;
     private boolean disponibilidad;
-    private Time duracion;
+    private LocalTime  duracion;
+    private List<Turno> turnos;
     private EstadoCancha estado;
 
     public boolean getDisponibilidad(){
         return disponibilidad;
+    }
+
+    public CanchaDTO(Cancha cancha){
+        this.id = cancha.getId();
+        this.horarioApertura = cancha.getHorarioApertura();
+        this.horarioCierre = cancha.getHorarioCierre();
+        this.disponibilidad = cancha.isDisponibilidad();
+        this.duracion = cancha.getDuracion();
+        this.estado = cancha.getEstado();
     }
 
 
