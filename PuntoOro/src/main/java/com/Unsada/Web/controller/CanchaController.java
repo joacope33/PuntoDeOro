@@ -19,7 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Unsada.Web.dto.CanchaDTO;
 import com.Unsada.Web.model.Cancha;
-import com.Unsada.Web.service.CanchaServiceImpl;
+import com.Unsada.Web.service.CanchaService;
+
 
 
 
@@ -28,7 +29,7 @@ import com.Unsada.Web.service.CanchaServiceImpl;
 public class CanchaController {
 
     @Autowired
-    private CanchaServiceImpl canchaService;
+    private CanchaService canchaService;
 
 
     @ModelAttribute("cancha")
@@ -91,13 +92,11 @@ public class CanchaController {
 
     
 
-    
-
      
     @GetMapping("/todas")
     public ResponseEntity<List<Cancha>> obtenerTodasLasCanchas() {
         try {
-            List<Cancha> canchas = canchaService.getAll();
+            List<Cancha> canchas = canchaService.obtenerTodasLasCanchas();
             if (canchas.isEmpty()) {
                 return ResponseEntity.noContent().build(); // Retorna 204 si no hay canchas
             }
@@ -107,4 +106,15 @@ public class CanchaController {
                                  .body(Collections.emptyList()); // Retorna 500 con una lista vacía
         }
     }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<CanchaDTO> obtenerCanchaPorId(@PathVariable("id") Long id) {
+        Cancha cancha = canchaService.findById(id);
+        if (cancha == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        CanchaDTO canchaDTO = new CanchaDTO(cancha); // Asumiendo que CanchaDTO tiene un constructor para mapear Cancha
+        return ResponseEntity.ok(canchaDTO);
+}
 }

@@ -10,5 +10,4 @@ import com.Unsada.Web.model.Cancha;
 @Repository
 public interface CanchaRepository extends JpaRepository<Cancha, Long>{
     List<Cancha> findAllByOrderByIdAsc(); // Para mantener el orden por ID
-    public List<Cancha> findAll();
 }

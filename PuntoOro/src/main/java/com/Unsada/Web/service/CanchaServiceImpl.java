@@ -120,11 +120,12 @@ public class CanchaServiceImpl implements CanchaService {
        }
     }
 
-   
-    
     @Override
-    public List<Cancha> getAll(){
-        return canchaRepository.findAll();
+    public Cancha obtenerCanchabyId(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerCanchabyId'");
     }
-
+    
 }
+
+ 

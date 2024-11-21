@@ -38,12 +38,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     //funcion para cargar cancha:
-    async function cargarCanchas() {
+    async function cargarCanchas() {    
         const canchaSelect = document.getElementById('select-cancha'); // Seleccionamos el <select>
     
         try {
             // Realizar la solicitud GET para obtener las canchas
-            const response = await fetch('/cancha/todas'); // Asegúrate de que esta ruta sea correcta en tu API
+            const response = await fetch('/canchas/todas'); // Asegúrate de que esta ruta sea correcta en tu API
             console.log('canchas', response)
             if (!response.ok) {
                 throw new Error('Error al obtener las canchas');
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const canchaButtonsContainer = document.getElementById('cancha-buttons-container'); 
 
         try {
-            const response = await fetch('/cancha/todas');
+            const response = await fetch('/canchas/todas');
             if (!response.ok) {
                 throw new Error('Error al obtener las canchas');
             }
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     /* funcion cambiar la cancha seleccionada */
     async function cambiarCancha(canchaId) {
         try {
-            const response = await fetch(`/cancha/${canchaId}`);
+            const response = await fetch(`/canchas/${canchaId}`);
             if (response.ok) {
                 canchaData = await response.json();
                 console.log('Datos de la cancha seleccionada:', canchaData);
@@ -175,6 +175,30 @@ document.addEventListener('DOMContentLoaded', async function () {
             },
             eventClick: function (info) {
                 alert('Evento: ' + info.event.title);
+            },
+            eventContent: function (info) {
+                // Crear elementos personalizados
+                const eventTitle = document.createElement('span');
+                eventTitle.innerText = info.event.title;
+        
+                const deleteButton = document.createElement('span');
+                deleteButton.innerText = ' ❌';
+                deleteButton.style.color = 'red';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.style.marginLeft = '5px';
+        
+                // Manejar clic en la cruz
+                deleteButton.addEventListener('click', function (e) {
+                    e.stopPropagation(); // Evita que se dispare el clic en el evento
+                    const confirmDelete = confirm(`¿Quieres eliminar el evento "${info.event.title}"?`);
+                    if (confirmDelete) {
+                        info.event.remove(); // Elimina el evento del calendario
+                        alert('Evento eliminado');
+                    }
+                });
+        
+                // Devolver los nodos para renderizar
+                return { domNodes: [eventTitle, deleteButton] };
             },
             events: async function (info, successCallback, failureCallback) {
                 try {
@@ -285,7 +309,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     /* Cargar los detalles de la cancha */
     const canchaId = 1;  // Reemplaza con el ID de la cancha que necesitas
     try {
-        const response = await fetch(`/cancha/${canchaId}`);
+        const response = await fetch(`/canchas/${canchaId}`);
         
         if (response.ok) {
             canchaData = await response.json();
@@ -296,7 +320,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     } catch (error) {
         console.error('Error en la solicitud:', error);
     }
-
+    /*-------------------------------------------------------------------------------------------------------*/
     /* INICIALIZACIÓN DEL CALENDARIO */
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -352,6 +376,30 @@ document.addEventListener('DOMContentLoaded', async function () {
         },
         eventClick: function (info) {
             alert('Evento: ' + info.event.title);
+        },
+        eventContent: function (info) {
+            // Crear elementos personalizados
+            const eventTitle = document.createElement('span');
+            eventTitle.innerText = info.event.title;
+    
+            const deleteButton = document.createElement('span');
+            deleteButton.innerText = ' ❌';
+            deleteButton.style.color = 'red';
+            deleteButton.style.cursor = 'pointer';
+            deleteButton.style.marginLeft = '5px';
+    
+            // Manejar clic en la cruz
+            deleteButton.addEventListener('click', function (e) {
+                e.stopPropagation(); // Evita que se dispare el clic en el evento
+                const confirmDelete = confirm(`¿Quieres eliminar el evento "${info.event.title}"?`);
+                if (confirmDelete) {
+                    info.event.remove(); // Elimina el evento del calendario
+                    alert('Evento eliminado');
+                }
+            });
+    
+            // Devolver los nodos para renderizar
+            return { domNodes: [eventTitle, deleteButton] };
         },
         events: async function (info, successCallback, failureCallback) {
             try {
@@ -430,7 +478,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 modal.close();
                 eventForm.reset();
                 loadPlayers();  // Refrescar jugadores
-
+                actualizarCalendario(selectedCanchaId)
             } else {
                 alert("Error al agregar el turno");
             }
