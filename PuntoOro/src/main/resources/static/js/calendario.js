@@ -176,6 +176,30 @@ document.addEventListener('DOMContentLoaded', async function () {
             eventClick: function (info) {
                 alert('Evento: ' + info.event.title);
             },
+            eventContent: function (info) {
+                // Crear elementos personalizados
+                const eventTitle = document.createElement('span');
+                eventTitle.innerText = info.event.title;
+        
+                const deleteButton = document.createElement('span');
+                deleteButton.innerText = ' ❌';
+                deleteButton.style.color = 'red';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.style.marginLeft = '5px';
+        
+                // Manejar clic en la cruz
+                deleteButton.addEventListener('click', function (e) {
+                    e.stopPropagation(); // Evita que se dispare el clic en el evento
+                    const confirmDelete = confirm(`¿Quieres eliminar el evento "${info.event.title}"?`);
+                    if (confirmDelete) {
+                        info.event.remove(); // Elimina el evento del calendario
+                        alert('Evento eliminado');
+                    }
+                });
+        
+                // Devolver los nodos para renderizar
+                return { domNodes: [eventTitle, deleteButton] };
+            },
             events: async function (info, successCallback, failureCallback) {
                 try {
                     const response = await fetch(`/calendario/${canchaId}`);
@@ -296,7 +320,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     } catch (error) {
         console.error('Error en la solicitud:', error);
     }
-
+    /*-------------------------------------------------------------------------------------------------------*/
     /* INICIALIZACIÓN DEL CALENDARIO */
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -352,6 +376,30 @@ document.addEventListener('DOMContentLoaded', async function () {
         },
         eventClick: function (info) {
             alert('Evento: ' + info.event.title);
+        },
+        eventContent: function (info) {
+            // Crear elementos personalizados
+            const eventTitle = document.createElement('span');
+            eventTitle.innerText = info.event.title;
+    
+            const deleteButton = document.createElement('span');
+            deleteButton.innerText = ' ❌';
+            deleteButton.style.color = 'red';
+            deleteButton.style.cursor = 'pointer';
+            deleteButton.style.marginLeft = '5px';
+    
+            // Manejar clic en la cruz
+            deleteButton.addEventListener('click', function (e) {
+                e.stopPropagation(); // Evita que se dispare el clic en el evento
+                const confirmDelete = confirm(`¿Quieres eliminar el evento "${info.event.title}"?`);
+                if (confirmDelete) {
+                    info.event.remove(); // Elimina el evento del calendario
+                    alert('Evento eliminado');
+                }
+            });
+    
+            // Devolver los nodos para renderizar
+            return { domNodes: [eventTitle, deleteButton] };
         },
         events: async function (info, successCallback, failureCallback) {
             try {
@@ -430,7 +478,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 modal.close();
                 eventForm.reset();
                 loadPlayers();  // Refrescar jugadores
-
+                actualizarCalendario(selectedCanchaId)
             } else {
                 alert("Error al agregar el turno");
             }
