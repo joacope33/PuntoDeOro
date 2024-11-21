@@ -103,4 +103,15 @@ public class CanchaController {
                                  .body(Collections.emptyList()); // Retorna 500 con una lista vacía
         }
     }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<CanchaDTO> obtenerCanchaPorId(@PathVariable("id") Long id) {
+        Cancha cancha = canchaService.findById(id);
+        if (cancha == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        CanchaDTO canchaDTO = new CanchaDTO(cancha); // Asumiendo que CanchaDTO tiene un constructor para mapear Cancha
+        return ResponseEntity.ok(canchaDTO);
+}
 }

@@ -5,15 +5,11 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -50,12 +46,7 @@ public class Jugador {
     private String comentario;
 
     // Relación Muchos a Muchos con Turno
-    @ManyToMany(fetch= FetchType.EAGER, cascade=CascadeType.MERGE)
-    @JoinTable(
-        name = "jugadores_turnos",  // Nombre de la tabla intermedia
-        joinColumns = @JoinColumn(name = "idjugador", referencedColumnName="idjugador"),  // Columna de clave foránea en la tabla intermedia para jugadores
-        inverseJoinColumns = @JoinColumn(name = "idturno",referencedColumnName="idturno")  // Columna de clave foránea en la tabla intermedia para turnos
-    )
+    @ManyToMany(mappedBy="jugadores")  
     @JsonBackReference  // Evita la recursión infinita serializando solo el lado secundario de la relación
     private Set<Turno> turnos;  // Colección de turnos asociados
 

@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     //funcion para cargar cancha:
-    async function cargarCanchas() {
+    async function cargarCanchas() {    
         const canchaSelect = document.getElementById('select-cancha'); // Seleccionamos el <select>
     
         try {
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     /* funcion cambiar la cancha seleccionada */
     async function cambiarCancha(canchaId) {
         try {
-            const response = await fetch(`/cancha/${canchaId}`);
+            const response = await fetch(`/canchas/${canchaId}`);
             if (response.ok) {
                 canchaData = await response.json();
                 console.log('Datos de la cancha seleccionada:', canchaData);
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     /* Cargar los detalles de la cancha */
     const canchaId = 1;  // Reemplaza con el ID de la cancha que necesitas
     try {
-        const response = await fetch(`/cancha/${canchaId}`);
+        const response = await fetch(`/canchas/${canchaId}`);
         
         if (response.ok) {
             canchaData = await response.json();

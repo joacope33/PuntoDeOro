@@ -8,14 +8,17 @@ import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -59,7 +62,12 @@ public class Turno {
     private Partido partido;
     
     // Relación Muchos a Muchos con Jugador
-    @ManyToMany(mappedBy = "turnos")  // "turnos" es el atributo en la clase Jugador que maneja esta relación
+    @ManyToMany(fetch= FetchType.EAGER, cascade=CascadeType.MERGE)
+    @JoinTable(
+        name = "jugadores_turnos",  // Nombre de la tabla intermedia
+        joinColumns = @JoinColumn(name = "idturno",referencedColumnName="idturno"),  // Columna de clave foránea en la tabla intermedia para jugadores
+        inverseJoinColumns = @JoinColumn(name = "idjugador", referencedColumnName="idjugador") // Columna de clave foránea en la tabla intermedia para turnos
+    )
     @JsonManagedReference  // Gestiona la relación de Turno a Jugador
     private List<Jugador> jugadores;  // Colección de jugadores asociados a este turno
 
