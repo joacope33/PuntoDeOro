@@ -2,7 +2,7 @@ package com.Unsada.Web.dto;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -38,7 +38,7 @@ public class TurnoDTO {
     private EstadoCancha estado;
     private TipoTurno tipoTurno;
     private Partido partido; // Usamos PartidoDTO
-    private Set<Jugador> jugadores; // Relación muchos a muchos con jugadores
+    private List<Jugador> jugadores; // Relación muchos a muchos con jugadores
 
 
 }

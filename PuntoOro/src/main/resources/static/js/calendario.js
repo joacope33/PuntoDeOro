@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     
         try {
             // Realizar la solicitud GET para obtener las canchas
-            const response = await fetch('/cancha/todas'); // Asegúrate de que esta ruta sea correcta en tu API
+            const response = await fetch('/canchas/todas'); // Asegúrate de que esta ruta sea correcta en tu API
             console.log('canchas', response)
             if (!response.ok) {
                 throw new Error('Error al obtener las canchas');
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const canchaButtonsContainer = document.getElementById('cancha-buttons-container'); 
 
         try {
-            const response = await fetch('/cancha/todas');
+            const response = await fetch('/canchas/todas');
             if (!response.ok) {
                 throw new Error('Error al obtener las canchas');
             }

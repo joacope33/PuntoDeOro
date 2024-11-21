@@ -89,8 +89,6 @@ public class CanchaController {
 
     
 
-    
-
      
     @GetMapping("/todas")
     public ResponseEntity<List<Cancha>> obtenerTodasLasCanchas() {

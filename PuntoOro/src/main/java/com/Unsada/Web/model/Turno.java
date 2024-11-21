@@ -2,7 +2,7 @@ package com.Unsada.Web.model;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
@@ -61,10 +61,10 @@ public class Turno {
     // Relación Muchos a Muchos con Jugador
     @ManyToMany(mappedBy = "turnos")  // "turnos" es el atributo en la clase Jugador que maneja esta relación
     @JsonManagedReference  // Gestiona la relación de Turno a Jugador
-    private Set<Jugador> jugadores;  // Colección de jugadores asociados a este turno
+    private List<Jugador> jugadores;  // Colección de jugadores asociados a este turno
 
     
-    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido, Set<Jugador> jugadores) {
+    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido, List<Jugador> jugadores) {
         this.dia = dia;
         this.hora = hora;
         this.cancha = cancha;
