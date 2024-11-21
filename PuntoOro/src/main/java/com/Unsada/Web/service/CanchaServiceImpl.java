@@ -37,7 +37,6 @@ public class CanchaServiceImpl implements CanchaService {
         return canchaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No se encontró la cancha con ese Id: " + id));
     }
-<<<<<<< HEAD
 
     @Override
     public void actualizarCancha(CanchaDTO canchaDTO) {
@@ -123,10 +122,9 @@ public class CanchaServiceImpl implements CanchaService {
 
    
     
-=======
     @Override
     public List<Cancha> getAll(){
         return canchaRepository.findAll();
     }
->>>>>>> c44d3851b79841092c3888afa743a7aeda7576bb
+
 }
