@@ -1,13 +1,11 @@
 package com.Unsada.Web.controller;
 
-<<<<<<< HEAD
-=======
 import java.util.Collections;
->>>>>>> c44d3851b79841092c3888afa743a7aeda7576bb
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +24,7 @@ import com.Unsada.Web.service.CanchaServiceImpl;
 @Controller
 @RequestMapping("/canchas")
 public class CanchaController {
-<<<<<<< HEAD
 
-=======
->>>>>>> c44d3851b79841092c3888afa743a7aeda7576bb
     @Autowired
     private CanchaServiceImpl canchaService;
 
@@ -74,7 +69,6 @@ public class CanchaController {
         return "redirect:/canchas";
     }
 
-<<<<<<< HEAD
 
 
 
@@ -98,7 +92,6 @@ public class CanchaController {
     
 
      
-=======
     @GetMapping("/todas")
     public ResponseEntity<List<Cancha>> obtenerTodasLasCanchas() {
         try {
@@ -112,5 +105,4 @@ public class CanchaController {
                                  .body(Collections.emptyList()); // Retorna 500 con una lista vacía
         }
     }
->>>>>>> c44d3851b79841092c3888afa743a7aeda7576bb
 }
