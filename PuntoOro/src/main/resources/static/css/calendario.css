@@ -569,16 +569,21 @@ form{
     width: 40px;
     height: 40px;
 }
-
+button.pressed {
+    background-color: #0f8b3f; /* Color llamativo cuando está presionado */
+  }
 div{
     display:flex;
 }
 #cancha-buttons-container button {
     padding: 1rem; /* Ajusta estos valores según lo que necesites */
 }
+
+
 .contenedor-leyenda{
     display: flex;
-    margin: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     font-weight: bold;
 }
 .colores-turnos-red{
@@ -587,7 +592,7 @@ div{
     margin-right: 10px;
     width: 50px;
     height: 20px;
-    display: block;
+    display: flex;
 }
 .colores-turnos-grey{
     background-color: grey;
@@ -595,7 +600,7 @@ div{
     margin-right: 10px;
     width: 50px;
     height: 20px;
-    display: block;
+    display: flex;
 }
 .colores-turnos-yellow{
     background-color: yellow;
@@ -603,7 +608,7 @@ div{
     margin-right: 10px;
     width: 50px;
     height: 20px;
-    display: block;
+    display: flex;
 }
 .colores-turnos-white{
     background-color: white;
@@ -611,5 +616,5 @@ div{
     margin-right: 10px;
     width: 50px;
     height: 20px;
-    display: block;
+    display: flex;
 }

@@ -77,25 +77,41 @@ document.addEventListener('DOMContentLoaded', async function () {
     //funcion que genera los botones de la cancha
     async function cargarBotonesDeCancha() {
         const canchaButtonsContainer = document.getElementById('cancha-buttons-container'); 
-
+    
         try {
             const response = await fetch('/canchas/todas');
             if (!response.ok) {
                 throw new Error('Error al obtener las canchas');
             }
             const canchas = await response.json();
-
+    
             // Limpiar los botones previos (si los hubiera)
             canchaButtonsContainer.innerHTML = '';
-
+    
             // Crear un botón para cada cancha
             canchas.forEach(cancha => {
                 const button = document.createElement('button');
                 button.textContent = `Cancha ${cancha.id} - ${cancha.estado}`;
-                button.addEventListener('click', () => cambiarCancha(cancha.id));
+                
+                // Añadir el evento click para cambiar el color
+                button.addEventListener('click', function() {
+                    // Eliminar la clase 'pressed' de todos los botones
+                    const botones = canchaButtonsContainer.getElementsByTagName('button');
+                    for (let btn of botones) {
+                        btn.classList.remove('pressed');
+                    }
+    
+                    // Agregar la clase 'pressed' al botón presionado
+                    button.classList.add('pressed');
+    
+                    // Llamar a la función para manejar la lógica de la cancha
+                    cambiarCancha(cancha.id);
+                });
+    
+                // Añadir el botón al contenedor
                 canchaButtonsContainer.appendChild(button);
             });
-
+    
         } catch (error) {
             console.error('Error al cargar las canchas:', error);
             alert('Hubo un problema al cargar las canchas. Intenta de nuevo más tarde.');
