@@ -126,6 +126,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             locale: 'es',
             initialView: 'timeGridWeek',
             selectable: true,
+            aspectRatio: 3, // Ajusta la relación de aspecto (ancho/alto)
+            contentHeight: 'auto', // Permite que el calendario se ajuste dinámicamente
             customButtons: {
                 myCustomButton: {
                     text: 'Agregar Turno!',
@@ -170,6 +172,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     allDaySlot: false
                 }
             },
+            
             dateClick: function (info) {
                 selectedDate = info;
             },
@@ -178,22 +181,60 @@ document.addEventListener('DOMContentLoaded', async function () {
             },
             eventContent: function (info) {
                 // Crear elementos personalizados
-                const eventTitle = document.createElement('span');
-                eventTitle.innerText = info.event.title;
-        
-                const deleteButton = document.createElement('span');
+                const eventDetails = document.createElement('div'); // Contenedor principal
+            
+                const startTime = new Date(info.event.start).toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    hour12: false,
+                });
+            
+                const endTime = info.event.end
+                    ? new Date(info.event.end).toLocaleTimeString('es-ES', {
+                          hour: '2-digit',
+                          hour12: false,
+                      })
+                    : 'Sin hora de fin';
+            
+                const eventTitle = document.createElement('span'); // Título del evento
+                eventTitle.innerText = `${info.event.title} (${startTime} - ${endTime})`;
+            
+                const deleteButton = document.createElement('span'); // Botón de eliminar
                 deleteButton.innerText = ' ❌';
                 deleteButton.style.color = 'red';
                 deleteButton.style.cursor = 'pointer';
                 deleteButton.style.marginLeft = '5px';
-        
-                // Manejar clic en la cruz
-                deleteButton.addEventListener('click', function (e) {
+            
+                   // Manejar clic en la cruz
+                deleteButton.addEventListener('click', async function (e) {
                     e.stopPropagation(); // Evita que se dispare el clic en el evento
                     const confirmDelete = confirm(`¿Quieres eliminar el evento "${info.event.title}"?`);
                     if (confirmDelete) {
-                        info.event.remove(); // Elimina el evento del calendario
-                        alert('Evento eliminado');
+                        try {
+                            // Obtener CSRF token
+                        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+    
+                        // Crear un objeto FormData para enviar el formulario
+                            const formData = new FormData();
+                            formData.append('_csrf', csrfToken);  // Incluir el CSRF token
+    
+                            // Realizar solicitud al backend para eliminar el evento
+                            console.log("info.event.id:",info.event.id);
+                            const response = await fetch(`/turnos/delete/${info.event.id}`, {
+                                method: 'DELETE',
+                                body:formData
+                            });
+    
+                            if (response.ok) {
+                                info.event.remove(); // Elimina el evento del calendario
+                                alert('Evento eliminado con éxito');
+                            } else {
+                                console.error('Error al eliminar el evento:', response.status);
+                                alert('No se pudo eliminar el evento. Intenta de nuevo.');
+                            }
+                        } catch (error) {
+                            console.error('Error en la solicitud:', error);
+                            alert('Hubo un problema al eliminar el evento.');
+                        }
                     }
                 });
         
@@ -210,9 +251,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                             const endDate = new Date(turno.dia + 'T' + turno.hora);
                             endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                             endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                            const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
+                            const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? '#d1d135' : 'blue';
                             console.log('turnos tipo',turno.tipoTurno);
-                            return {
+                            return {        
+                                id: turno.id, // Aquí se asigna el ID del turno
                                 title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                                 start: startDate,
                                 end: endDate.toISOString(),
@@ -327,6 +369,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         locale: 'es',
         initialView: 'timeGridWeek',
         selectable: true,
+        aspectRatio: 3, // Ajusta la relación de aspecto (ancho/alto)
+        contentHeight: 'auto', // Permite que el calendario se ajuste dinámicamente
         customButtons: {
             myCustomButton: {
                 text: 'Agregar Turno!',
@@ -371,6 +415,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 allDaySlot: false
             }
         },
+        
         dateClick: function (info) {
             selectedDate = info;
         },
@@ -379,22 +424,60 @@ document.addEventListener('DOMContentLoaded', async function () {
         },
         eventContent: function (info) {
             // Crear elementos personalizados
-            const eventTitle = document.createElement('span');
-            eventTitle.innerText = info.event.title;
-    
-            const deleteButton = document.createElement('span');
+            const eventDetails = document.createElement('div'); // Contenedor principal
+        
+            const startTime = new Date(info.event.start).toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                hour12: false,
+            });
+        
+            const endTime = info.event.end
+                ? new Date(info.event.end).toLocaleTimeString('es-ES', {
+                      hour: '2-digit',
+                      hour12: false,
+                  })
+                : 'Sin hora de fin';
+        
+            const eventTitle = document.createElement('span'); // Título del evento
+            eventTitle.innerText = `${info.event.title} (${startTime} - ${endTime})`;
+        
+            const deleteButton = document.createElement('span'); // Botón de eliminar
             deleteButton.innerText = ' ❌';
             deleteButton.style.color = 'red';
             deleteButton.style.cursor = 'pointer';
             deleteButton.style.marginLeft = '5px';
-    
-            // Manejar clic en la cruz
-            deleteButton.addEventListener('click', function (e) {
+        
+               // Manejar clic en la cruz
+            deleteButton.addEventListener('click', async function (e) {
                 e.stopPropagation(); // Evita que se dispare el clic en el evento
                 const confirmDelete = confirm(`¿Quieres eliminar el evento "${info.event.title}"?`);
                 if (confirmDelete) {
-                    info.event.remove(); // Elimina el evento del calendario
-                    alert('Evento eliminado');
+                    try {
+                        // Obtener CSRF token
+                    const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+                    // Crear un objeto FormData para enviar el formulario
+                        const formData = new FormData();
+                        formData.append('_csrf', csrfToken);  // Incluir el CSRF token
+
+                        // Realizar solicitud al backend para eliminar el evento
+                        console.log("info.event.id:",info.event.id);
+                        const response = await fetch(`/turnos/delete/${info.event.id}`, {
+                            method: 'DELETE',
+                            body:formData
+                        });
+
+                        if (response.ok) {
+                            info.event.remove(); // Elimina el evento del calendario
+                            alert('Evento eliminado con éxito');
+                        } else {
+                            console.error('Error al eliminar el evento:', response.status);
+                            alert('No se pudo eliminar el evento. Intenta de nuevo.');
+                        }
+                    } catch (error) {
+                        console.error('Error en la solicitud:', error);
+                        alert('Hubo un problema al eliminar el evento.');
+                    }
                 }
             });
     
@@ -411,9 +494,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                         const endDate = new Date(turno.dia + 'T' + turno.hora);
                         endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                         endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                        const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
+                        const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? '#d1d135' : 'blue';
                         console.log('turnos tipo',turno.tipoTurno);
-                        return {
+                        return {        
+                            id: turno.id, // Aquí se asigna el ID del turno
                             title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                             start: startDate,
                             end: endDate.toISOString(),
@@ -487,5 +571,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             alert('Hubo un error al agregar el turno.');
         }
     });
+    
+
 
 });

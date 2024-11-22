@@ -22,7 +22,7 @@
 /*HEADER*/
 header {
     
-    position: absolute;
+    position: relative;
     display: flex;                /* Usamos flexbox para el contenedor */       
     justify-content: center; /* Espacio entre los elementos */
     padding: 2rem; /* Espacio interno opcional */
@@ -297,13 +297,17 @@ li {
     height: 100vh; /* La altura será del 100% de la ventana */
     width: 100%;
     display: flex; /* Usa flexbox para centrar el contenido */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
     position: relative; /* Posiciona el contenedor relativamente */
     color: white; /* Color del texto */
     text-align: center; /* Centra el texto */
     padding: 10%;
-    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 /* Estilo del texto */
@@ -513,15 +517,21 @@ form{
 
 .calendario {
     display: flex;
-    margin-top: 6%;
-    padding: 0;
-    width: 100%;
-    margin-bottom: 20%;
-    height: 700px;
-    background: rgb(133, 133, 133);
+    background: rgb(255, 255, 255);
     color: black;
-    opacity: 0.90;
-    font-size: large;
+    opacity: 1;
+    font-size: medium;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+    height: auto; /* Permitir que ajuste su tamaño */
+}
+/* Para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    .calendario {
+        padding: 5px; /* Reducir márgenes en pantallas pequeñas */
+    }
 }
 
 .modal {

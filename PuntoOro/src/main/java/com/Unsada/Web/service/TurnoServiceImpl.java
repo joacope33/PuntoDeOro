@@ -11,13 +11,13 @@ import com.Unsada.Web.model.Cancha;
 import com.Unsada.Web.model.Turno;
 import com.Unsada.Web.repository.TurnoRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class TurnoServiceImpl implements TurnoService {
 
     @Autowired
     public TurnoRepository turnoRepository;
-
-
 
     @Override
     public List<Turno> obtenerTurnoByCancha(Cancha cancha) {
@@ -61,6 +61,13 @@ public class TurnoServiceImpl implements TurnoService {
             throw new RuntimeException("Error al obtener los turnos", e);
         }
     }
-
+    @Override
+    public void eliminarTurno(Long idTurno) {
+            if (turnoRepository.existsById(idTurno)) {
+                turnoRepository.deleteById(idTurno);
+            } else {
+                throw new EntityNotFoundException("El turno con ID " + idTurno + " no existe");
+            }
+        }
 
 }
