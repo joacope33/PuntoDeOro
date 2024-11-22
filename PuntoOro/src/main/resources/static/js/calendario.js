@@ -273,7 +273,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
         calendar.render();
     }
-
     
     //llamada de funciones
     cargarCanchas();//cargar canchas
