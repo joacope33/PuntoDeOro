@@ -432,7 +432,20 @@ document.addEventListener('DOMContentLoaded', async function () {
         },
         
         dateClick: function (info) {
-            selectedDate = info;
+            selectedDate = info; // Guardar la fecha seleccionada
+            modal.showModal(); // Mostrar el formulario/modal
+
+            // Rellenar el campo de inicio con la fecha seleccionada
+            const formattedDate = info.date.toLocaleString('es-ES', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }).replace(',', '');
+            document.getElementById('event-start').value = formattedDate;
         },
         eventClick: function (info) {
             alert('Evento: ' + info.event.title);

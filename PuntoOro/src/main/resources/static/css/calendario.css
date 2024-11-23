@@ -618,3 +618,10 @@ div{
     height: 20px;
     display: flex;
 }
+th {
+    background-color: #007bff;
+    justify-content: center;
+}
+.fc-timegrid-slot-label-frame{
+    background-color: #007bff;
+}
