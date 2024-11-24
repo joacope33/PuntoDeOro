@@ -60,4 +60,14 @@ public class TurnoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el turno: " + e.getMessage());
         }
     }
+    @PostMapping("/editar/{idTurno}")
+    public String editarTurno(@PathVariable Long idTurno, @ModelAttribute("turno") TurnoDTO turnoDTO) {
+        try {
+            // Obtener el turno por id y actualizarlo con los nuevos datos
+            turnoServiceImpl.editarTurno(idTurno, turnoDTO); // Implementa este método en tu servicio
+            return "redirect:/calendario"; // Redirige al calendario después de la edición
+        } catch (Exception e) {
+            return "redirect:/calendario?error=true"; // Redirige con un mensaje de error
+        }
+}
 }
