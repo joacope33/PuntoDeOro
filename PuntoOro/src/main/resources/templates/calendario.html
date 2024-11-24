@@ -92,8 +92,8 @@
                     </div>
 
                     <label for="event-start">Fecha y Horario de Inicio:</label>
-                    <input type="text" id="event-start" readonly required>
-            
+                    <input type="datetime-local" id="event-start" required>
+                    
                     <label for="turn-type">Tipo de Turno:</label>
                     <select id="turn-type" required>
                         <option value="TORNEO">TORNEO</option>
@@ -106,7 +106,7 @@
                             <!-- Opciones de canchas cargadas dinámicamente -->
                         </select>
                     </div>
-                    <button type="submit">Agregar Turno</button>
+                    <button type="submit" id="submit-button">Agregar Turno</button>
                 </form>
                 <button id="btn-close-modal">Cerrar</button>
             </dialog>

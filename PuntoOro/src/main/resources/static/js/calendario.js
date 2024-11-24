@@ -192,17 +192,18 @@ document.addEventListener('DOMContentLoaded', async function () {
             dateClick: function (info) {
                 selectedDate = info; // Guardar la fecha seleccionada
                 modal.showModal(); // Mostrar el formulario/modal
-    
-                // Rellenar el campo de inicio con la fecha seleccionada
-                const formattedDate = info.date.toLocaleString('es-ES', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false
-                }).replace(',', '');
+                
+                // Crear un objeto Date con la fecha seleccionada
+                const localDate = new Date(info.date);
+                
+                // Ajustar la hora a la zona horaria local (el navegador ya lo hace, pero podemos asegurarnos)
+                const offset = localDate.getTimezoneOffset(); // Obtener el desfase en minutos de la zona horaria local
+                localDate.setMinutes(localDate.getMinutes() - offset); // Ajustar la hora para la zona local
+                
+                // Formatear la fecha para que sea compatible con datetime-local (incluir segundos)
+                const formattedDate = localDate.toISOString().slice(0, 19); // 'yyyy-MM-ddTHH:mm:ss'
+                
+                // Rellenar el campo de inicio con la fecha en formato datetime-local
                 document.getElementById('event-start').value = formattedDate;
             },
             eventClick: function (info) {
@@ -447,21 +448,67 @@ document.addEventListener('DOMContentLoaded', async function () {
         dateClick: function (info) {
             selectedDate = info; // Guardar la fecha seleccionada
             modal.showModal(); // Mostrar el formulario/modal
-
-            // Rellenar el campo de inicio con la fecha seleccionada
-            const formattedDate = info.date.toLocaleString('es-ES', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            }).replace(',', '');
+            
+            // Crear un objeto Date con la fecha seleccionada
+            const localDate = new Date(info.date);
+            
+            // Ajustar la hora a la zona horaria local (el navegador ya lo hace, pero podemos asegurarnos)
+            const offset = localDate.getTimezoneOffset(); // Obtener el desfase en minutos de la zona horaria local
+            localDate.setMinutes(localDate.getMinutes() - offset); // Ajustar la hora para la zona local
+            
+            // Formatear la fecha para que sea compatible con datetime-local (incluir segundos)
+            const formattedDate = localDate.toISOString().slice(0, 19); // 'yyyy-MM-ddTHH:mm:ss'
+            
+            // Rellenar el campo de inicio con la fecha en formato datetime-local
             document.getElementById('event-start').value = formattedDate;
         },
         eventClick: function (info) {
-            alert('Evento: ' + info.event.title);
+            const event = info.event;
+
+            // Mostrar el modal de edición
+            modal.showModal();
+            const submitButton = document.getElementById('submit-button');
+            submitButton.style.display = 'none';  // Ocultar el botón de envío
+            // Prellenar los campos del formulario con los datos del evento
+            const localStartDate = new Date(event.start); // Obtener la fecha de inicio del evento
+
+            // Ajustar la hora a la zona horaria local
+            const offset = localStartDate.getTimezoneOffset();
+            localStartDate.setMinutes(localStartDate.getMinutes() - offset); // Ajustar para la zona horaria local
+
+            // Asignar jugador
+            document.getElementById('select-player').value = event.extendedProps.jugador.id;
+
+            // Asignar la fecha y hora al campo datetime-local
+            document.getElementById('event-start').value = localStartDate.toISOString().slice(0, 19); // 'yyyy-MM-ddTHH:mm:ss'
+
+            // Prellenar otros campos con los datos del evento
+            document.getElementById('turn-type').value = event.extendedProps.tipoTurno; // Prellenar el tipo de turno
+            document.getElementById('select-cancha').value = event.extendedProps.cancha; // Prellenar la cancha
+
+            // Verificar si el botón de actualización ya está presente
+            const existingUpdateButton = document.getElementById('update-button');
+            if (existingUpdateButton) {
+                // Si el botón ya está presente, no agregarlo de nuevo
+                console.log('El botón de actualización ya está presente');
+                const updateButton = document.getElementById('update-button');
+                updateButton.style.display = 'block';
+            } else {
+                // Crear el botón de actualización
+                const updateButton = document.createElement('button');
+                updateButton.innerText = 'Actualizar Turno';
+                updateButton.id = 'update-button';  // Asignar un id único para evitar duplicados
+                updateButton.addEventListener('click', function() {
+                    // Realizar solicitud para actualizar el evento
+                    updateEvent(info.event.id);
+                });
+
+
+                // Añadir el botón de actualización al modal
+                modal.appendChild(updateButton);
+                
+            }
+            updateButton.style.display = 'block';
         },
         eventContent: function (info) {
             // Crear elementos personalizados
@@ -540,6 +587,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                         return {        
                             id: turno.id, // Aquí se asigna el ID del turno
                             title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
+                            jugador: turno.jugadores?.[0] || 'null',
+                            cancha: canchaData ? canchaData.id : 'null',
+                            tipoTurno: turno.tipoTurno || 'null',
                             start: startDate,
                             end: endDate.toISOString(),
                             description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
@@ -560,54 +610,67 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Cerrar modal al hacer clic en el botón de cerrar
     btnCerrar.addEventListener('click', function () {
+        const submitButton = document.getElementById('submit-button');
+        const updateButton = document.getElementById('update-button');
         modal.close();
+        submitButton.style.display = 'block';  // Mostrar el botón de envío
+        updateButton.style.display = 'none';
+
     });
 
     // Evento para agregar el turno
-    eventForm.addEventListener('submit', async function (e) {
+    eventForm.addEventListener('submit', async function (e) {   
         e.preventDefault();
-    
+
         // Obtener CSRF token
         const csrfToken = document.querySelector('input[name="_csrf"]').value;
-    
+        
         // Obtener los valores del formulario
         const selectedPlayerId = document.getElementById('select-player').value;
         const startDateTime = document.getElementById('event-start').value;
         const turnType = document.getElementById('turn-type').value;
         const selectedCanchaId = document.getElementById('select-cancha').value;
         
-        console.log('cancha',selectedCanchaId);
-        const dia = startDateTime.split(" ")[0];
-        const hora = startDateTime.split(" ")[1];
-
-
+        console.log('cancha', selectedCanchaId);
+        
+        // Dividir la fecha y la hora
+        const [dia, hora] = startDateTime.split('T');
+        
+        // Cambiar el formato de la fecha de yyyy-MM-dd a yyyy/MM/dd
+        
+        // Asegurarse de que la hora incluya los segundos (HH:mm:ss)
+        let formattedHora = hora;
+        if (hora.length === 5) {
+            // Si la hora solo tiene formato HH:mm, agregamos los segundos ":00"
+            formattedHora += ":00";
+        }
+        
         // Crear un objeto FormData para enviar el formulario
         const formData = new FormData();
         formData.append('_csrf', csrfToken);  // Incluir el CSRF token
         formData.append('jugadores', selectedPlayerId);
-        formData.append('dia', dia); // Solo la fecha
-        formData.append('hora', hora); // Solo la hora
+        formData.append('dia', dia); // Solo la fecha en formato yyyy/MM/dd
+        formData.append('hora', formattedHora); // Hora en formato HH:mm:ss
         formData.append('tipoTurno', turnType);
         formData.append('Cancha', selectedCanchaId);
         
-       
         try {
             // Enviar la solicitud POST con FormData
             const response = await fetch('/turnos/reservar', {
                 method: 'POST',
                 body: formData
             });
-    
+        
             if (response.ok) {
                 alert("Turno agregado con éxito");
                 modal.close();
                 eventForm.reset();
                 loadPlayers();  // Refrescar jugadores
-                actualizarCalendario(selectedCanchaId)
+                actualizarCalendario(selectedCanchaId);
             } else {
                 alert("Error al agregar el turno");
             }
-        } catch (error) {   
+        } catch (error) {
             console.error('Error al agregar el turno:', error);
             alert('Hubo un error al agregar el turno.');
         }
