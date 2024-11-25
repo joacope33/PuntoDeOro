@@ -30,16 +30,9 @@ public class Torneo {
     private Long id;
     
     @Column(name = "fechainicio")
-<<<<<<< HEAD
     private LocalDate fechaInicio;
     @Column(name = "fechafin")
     private LocalDate fechaFin;
-=======
-    private Date fechaInicio;
-
-    @Column(name = "fechafin")  
-    private Date fechaFin;
->>>>>>> a64c3847b6d11d13954e3ff72ebda3b7280f16ac
 
     @Enumerated(EnumType.STRING)
     private FormatoTorneo formato; 
@@ -51,11 +44,7 @@ public class Torneo {
     @Enumerated(EnumType.STRING)
     private EstadoTorneo estado;
 
-<<<<<<< HEAD
-    public Torneo(LocalDate fechaInicio, LocalDate fechaFin, Categoria categoria, String estado) {
-=======
-    public Torneo(Date fechaInicio, Date fechaFin,FormatoTorneo formato, Categoria categoria, EstadoTorneo estado) {
->>>>>>> a64c3847b6d11d13954e3ff72ebda3b7280f16ac
+    public Torneo(LocalDate fechaInicio, LocalDate fechaFin, Categoria categoria, EstadoTorneo estado) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.formato = formato;
