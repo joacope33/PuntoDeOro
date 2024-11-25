@@ -284,31 +284,100 @@ body {
     margin: 0;
     background-color: #8d8b1b00;
     font-family: var(--fuente-principal);
+    height: 100vh; /* Asegura que la altura sea suficiente para mostrar todo */
 }
 
 li {
     list-style: none;
 }
 
-.background-img-home {
-    background-image: url("/images/PuntoOroCancha.png"); /* Cambia la ruta a tu imagen */
-    background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
-    background-position: center; /* Centra la imagen */
-    height: 100vh; /* La altura será del 100% de la ventana */
-    width: 100%;
-    display: flex; /* Usa flexbox para centrar el contenido */
-    position: relative; /* Posiciona el contenedor relativamente */
-    color: white; /* Color del texto */
-    text-align: center; /* Centra el texto */
-    padding: 10%;
+.background-container {
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     width: 100%;
-    height: auto;
-    padding: 20px;
-    box-sizing: border-box;
+    background: linear-gradient(25deg, #000000, #424242, #9c9c9c, #424242, #000000);
+    padding: 40px;
+    justify-items: center; /* Centra los elementos dentro de cada celda */
+    align-items: center; /* Centra los elementos verticalmente */  
+   
 }
+
+#cancha-buttons-container {
+    width: 100%;
+    max-width: 1500px;
+}
+
+#cancha-buttons-container button{ 
+    background-color: #a77d23c4;
+    color: #000000;
+    font-weight: bold;
+}
+
+#cancha-buttons-container button:hover{ 
+    background-color: #c4932a;
+
+}
+
+#cancha-buttons-container button:active{ 
+    background-color: #926e21;
+
+}
+
+
+.container {
+    align-items: center; /* Centra los elementos verticalmente */  
+    display: flex;;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh; /* Asegura que la altura sea suficiente para mostrar todo */
+}
+
+#calendar {
+    background: #0000004f;
+    padding: 50px;
+    width: 100%;
+    border-radius: 10px;
+    color: #fff;
+    max-width: 1500px;
+}
+.contenedor-leyenda {
+    width: 100%;
+    background: #0000004f;
+    padding: 10px;
+    border-radius: 10px;
+    color: #000000;
+    max-width: 1500px;
+}
+
+#calendar button {
+    background-color: #a77d23;
+    color: #000000;
+}
+
+#calendar button:hover {
+    background-color: #c4932a;
+}
+
+#calendar button:active {
+    background-color: #926e21;
+}
+
+.fc-scrollgrid-sync-inner {
+    background: #a77d23;
+    color: #000000;
+}
+
+.fc-timegrid-axis {
+    color: #000000;
+    background: #a77d23;
+}
+
+.fc-timegrid-slot-label-cushion {
+    color: #000000;
+    background: #a77d23;
+}
+
 
 /* Estilo del texto */
 .texto {

@@ -55,96 +55,98 @@
     </header>
 
     <main>
-        <div class="background-img-home">
-            <!--botones de cancha-->
-            <div id="cancha-buttons-container"></div>
-            
-            <!--calendario-->
-            <div class="calendario" id='calendar'></div>
-            <div class="contenedor-leyenda">
-                <div>TURNO</div>
-                <div class="colores-turnos-red"></div>
-                <div>TORNEO</div>
-                <div class="colores-turnos-grey"></div>
-                <div>TURNO FIJO</div>
-                <div class="colores-turnos-yellow"></div>
-                <div>DISPONIBLE</div>
-                <div class="colores-turnos-white"></div>
-            </div>
+        <div class="background-container">
+            <div class="container">
+                <!--botones de cancha-->
+                <div id="cancha-buttons-container"></div>
+                
+                <!--calendario-->
+                <div class="calendario" id='calendar'></div>
+                <div class="contenedor-leyenda">
+                    <div>TURNO</div>
+                    <div class="colores-turnos-red"></div>
+                    <div>TORNEO</div>
+                    <div class="colores-turnos-grey"></div>
+                    <div>TURNO FIJO</div>
+                    <div class="colores-turnos-yellow"></div>
+                    <div>DISPONIBLE</div>
+                    <div class="colores-turnos-white"></div>
+                </div>
 
 
-            </div>
-            <!-- esta ventana modal es para alta turno-->
-            <dialog class="modal" id="modal">
-                <h2>Agregar Turno</h2>
-                <form id="event-form" style="display: flex; align-items: center; gap: 10px;">
-                    <!-- Incluir el token CSRF de Spring Security -->
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-                    <!-- Los demás campos del formulario -->
-                    <div>
-                        <label for="select-player" style="margin-right: 5px;">Jugador:</label>
-                        <select id="select-player" required>
-                            <!-- Opciones cargadas dinámicamente -->
+                </div>
+                <!-- esta ventana modal es para alta turno-->
+                <dialog class="modal" id="modal">
+                    <h2>Agregar Turno</h2>
+                    <form id="event-form" style="display: flex; align-items: center; gap: 10px;">
+                        <!-- Incluir el token CSRF de Spring Security -->
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                        <!-- Los demás campos del formulario -->
+                        <div>
+                            <label for="select-player" style="margin-right: 5px;">Jugador:</label>
+                            <select id="select-player" required>
+                                <!-- Opciones cargadas dinámicamente -->
+                            </select>
+                            <button type="button" id="add-player-btn" style="padding: 0; border: none; background: transparent;">
+                                <img src="/images/jugadorAgregar.png" alt="Agregar Jugador" style="width: 40px; height: 40px;">
+                            </button>
+                        </div>
+
+                        <label for="event-start">Fecha y Horario de Inicio:</label>
+                        <input type="datetime-local" id="event-start" required>
+                        
+                        <label for="turn-type">Tipo de Turno:</label>
+                        <select id="turn-type" required>
+                            <option value="TORNEO">TORNEO</option>
+                            <option value="TURNO">TURNO</option>
+                            <option value="TURNO_FIJO">TURNO FIJO</option>
                         </select>
-                        <button type="button" id="add-player-btn" style="padding: 0; border: none; background: transparent;">
-                            <img src="/images/jugadorAgregar.png" alt="Agregar Jugador" style="width: 40px; height: 40px;">
-                        </button>
-                    </div>
+                        <div>
+                            <label for="select-cancha">Cancha:</label>
+                            <select id="select-cancha" required>
+                                <!-- Opciones de canchas cargadas dinámicamente -->
+                            </select>
+                        </div>
+                        <button type="submit" id="submit-button">Agregar Turno</button>
+                    </form>
+                    <button id="btn-close-modal">Cerrar</button>
+                </dialog>
 
-                    <label for="event-start">Fecha y Horario de Inicio:</label>
-                    <input type="datetime-local" id="event-start" required>
-                    
-                    <label for="turn-type">Tipo de Turno:</label>
-                    <select id="turn-type" required>
-                        <option value="TORNEO">TORNEO</option>
-                        <option value="TURNO">TURNO</option>
-                        <option value="TURNO_FIJO">TURNO FIJO</option>
-                    </select>
-                    <div>
-                        <label for="select-cancha">Cancha:</label>
-                        <select id="select-cancha" required>
-                            <!-- Opciones de canchas cargadas dinámicamente -->
-                        </select>
-                    </div>
-                    <button type="submit" id="submit-button">Agregar Turno</button>
-                </form>
-                <button id="btn-close-modal">Cerrar</button>
-            </dialog>
-
-            <!-- este dialog es para dar de alta-->
-            <dialog class="modal" id="player-modal">
-                <h2>Agregar Jugador</h2>
-                <form id="add-player-form">
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-  
-                    <label for="player-name">Nombre Completo:</label>
-                    <input type="text" id="player-name" required="">
-                    
-                    <label for="player-phone">Teléfono:</label>
-                    <input type="text" id="player-phone" required="">
-                    
-                    <label for="player-category">Categoría:</label>
-                    <input type="text" id="player-category" required="">
-                    
-                    <label for="player-birthday">Fecha de Nacimiento:</label>
-                    <input type="date" id="player-birthday" required="">
-                    
-                    <label for="player-dni">DNI:</label>
-                    <input type="text" id="player-dni" required="">
-                    
-                    <label for="player-rating">Calificación:</label>
-                    <input type="number" id="player-rating" required="">
-                    
-                    <label for="player-points">Puntos:</label>
-                    <input type="number" id="player-points" required="">
-                    
-                    <label for="player-comment">Comentario:</label>
-                    <input type="text" id="player-comment"name="comentario" placeholder="Escribe aquí tu comentario" maxlength="200" required><br></textarea>
-                    
-                    <button type="submit">Agregar Jugador</button>
-                </form>
-                <button id="btn-close-player-modal">Cerrar</button>
-            </dialog>
+                <!-- este dialog es para dar de alta-->
+                <dialog class="modal" id="player-modal">
+                    <h2>Agregar Jugador</h2>
+                    <form id="add-player-form">
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+    
+                        <label for="player-name">Nombre Completo:</label>
+                        <input type="text" id="player-name" required="">
+                        
+                        <label for="player-phone">Teléfono:</label>
+                        <input type="text" id="player-phone" required="">
+                        
+                        <label for="player-category">Categoría:</label>
+                        <input type="text" id="player-category" required="">
+                        
+                        <label for="player-birthday">Fecha de Nacimiento:</label>
+                        <input type="date" id="player-birthday" required="">
+                        
+                        <label for="player-dni">DNI:</label>
+                        <input type="text" id="player-dni" required="">
+                        
+                        <label for="player-rating">Calificación:</label>
+                        <input type="number" id="player-rating" required="">
+                        
+                        <label for="player-points">Puntos:</label>
+                        <input type="number" id="player-points" required="">
+                        
+                        <label for="player-comment">Comentario:</label>
+                        <input type="text" id="player-comment"name="comentario" placeholder="Escribe aquí tu comentario" maxlength="200" required><br></textarea>
+                        
+                        <button type="submit">Agregar Jugador</button>
+                    </form>
+                    <button id="btn-close-player-modal">Cerrar</button>
+                </dialog>
+            </div>
         </div>
     </main>
 
