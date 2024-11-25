@@ -29,7 +29,7 @@ public class UsuarioRegisterDTO {
         this.telefono = telefono;
         this.contrasena = contrasena;
         this.estado = estado;
-        this.role = role;  // Inicializamos el role
+        this.role = Role.USER;  // Inicializamos el role
     }
 
     public UsuarioRegisterDTO(String email) {
