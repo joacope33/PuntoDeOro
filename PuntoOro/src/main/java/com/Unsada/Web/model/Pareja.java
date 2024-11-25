@@ -35,13 +35,13 @@ public class Pareja {
     private Jugador jugador2;
 
     @ManyToOne
-    @JoinColumn(name = "idtorneo")
-    private Torneo torneo;
+    @JoinColumn(name = "idpartido")
+    private Partido partido;
 
-    public Pareja(Jugador jugador1, Jugador jugador2, Torneo torneo) {
+    public Pareja(Jugador jugador1, Jugador jugador2, Partido partido) {
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
-        this.torneo = torneo;
+        this.partido = partido;
     }
 
     public Pareja() {
@@ -49,7 +49,7 @@ public class Pareja {
 
     @Override
     public String toString() {
-        return "Pareja [id=" + id + ", jugador1=" + jugador1 + ", jugador2=" + jugador2 + ", torneo=" + torneo + "]";
+        return "Pareja [id=" + id + ", jugador1=" + jugador1 + ", jugador2=" + jugador2 + ", partido=" + partido + "]";
     }
 
     

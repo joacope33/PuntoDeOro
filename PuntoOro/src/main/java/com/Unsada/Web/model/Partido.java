@@ -16,11 +16,13 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "partido")
 @Getter
 @Setter
+@ToString
 public class Partido {
     
 
@@ -36,15 +38,15 @@ public class Partido {
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     private Zona zona;
 
-    @JoinColumn(name = "idpareja", nullable = true)
+    @JoinColumn(name = "idpareja_ganadora", nullable = true)
     @OneToOne
     private Pareja ganadora;
 
-    @JoinColumn(name = "idpareja")
+    @JoinColumn(name = "idpareja_equipo1")
     @OneToOne
     private Pareja equipo1;
 
-    @JoinColumn(name = "idpareja")
+    @JoinColumn(name = "idpareja_equipo2")
     @OneToOne
     private Pareja equipo2;
 
@@ -63,6 +65,12 @@ public class Partido {
     @JoinColumn(name = "idturno")
     private Turno turno;
 
+    @Column(name ="puntos_equipo1")
+    private int puntos_equipo1;
+
+    @Column(name ="puntos_equipo2")
+    private int puntos_equipo2;
+
 
     public Partido() {
     }
@@ -75,14 +83,6 @@ public class Partido {
         this.zona = zona;
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 
-
-    
-
-    
     
 }
