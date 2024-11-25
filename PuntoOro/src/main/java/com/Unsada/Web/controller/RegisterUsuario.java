@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Unsada.Web.dto.UsuarioRegisterDTO;
+import com.Unsada.Web.model.enums.Role;
 import com.Unsada.Web.service.UsuarioService;
 
 
@@ -32,6 +33,9 @@ public class RegisterUsuario {
     @PostMapping
     public String registrarUsuario(@ModelAttribute("usuario") UsuarioRegisterDTO usuarioRegisterDTO) {
         try {
+            if (usuarioRegisterDTO.getRole()==null) {
+                usuarioRegisterDTO.setRole(Role.USER);
+            }
             usuarioService.guardarUsuario(usuarioRegisterDTO);
         return "redirect:/register?exito";
         } catch (Exception e) {

@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.Unsada.Web.dto.UsuarioDTO;
 import com.Unsada.Web.model.Usuario;
+import com.Unsada.Web.model.enums.Role;
 import com.Unsada.Web.service.UsuarioService;
 
 
@@ -44,6 +45,10 @@ public class UsuarioController {
     @PostMapping("/guardar")
     public String agregarUsuario(@ModelAttribute("usuario") UsuarioDTO usuarioDTO) {
         try {
+            if(usuarioDTO.getRole()==null){
+                usuarioDTO.setRole(Role.USER);
+
+            }
             usuarioService.guardarUsuario(usuarioDTO);
             return "redirect:/usuario?exito"; // Redirige al formulario con un mensaje de éxito
         } catch (Exception e) {

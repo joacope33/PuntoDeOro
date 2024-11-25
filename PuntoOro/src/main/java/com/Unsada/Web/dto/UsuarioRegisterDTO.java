@@ -28,8 +28,13 @@ public class UsuarioRegisterDTO {
         this.email = email;
         this.telefono = telefono;
         this.contrasena = contrasena;
+<<<<<<< HEAD
         this.estado = estado != 0 ? estado : 1; // Si estado es 0, asigna un valor predeterminado
         this.role = role;  // Inicializamos el role
+=======
+        this.estado = estado;
+        this.role = Role.USER;  // Inicializamos el role
+>>>>>>> a64c3847b6d11d13954e3ff72ebda3b7280f16ac
     }
 
     public UsuarioRegisterDTO(String email) {

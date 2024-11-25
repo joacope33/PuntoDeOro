@@ -40,6 +40,7 @@ public class UsuarioDTO {
         this.telefono = usuario.getTelefono();
         this.contrasena = usuario.getContrasena();
         this.estado = usuario.getEstado();
+        this.role = Role.USER;
 
     }
 

@@ -61,7 +61,19 @@
             
             <!--calendario-->
             <div class="calendario" id='calendar'></div>
+            <div class="contenedor-leyenda">
+                <div>TURNO</div>
+                <div class="colores-turnos-red"></div>
+                <div>TORNEO</div>
+                <div class="colores-turnos-grey"></div>
+                <div>TURNO FIJO</div>
+                <div class="colores-turnos-yellow"></div>
+                <div>DISPONIBLE</div>
+                <div class="colores-turnos-white"></div>
+            </div>
 
+
+            </div>
             <!-- esta ventana modal es para alta turno-->
             <dialog class="modal" id="modal">
                 <h2>Agregar Turno</h2>
@@ -80,8 +92,8 @@
                     </div>
 
                     <label for="event-start">Fecha y Horario de Inicio:</label>
-                    <input type="text" id="event-start" readonly required>
-            
+                    <input type="datetime-local" id="event-start" required>
+                    
                     <label for="turn-type">Tipo de Turno:</label>
                     <select id="turn-type" required>
                         <option value="TORNEO">TORNEO</option>
@@ -94,7 +106,7 @@
                             <!-- Opciones de canchas cargadas dinámicamente -->
                         </select>
                     </div>
-                    <button type="submit">Agregar Turno</button>
+                    <button type="submit" id="submit-button">Agregar Turno</button>
                 </form>
                 <button id="btn-close-modal">Cerrar</button>
             </dialog>

@@ -1,7 +1,12 @@
 package com.Unsada.Web.model;
 
+import com.Unsada.Web.model.enums.FaseDePartidos;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,11 +16,13 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "partido")
 @Getter
 @Setter
+@ToString
 public class Partido {
     
 
@@ -24,13 +31,24 @@ public class Partido {
     @Column(name = "idpartido")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private FaseDePartidos fase;
+
+    @JoinColumn(name = "idzona", nullable = true)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    private Zona zona;
+
+    @JoinColumn(name = "idpareja_ganadora", nullable = true)
     @OneToOne
-    @JoinColumn(name = "idparejaganadora")
-    private Pareja parejaGanadora;
-    
+    private Pareja ganadora;
+
+    @JoinColumn(name = "idpareja_equipo1")
     @OneToOne
-    @JoinColumn(name = "idparejaperdedora")
-    private Pareja parejaPerdedora;
+    private Pareja equipo1;
+
+    @JoinColumn(name = "idpareja_equipo2")
+    @OneToOne
+    private Pareja equipo2;
 
     @Column(name = "set1")
     private String setUno;
@@ -47,38 +65,24 @@ public class Partido {
     @JoinColumn(name = "idturno")
     private Turno turno;
 
-    @Column(name = "asistenciapareja1")
-    private int asistenciaParejaUno;
-    @Column(name = "asistenciapareja2")
-    private int asistenciaParejaDos;
+    @Column(name ="puntos_equipo1")
+    private int puntos_equipo1;
 
-    
-    public Partido(Pareja parejaGanadora, Pareja parejaPerdedora, String setUno, String setDos, String setTres,
-            Torneo torneo, Turno turno, int asistenciaParejaUno, int asistenciaParejaDos) {
-        this.parejaGanadora = parejaGanadora;
-        this.parejaPerdedora = parejaPerdedora;
-        this.setUno = setUno;
-        this.setDos = setDos;
-        this.setTres = setTres;
-        this.torneo = torneo;
-        this.turno = turno;
-        this.asistenciaParejaUno = asistenciaParejaUno;
-        this.asistenciaParejaDos = asistenciaParejaDos;
-    }
+    @Column(name ="puntos_equipo2")
+    private int puntos_equipo2;
 
 
     public Partido() {
     }
 
-
-    @Override
-    public String toString() {
-        return "Partido [id=" + id + ", parejaGanadora=" + parejaGanadora + ", parejaPerdedora=" + parejaPerdedora
-                + ", setUno=" + setUno + ", setDos=" + setDos + ", setTres=" + setTres + ", torneo=" + torneo
-                + ", turno=" + turno + ", asistenciaParejaUno=" + asistenciaParejaUno + ", asistenciaParejaDos="
-                + asistenciaParejaDos + "]";
+    public Partido(Pareja equipo1, Pareja equipo2, FaseDePartidos fase, Torneo torneo, Zona zona) {
+        this.equipo1 = equipo1;
+        this.equipo2 = equipo2;
+        this.fase = fase;
+        this.torneo = torneo;
+        this.zona = zona;
     }
 
-    
+
     
 }

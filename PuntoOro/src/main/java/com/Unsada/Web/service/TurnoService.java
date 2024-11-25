@@ -15,4 +15,6 @@ public interface TurnoService {
     public Turno findById(Long idTurno);
     public List<Turno> obtenerTurnoByDia(LocalDate dia);
     public List<Turno> obtenerTodosLosTurnos();  // Método de la interfaz
+    public void eliminarTurno(Long id);
+    public void editarTurno(Long id, TurnoDTO turnoDTO);
 }

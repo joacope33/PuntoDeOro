@@ -19,7 +19,7 @@ import com.Unsada.Web.model.Cancha;
 import com.Unsada.Web.service.CanchaService;
 
 @RestController
-@RequestMapping("/api/canchas")
+@RequestMapping("/canchas")
 public class CanchaREST {
 
     @Autowired

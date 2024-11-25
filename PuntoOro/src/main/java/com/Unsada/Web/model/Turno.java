@@ -17,6 +17,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -27,7 +28,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "turnos")
+@Table(name = "turnos", indexes={
+    @Index(name = "unique_cancha_dia_hora", columnList = "idcancha, dia, hora", unique = true)
+})
 @Getter
 @Setter
 public class Turno {

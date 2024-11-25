@@ -77,25 +77,41 @@ document.addEventListener('DOMContentLoaded', async function () {
     //funcion que genera los botones de la cancha
     async function cargarBotonesDeCancha() {
         const canchaButtonsContainer = document.getElementById('cancha-buttons-container'); 
-
+    
         try {
             const response = await fetch('/canchas/todas');
             if (!response.ok) {
                 throw new Error('Error al obtener las canchas');
             }
             const canchas = await response.json();
-
+    
             // Limpiar los botones previos (si los hubiera)
             canchaButtonsContainer.innerHTML = '';
-
+    
             // Crear un botón para cada cancha
             canchas.forEach(cancha => {
                 const button = document.createElement('button');
                 button.textContent = `Cancha ${cancha.id} - ${cancha.estado}`;
-                button.addEventListener('click', () => cambiarCancha(cancha.id));
+                
+                // Añadir el evento click para cambiar el color
+                button.addEventListener('click', function() {
+                    // Eliminar la clase 'pressed' de todos los botones
+                    const botones = canchaButtonsContainer.getElementsByTagName('button');
+                    for (let btn of botones) {
+                        btn.classList.remove('pressed');
+                    }
+    
+                    // Agregar la clase 'pressed' al botón presionado
+                    button.classList.add('pressed');
+    
+                    // Llamar a la función para manejar la lógica de la cancha
+                    cambiarCancha(cancha.id);
+                });
+    
+                // Añadir el botón al contenedor
                 canchaButtonsContainer.appendChild(button);
             });
-
+    
         } catch (error) {
             console.error('Error al cargar las canchas:', error);
             alert('Hubo un problema al cargar las canchas. Intenta de nuevo más tarde.');
@@ -126,6 +142,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             locale: 'es',
             initialView: 'timeGridWeek',
             selectable: true,
+            aspectRatio: 3, // Ajusta la relación de aspecto (ancho/alto)
+            contentHeight: 'auto', // Permite que el calendario se ajuste dinámicamente
             customButtons: {
                 myCustomButton: {
                     text: 'Agregar Turno!',
@@ -170,30 +188,169 @@ document.addEventListener('DOMContentLoaded', async function () {
                     allDaySlot: false
                 }
             },
+            
             dateClick: function (info) {
-                selectedDate = info;
+                selectedDate = info; // Guardar la fecha seleccionada
+                modal.showModal(); // Mostrar el formulario/modal
+                
+                // Crear un objeto Date con la fecha seleccionada
+                const localDate = new Date(info.date);
+                
+                // Ajustar la hora a la zona horaria local (el navegador ya lo hace, pero podemos asegurarnos)
+                const offset = localDate.getTimezoneOffset(); // Obtener el desfase en minutos de la zona horaria local
+                localDate.setMinutes(localDate.getMinutes() - offset); // Ajustar la hora para la zona local
+                
+                // Formatear la fecha para que sea compatible con datetime-local (incluir segundos)
+                const formattedDate = localDate.toISOString().slice(0, 19); // 'yyyy-MM-ddTHH:mm:ss'
+                
+                // Rellenar el campo de inicio con la fecha en formato datetime-local
+                document.getElementById('event-start').value = formattedDate;
             },
             eventClick: function (info) {
-                alert('Evento: ' + info.event.title);
+                const event = info.event;
+    
+                // Mostrar el modal de edición
+                modal.showModal();
+                const submitButton = document.getElementById('submit-button');
+                submitButton.style.display = 'none';  // Ocultar el botón de envío
+                // Prellenar los campos del formulario con los datos del evento
+                const localStartDate = new Date(event.start); // Obtener la fecha de inicio del evento
+    
+                // Ajustar la hora a la zona horaria local
+                const offset = localStartDate.getTimezoneOffset();
+                localStartDate.setMinutes(localStartDate.getMinutes() - offset); // Ajustar para la zona horaria local
+    
+                // Asignar jugador
+                document.getElementById('select-player').value = event.extendedProps.jugador.id;
+    
+                // Asignar la fecha y hora al campo datetime-local
+                document.getElementById('event-start').value = localStartDate.toISOString().slice(0, 19); // 'yyyy-MM-ddTHH:mm:ss'
+    
+                // Prellenar otros campos con los datos del evento
+                document.getElementById('turn-type').value = event.extendedProps.tipoTurno; // Prellenar el tipo de turno
+                document.getElementById('select-cancha').value = event.extendedProps.cancha; // Prellenar la cancha
+    
+                // Verificar si el botón de actualización ya está presente
+                const existingUpdateButton = document.getElementById('update-button');
+                if (existingUpdateButton) {
+                    // Si el botón ya está presente, no agregarlo de nuevo
+                    console.log('El botón de actualización ya está presente');
+                    const updateButton = document.getElementById('update-button');
+                    updateButton.style.display = 'block';
+                } else {
+                    // Crear el botón de actualización
+                    const updateButton = document.createElement('button');
+                    updateButton.innerText = 'Actualizar Turno';
+                    updateButton.id = 'update-button';  // Asignar un id único para evitar duplicados
+                    updateButton.addEventListener('click', async function() {
+                        // Obtener CSRF token
+                        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+                        
+                        // Recolectar los datos del formulario
+                        const eventStart = document.getElementById('event-start').value;
+                        
+                        // Verificar si el valor de `event-start` incluye los segundos
+                        const dia = eventStart.split('T')[0]; // Extraer la fecha (yyyy-MM-dd)
+                        let hora = eventStart.split('T')[1];  // Extraer la hora (HH:mm:ss)
+                        
+                        // Si la hora no incluye los segundos, agregar '00' para los segundos
+                        if (hora.split(':').length === 2) {
+                            hora += ':00';  // Añadir los segundos a la hora si no están presentes
+                        }
+                        
+                        // Crear un objeto FormData para enviar el formulario
+                        const formData = new FormData();
+                        formData.append('_csrf', csrfToken);  // Incluir el CSRF token
+                        formData.append('jugadores', document.getElementById('select-player').value);
+                        formData.append('dia', dia); // Solo la fecha en formato yyyy/MM/dd
+                        formData.append('hora', hora); // Hora en formato HH:mm:ss
+                        formData.append('tipoTurno', document.getElementById('turn-type').value);
+                        formData.append('Cancha', document.getElementById('select-cancha').value);
+                        
+                        try {
+                            // Enviar la solicitud POST con FormData para actualizar el turno
+                            const response = await fetch(`/turnos/editar/${event.id}`, {
+                                method: 'POST',
+                                body: formData
+                            });
+                    
+                            if (response.ok) {
+                                // Si la actualización fue exitosa, cerrar el modal
+                                modal.close();
+                                alert('Turno actualizado exitosamente');
+                            } else {
+                                alert('Error al actualizar el turno');
+                            }
+                            actualizarCalendario(document.getElementById('select-cancha').value);
+                        } catch (error) {
+                            console.error('Error al actualizar el turno:', error);
+                            alert('Error al actualizar el turno');
+                        }
+                    });
+    
+    
+                    // Añadir el botón de actualización al modal
+                    modal.appendChild(updateButton);
+                    
+                }
+                updateButton.style.display = 'block';
             },
             eventContent: function (info) {
                 // Crear elementos personalizados
-                const eventTitle = document.createElement('span');
-                eventTitle.innerText = info.event.title;
-        
-                const deleteButton = document.createElement('span');
+                const eventDetails = document.createElement('div'); // Contenedor principal
+            
+                const startTime = new Date(info.event.start).toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    hour12: false,
+                });
+            
+                const endTime = info.event.end
+                    ? new Date(info.event.end).toLocaleTimeString('es-ES', {
+                          hour: '2-digit',
+                          hour12: false,
+                      })
+                    : 'Sin hora de fin';
+            
+                const eventTitle = document.createElement('span'); // Título del evento
+                eventTitle.innerText = `${info.event.title} (${startTime} - ${endTime})`;
+            
+                const deleteButton = document.createElement('span'); // Botón de eliminar
                 deleteButton.innerText = ' ❌';
                 deleteButton.style.color = 'red';
                 deleteButton.style.cursor = 'pointer';
                 deleteButton.style.marginLeft = '5px';
-        
-                // Manejar clic en la cruz
-                deleteButton.addEventListener('click', function (e) {
+            
+                   // Manejar clic en la cruz
+                deleteButton.addEventListener('click', async function (e) {
                     e.stopPropagation(); // Evita que se dispare el clic en el evento
                     const confirmDelete = confirm(`¿Quieres eliminar el evento "${info.event.title}"?`);
                     if (confirmDelete) {
-                        info.event.remove(); // Elimina el evento del calendario
-                        alert('Evento eliminado');
+                        try {
+                            // Obtener CSRF token
+                        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+    
+                        // Crear un objeto FormData para enviar el formulario
+                            const formData = new FormData();
+                            formData.append('_csrf', csrfToken);  // Incluir el CSRF token
+    
+                            // Realizar solicitud al backend para eliminar el evento
+                            console.log("info.event.id:",info.event.id);
+                            const response = await fetch(`/turnos/delete/${info.event.id}`, {
+                                method: 'DELETE',
+                                body:formData
+                            });
+    
+                            if (response.ok) {
+                                info.event.remove(); // Elimina el evento del calendario
+                                alert('Evento eliminado con éxito');
+                            } else {
+                                console.error('Error al eliminar el evento:', response.status);
+                                alert('No se pudo eliminar el evento. Intenta de nuevo.');
+                            }
+                        } catch (error) {
+                            console.error('Error en la solicitud:', error);
+                            alert('Hubo un problema al eliminar el evento.');
+                        }
                     }
                 });
         
@@ -210,10 +367,14 @@ document.addEventListener('DOMContentLoaded', async function () {
                             const endDate = new Date(turno.dia + 'T' + turno.hora);
                             endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                             endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                            const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
+                            const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? '#d1d135' : 'blue';
                             console.log('turnos tipo',turno.tipoTurno);
-                            return {
+                            return {        
+                                id: turno.id, // Aquí se asigna el ID del turno
                                 title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
+                                jugador: turno.jugadores?.[0] || 'null',
+                                cancha: canchaData ? canchaData.id : 'null',
+                                tipoTurno: turno.tipoTurno || 'null',
                                 start: startDate,
                                 end: endDate.toISOString(),
                                 description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
@@ -231,7 +392,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
         calendar.render();
     }
-
     
     //llamada de funciones
     cargarCanchas();//cargar canchas
@@ -327,6 +487,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         locale: 'es',
         initialView: 'timeGridWeek',
         selectable: true,
+        aspectRatio: 3, // Ajusta la relación de aspecto (ancho/alto)
+        contentHeight: 'auto', // Permite que el calendario se ajuste dinámicamente
         customButtons: {
             myCustomButton: {
                 text: 'Agregar Turno!',
@@ -371,30 +533,169 @@ document.addEventListener('DOMContentLoaded', async function () {
                 allDaySlot: false
             }
         },
+        
         dateClick: function (info) {
-            selectedDate = info;
+            selectedDate = info; // Guardar la fecha seleccionada
+            modal.showModal(); // Mostrar el formulario/modal
+            
+            // Crear un objeto Date con la fecha seleccionada
+            const localDate = new Date(info.date);
+            
+            // Ajustar la hora a la zona horaria local (el navegador ya lo hace, pero podemos asegurarnos)
+            const offset = localDate.getTimezoneOffset(); // Obtener el desfase en minutos de la zona horaria local
+            localDate.setMinutes(localDate.getMinutes() - offset); // Ajustar la hora para la zona local
+            
+            // Formatear la fecha para que sea compatible con datetime-local (incluir segundos)
+            const formattedDate = localDate.toISOString().slice(0, 19); // 'yyyy-MM-ddTHH:mm:ss'
+            
+            // Rellenar el campo de inicio con la fecha en formato datetime-local
+            document.getElementById('event-start').value = formattedDate;
         },
         eventClick: function (info) {
-            alert('Evento: ' + info.event.title);
+            const event = info.event;
+
+            // Mostrar el modal de edición
+            modal.showModal();
+            const submitButton = document.getElementById('submit-button');
+            submitButton.style.display = 'none';  // Ocultar el botón de envío
+            // Prellenar los campos del formulario con los datos del evento
+            const localStartDate = new Date(event.start); // Obtener la fecha de inicio del evento
+
+            // Ajustar la hora a la zona horaria local
+            const offset = localStartDate.getTimezoneOffset();
+            localStartDate.setMinutes(localStartDate.getMinutes() - offset); // Ajustar para la zona horaria local
+
+            // Asignar jugador
+            document.getElementById('select-player').value = event.extendedProps.jugador.id;
+
+            // Asignar la fecha y hora al campo datetime-local
+            document.getElementById('event-start').value = localStartDate.toISOString().slice(0, 19); // 'yyyy-MM-ddTHH:mm:ss'
+
+            // Prellenar otros campos con los datos del evento
+            document.getElementById('turn-type').value = event.extendedProps.tipoTurno; // Prellenar el tipo de turno
+            document.getElementById('select-cancha').value = event.extendedProps.cancha; // Prellenar la cancha
+
+            // Verificar si el botón de actualización ya está presente
+            const existingUpdateButton = document.getElementById('update-button');
+            if (existingUpdateButton) {
+                // Si el botón ya está presente, no agregarlo de nuevo
+                console.log('El botón de actualización ya está presente');
+                const updateButton = document.getElementById('update-button');
+                updateButton.style.display = 'block';
+            } else {
+                // Crear el botón de actualización
+                const updateButton = document.createElement('button');
+                updateButton.innerText = 'Actualizar Turno';
+                updateButton.id = 'update-button';  // Asignar un id único para evitar duplicados
+                updateButton.addEventListener('click', async function() {
+                    // Obtener CSRF token
+                    const csrfToken = document.querySelector('input[name="_csrf"]').value;
+                    
+                    // Recolectar los datos del formulario
+                    const eventStart = document.getElementById('event-start').value;
+                    
+                    // Verificar si el valor de `event-start` incluye los segundos
+                    const dia = eventStart.split('T')[0]; // Extraer la fecha (yyyy-MM-dd)
+                    let hora = eventStart.split('T')[1];  // Extraer la hora (HH:mm:ss)
+                    
+                    // Si la hora no incluye los segundos, agregar '00' para los segundos
+                    if (hora.split(':').length === 2) {
+                        hora += ':00';  // Añadir los segundos a la hora si no están presentes
+                    }
+                    
+                    // Crear un objeto FormData para enviar el formulario
+                    const formData = new FormData();
+                    formData.append('_csrf', csrfToken);  // Incluir el CSRF token
+                    formData.append('jugadores', document.getElementById('select-player').value);
+                    formData.append('dia', dia); // Solo la fecha en formato yyyy/MM/dd
+                    formData.append('hora', hora); // Hora en formato HH:mm:ss
+                    formData.append('tipoTurno', document.getElementById('turn-type').value);
+                    formData.append('Cancha', document.getElementById('select-cancha').value);
+                    
+                    try {
+                        // Enviar la solicitud POST con FormData para actualizar el turno
+                        const response = await fetch(`/turnos/editar/${event.id}`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                
+                        if (response.ok) {
+                            // Si la actualización fue exitosa, cerrar el modal
+                            modal.close();
+                            alert('Turno actualizado exitosamente');
+                        } else {
+                            alert('Error al actualizar el turno');
+                        }
+                        actualizarCalendario(document.getElementById('select-cancha').value);
+                    } catch (error) {
+                        console.error('Error al actualizar el turno:', error);
+                        alert('Error al actualizar el turno');
+                    }
+                });
+
+
+                // Añadir el botón de actualización al modal
+                modal.appendChild(updateButton);
+                
+            }
+            updateButton.style.display = 'block';
         },
         eventContent: function (info) {
             // Crear elementos personalizados
-            const eventTitle = document.createElement('span');
-            eventTitle.innerText = info.event.title;
-    
-            const deleteButton = document.createElement('span');
+            const eventDetails = document.createElement('div'); // Contenedor principal
+        
+            const startTime = new Date(info.event.start).toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                hour12: false,
+            });
+        
+            const endTime = info.event.end
+                ? new Date(info.event.end).toLocaleTimeString('es-ES', {
+                      hour: '2-digit',
+                      hour12: false,
+                  })
+                : 'Sin hora de fin';
+        
+            const eventTitle = document.createElement('span'); // Título del evento
+            eventTitle.innerText = `${info.event.title} (${startTime} - ${endTime})`;
+        
+            const deleteButton = document.createElement('span'); // Botón de eliminar
             deleteButton.innerText = ' ❌';
             deleteButton.style.color = 'red';
             deleteButton.style.cursor = 'pointer';
             deleteButton.style.marginLeft = '5px';
-    
-            // Manejar clic en la cruz
-            deleteButton.addEventListener('click', function (e) {
+        
+               // Manejar clic en la cruz
+            deleteButton.addEventListener('click', async function (e) {
                 e.stopPropagation(); // Evita que se dispare el clic en el evento
                 const confirmDelete = confirm(`¿Quieres eliminar el evento "${info.event.title}"?`);
                 if (confirmDelete) {
-                    info.event.remove(); // Elimina el evento del calendario
-                    alert('Evento eliminado');
+                    try {
+                        // Obtener CSRF token
+                    const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+                    // Crear un objeto FormData para enviar el formulario
+                        const formData = new FormData();
+                        formData.append('_csrf', csrfToken);  // Incluir el CSRF token
+
+                        // Realizar solicitud al backend para eliminar el evento
+                        console.log("info.event.id:",info.event.id);
+                        const response = await fetch(`/turnos/delete/${info.event.id}`, {
+                            method: 'DELETE',
+                            body:formData
+                        });
+
+                        if (response.ok) {
+                            info.event.remove(); // Elimina el evento del calendario
+                            alert('Evento eliminado con éxito');
+                        } else {
+                            console.error('Error al eliminar el evento:', response.status);
+                            alert('No se pudo eliminar el evento. Intenta de nuevo.');
+                        }
+                    } catch (error) {
+                        console.error('Error en la solicitud:', error);
+                        alert('Hubo un problema al eliminar el evento.');
+                    }
                 }
             });
     
@@ -411,10 +712,14 @@ document.addEventListener('DOMContentLoaded', async function () {
                         const endDate = new Date(turno.dia + 'T' + turno.hora);
                         endDate.setHours(endDate.getHours() + parseInt(canchaData.duracion.split(':')[0]));
                         endDate.setMinutes(endDate.getMinutes() + parseInt(canchaData.duracion.split(':')[1]));
-                        const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? 'yellow' : 'blue';
+                        const color = turno.tipoTurno === 'TURNO' ? 'red' : turno.tipoTurno === 'TORNEO' ? 'grey' : turno.tipoTurno === 'TURNO_FIJO' ? '#d1d135' : 'blue';
                         console.log('turnos tipo',turno.tipoTurno);
-                        return {
+                        return {        
+                            id: turno.id, // Aquí se asigna el ID del turno
                             title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
+                            jugador: turno.jugadores?.[0] || 'null',
+                            cancha: canchaData ? canchaData.id : 'null',
+                            tipoTurno: turno.tipoTurno || 'null',
                             start: startDate,
                             end: endDate.toISOString(),
                             description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
@@ -435,57 +740,72 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Cerrar modal al hacer clic en el botón de cerrar
     btnCerrar.addEventListener('click', function () {
+        const submitButton = document.getElementById('submit-button');
+        const updateButton = document.getElementById('update-button');
         modal.close();
+        submitButton.style.display = 'block';  // Mostrar el botón de envío
+        updateButton.style.display = 'none';
+
     });
 
     // Evento para agregar el turno
-    eventForm.addEventListener('submit', async function (e) {
+    eventForm.addEventListener('submit', async function (e) {   
         e.preventDefault();
-    
+
         // Obtener CSRF token
         const csrfToken = document.querySelector('input[name="_csrf"]').value;
-    
+        
         // Obtener los valores del formulario
         const selectedPlayerId = document.getElementById('select-player').value;
         const startDateTime = document.getElementById('event-start').value;
         const turnType = document.getElementById('turn-type').value;
         const selectedCanchaId = document.getElementById('select-cancha').value;
         
-        console.log('cancha',selectedCanchaId);
-        const dia = startDateTime.split(" ")[0];
-        const hora = startDateTime.split(" ")[1];
-
-
+        console.log('cancha', selectedCanchaId);
+        
+        // Dividir la fecha y la hora
+        const [dia, hora] = startDateTime.split('T');
+        
+        // Cambiar el formato de la fecha de yyyy-MM-dd a yyyy/MM/dd
+        
+        // Asegurarse de que la hora incluya los segundos (HH:mm:ss)
+        let formattedHora = hora;
+        if (hora.length === 5) {
+            // Si la hora solo tiene formato HH:mm, agregamos los segundos ":00"
+            formattedHora += ":00";
+        }
+        
         // Crear un objeto FormData para enviar el formulario
         const formData = new FormData();
         formData.append('_csrf', csrfToken);  // Incluir el CSRF token
         formData.append('jugadores', selectedPlayerId);
-        formData.append('dia', dia); // Solo la fecha
-        formData.append('hora', hora); // Solo la hora
+        formData.append('dia', dia); // Solo la fecha en formato yyyy/MM/dd
+        formData.append('hora', formattedHora); // Hora en formato HH:mm:ss
         formData.append('tipoTurno', turnType);
         formData.append('Cancha', selectedCanchaId);
         
-       
         try {
             // Enviar la solicitud POST con FormData
             const response = await fetch('/turnos/reservar', {
                 method: 'POST',
                 body: formData
             });
-    
+        
             if (response.ok) {
                 alert("Turno agregado con éxito");
                 modal.close();
                 eventForm.reset();
                 loadPlayers();  // Refrescar jugadores
-                actualizarCalendario(selectedCanchaId)
+                actualizarCalendario(selectedCanchaId);
             } else {
                 alert("Error al agregar el turno");
             }
-        } catch (error) {   
+        } catch (error) {
             console.error('Error al agregar el turno:', error);
             alert('Hubo un error al agregar el turno.');
         }
     });
+    
+
 
 });
