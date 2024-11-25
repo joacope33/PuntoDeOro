@@ -28,7 +28,7 @@ public class UsuarioRegisterDTO {
         this.email = email;
         this.telefono = telefono;
         this.contrasena = contrasena;
-        this.estado = estado;
+        this.estado = estado != 0 ? estado : 1; // Si estado es 0, asigna un valor predeterminado
         this.role = role;  // Inicializamos el role
     }
 

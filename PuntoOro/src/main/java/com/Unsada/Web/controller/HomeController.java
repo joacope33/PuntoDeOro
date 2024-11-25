@@ -39,10 +39,7 @@ public class HomeController{
     }
 
     
-    @GetMapping("/torneos")
-    public String mostrarTorneos() {
-        return "torneos";
-    }
+    
 
 
 }

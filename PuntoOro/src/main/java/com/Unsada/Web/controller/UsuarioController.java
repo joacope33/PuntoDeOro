@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.Unsada.Web.dto.UsuarioDTO;
@@ -33,21 +32,12 @@ public class UsuarioController {
     }
     
 
+    // Carga la lista de usuarios en el modelo y redirige a la vista de usuario
     @GetMapping
     public String obtenerFormUsuario(Model model) {
-        System.out.println("Método obtenerFormJugador llamado");
-        
         List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
-        System.out.println("Cantidad de usuarios encontrados: " + usuarios.size());
-        
-        if (usuarios.isEmpty()) {
-            System.out.println("No hay usuarios en la base de datos.");
-        } else {
-            usuarios.forEach(j -> System.out.println(j.getNombreCompleto()));
-        }
-
         model.addAttribute("usuarios", usuarios);
-        return "usuario";
+        return "usuario"; // Nombre de la vista correspondiente
     }
  
     // Método para agregar un nuevo jugador
@@ -73,35 +63,31 @@ public class UsuarioController {
             return "redirect:/usuario";
         } catch (Exception e) {
             System.err.println("Error al eliminar usuario: " + e.getMessage()); // Depuración
-            return "redirect:/usuario";
+            return "redirect:/usuario?error";
         }
     }
 
-    // Método para actualizar el jugador
+    // Actualiza un usuario y redirige con mensajes de éxito o error
     @PostMapping("/actualizar")
-    public String actualizarUsuario(@ModelAttribute("usuarioEmail") UsuarioDTO usuarioDTO, Model model) {
+    public String actualizarUsuario(@ModelAttribute("usuarioEmail") UsuarioDTO usuarioDTO) {
         try {
             usuarioService.actualizarUsuarioDesdeDTO(usuarioDTO);
-            model.addAttribute("exito", true);
+            return "redirect:/usuario?exito";
         } catch (Exception e) {
-            model.addAttribute("error", true);
+            return "redirect:/usuario?error";
         }
-        return "redirect:/usuario";
     }
 
 
+    // Devuelve un usuario específico para la edición
     @GetMapping("/editar/{email}")
-    @ResponseBody // Esto es importante para devolver solo el cuerpo de la respuesta
-    public UsuarioDTO mostrarFormularioEdicion(@PathVariable("email") String email) {
-        email = email.replaceAll("^\"|\"$", "");  // Eliminar comillas al inicio y al final
-        System.out.println(email);
+    public UsuarioDTO mostrarFormularioEdicion(@PathVariable String email) {
+        email = email.replaceAll("^\"|\"$", ""); // Elimina comillas si existen
         Usuario usuario = usuarioService.findByEmail(email);
         if (usuario == null) {
-            System.out.println("No se encuantra al jugador");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND); // Maneja el error adecuadamente
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }
-        System.out.println("Se encontró al usuario" + usuario);
-        return new UsuarioDTO(usuario); // Asegúrate de tener un DTO adecuado para devolver los datos
+        return new UsuarioDTO(usuario); // Devuelve el DTO para la edición
     }
 
 

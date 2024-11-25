@@ -308,7 +308,6 @@ main {
     box-sizing: border-box;
     text-align: center;
     height: 100vh; /* Asegura que la altura sea suficiente para mostrar todo */
-
 }
 
 .selector-container {

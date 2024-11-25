@@ -1,6 +1,6 @@
 package com.Unsada.Web.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,9 +25,9 @@ public class Torneo {
     private Long id;
     
     @Column(name = "fechainicio")
-    private Date fechaInicio;
+    private LocalDate fechaInicio;
     @Column(name = "fechafin")
-    private Date fechaFin;
+    private LocalDate fechaFin;
 
     @ManyToOne
     @JoinColumn(name = "idcategoria")
@@ -36,7 +36,7 @@ public class Torneo {
     @Column(name = "estado")
     private String estado;
 
-    public Torneo(Date fechaInicio, Date fechaFin, Categoria categoria, String estado) {
+    public Torneo(LocalDate fechaInicio, LocalDate fechaFin, Categoria categoria, String estado) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.categoria = categoria;

@@ -102,12 +102,22 @@
                                         <input type="text" id="estadoInput" name="estado" th:field="*{estado}" style="display: none;">
                                         <i class="fa-regular fa-pen-to-square" onclick="toggleEdit('estado')"></i>
                                     </td>
+                                    
                                 </tr>
                             </table>
 
                             <!-- Botón para guardar los cambios -->
                             <button class="btn-ajustar" type="submit">Guardar Cambios</button>
                         </form>
+                        <!-- Mensajes de éxito y error -->
+                    <div th:if="${param.exito}" class="mensaje-success">
+                        ¡Cambios guardados exitosamente!
+                    </div>
+                    <div th:if="${param.error}" class="mensaje-error">
+                        Ocurrió un error al procesar la solicitud. Por favor, intenta nuevamente.
+                    </div>
+                    
+
                     </div>
                 </div>
 

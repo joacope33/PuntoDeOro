@@ -6,8 +6,8 @@
     <title>Torneos - Punto de Oro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/index.css}" type="text/css">
-    <script th:src="@{/js/init.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/torneos.css}" type="text/css">
+    <script th:src="@{/js/torneos.js}" defer></script>
 </head>
 
 <body>
@@ -54,12 +54,90 @@
     </header>
 
     <main>
-        <div class="background-img-home">
-            <div class="texto">
-                <h1>Torneos <span th:text="${nombreUsuario}"></span></h1>
-                <p></p>
+         <!-- Contenido principal -->
+    <div class="background-img-home">
+        <div class="texto">
+            <h1>Gestión de Torneos</h1>
+
+            <div class="torneos-container">
+                <button class="btn-agregar" onclick="mostrarModalCrear()">Agregar Torneo</button>
+                
+                <table class="torneos-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Fin</th>
+                            <th>Categoría</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="torneo : ${torneos}" th:onclick="'verDetalles(' + ${torneo.id} + ')'" >
+                            <td th:text="${torneo.id}">1</td>
+                            <td th:text="${#temporals.format(torneo.fechaInicio, 'dd/MM/yyyy')}">01/01/2024</td>
+                            <td th:text="${#temporals.format(torneo.fechaFin, 'dd/MM/yyyy')}">10/01/2024</td>
+                            <td th:text="${torneo.categoria}">1</td>
+                            <td th:text="${torneo.estado}">En curso</td>
+                            <td class="acciones">
+                                <button class="btn-accion btn-editar" th:onclick="'editarTorneo(' + ${torneo.id} + ')'">Editar</button>
+                                <button class="btn-accion btn-eliminar" th:onclick="'eliminarTorneo(' + ${torneo.id} + ')'">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        
+            <!-- Modal para crear/editar torneo -->
+            <div id="formularioEditar" class="form-overlay" style="display: none;">
+                <div class="form">
+                    <div class="cruz" onclick="cerrarFormulario()">
+                        <i class="fa-solid fa-x"></i>
+                    </div>
+                    <h2 id="modalTitle">Nuevo Torneo</h2>
+                    <form id="form-guardar" th:action="@{/torneos/crear}" method="POST">
+                        <input type="hidden" id="torneoId" name="id">
+                        <div class="username">
+                            <label for="fechaInicio">Fecha Inicio</label>
+                            <input type="date" id="fechaInicio" name="fechaInicio" required>
+                        </div>
+                        <div class="username">
+                            <label for="fechaFin">Fecha Fin</label>
+                            <input type="date" id="fechaFin" name="fechaFin" required>
+                        </div>
+                        <div class="username">
+                            <label for="categoria">Categoría</label>
+                            <select id="categoria" name="categoria" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+                        <div class="username">
+                            <label for="estado">Estado</label>
+                            <select id="estado" name="estado" required>
+                                <option value="Próximo">Próximo</option>
+                                <option value="En curso">En curso</option>
+                                <option value="Finalizado">Finalizado</option>
+                            </select>
+                        </div>
+                        <div class="acciones">
+                            <button type="submit" class="btn-agregar">Guardar</button>
+                            <button type="button" class="btn-accion" onclick="cerrarModal()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
         </div>
+    </div>
     </main>
     <footer class="site-footer">
         <div class="footer-logo" translate="no">Punto de Oro Bragado</div>

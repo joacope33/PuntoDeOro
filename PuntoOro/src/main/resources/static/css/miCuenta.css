@@ -476,7 +476,11 @@ input[type="submit"]:active {
 
 
 
-
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
 
 
 /*MENSAJE DE ERROR*/

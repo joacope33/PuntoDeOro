@@ -40,25 +40,29 @@ public class UsuarioLogueadoController {
     }
 
     @PostMapping("/editar")
-    public String editarPerfil(@ModelAttribute("usuario") UsuarioRegisterDTO usuarioDTO, Principal principal, Model model) {
+    public String editarPerfil(@ModelAttribute("usuario") UsuarioRegisterDTO usuarioDTO, Principal principal) {
         try {
+            // Validación de estado
+            if (usuarioDTO.getEstado() < 0 || usuarioDTO.getEstado() > 1) {
+                return "redirect:/miCuenta?error"; // Valor de estado no válido
+            }
+
             // Obtener el correo electrónico (username)
             String email = principal.getName();
 
             // Actualizamos el usuario
             usuarioService.actualizarUsuario(email, usuarioDTO);
-            
-            System.out.println("Funciona " + usuarioDTO);
-            // Redirigir a la página de perfil
-            return "redirect:/miCuenta";
+
+            return "redirect:/miCuenta?exito"; // Redirigir al perfil si todo sale bien
+        } catch (NumberFormatException e) {
+            // Si la conversión falla, redirigir con un parámetro "error"
+            return "redirect:/miCuenta?error"; // Redirigir con un parámetro error
         } catch (EntityNotFoundException e) {
-            // Si no se encuentra el usuario, agregar el error al modelo
-            model.addAttribute("error", "No se encontró el usuario.");
-            return "miCuenta"; // Volver a la misma página con el mensaje de error
+            // Si no se encuentra el usuario, redirigir con un parámetro "error"
+            return "redirect:/miCuenta?error"; // Redirigir con un parámetro error
         } catch (Exception e) {
             // Manejo del error genérico
-            model.addAttribute("error", "Ocurrió un error al actualizar el perfil. Inténtalo nuevamente.");
-            return "miCuenta"; // Volver a la misma página con el mensaje de error
+            return "redirect:/miCuenta?error"; // Redirigir con un parámetro error
         }
     }
     
