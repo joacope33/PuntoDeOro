@@ -23,6 +23,9 @@ public class Pareja {
     @Column(name = "idpareja")
     private Long id;
 
+    @Column(name="nombrepareja")
+    private String nombrePareja;
+    
     @ManyToOne
     @JoinColumn(name = "idjugador1")
     private Jugador jugador1;

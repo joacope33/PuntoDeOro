@@ -2,8 +2,13 @@ package com.Unsada.Web.model;
 
 import java.util.Date;
 
+import com.Unsada.Web.model.enums.EstadoTorneo;
+import com.Unsada.Web.model.enums.FormatoTorneo;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,19 +31,24 @@ public class Torneo {
     
     @Column(name = "fechainicio")
     private Date fechaInicio;
-    @Column(name = "fechafin")
+
+    @Column(name = "fechafin")  
     private Date fechaFin;
+
+    @Enumerated(EnumType.STRING)
+    private FormatoTorneo formato; 
 
     @ManyToOne
     @JoinColumn(name = "idcategoria")
     private Categoria categoria;
 
-    @Column(name = "estado")
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private EstadoTorneo estado;
 
-    public Torneo(Date fechaInicio, Date fechaFin, Categoria categoria, String estado) {
+    public Torneo(Date fechaInicio, Date fechaFin,FormatoTorneo formato, Categoria categoria, EstadoTorneo estado) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.formato = formato;
         this.categoria = categoria;
         this.estado = estado;
     }
