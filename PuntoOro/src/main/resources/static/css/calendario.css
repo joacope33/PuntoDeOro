@@ -379,6 +379,44 @@ li {
 }
 
 
+.modal {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 15px;
+    overflow: hidden;
+}
+
+.cruz {
+    color: #fff;
+    padding: 3px;
+    position: relative;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    bottom: 15px;
+    left: 15px;
+    cursor: pointer;
+    font-size: 20px;
+
+}
+
+.cruz i {
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.cruz i:hover{
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.modal h2{
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Estilo del texto */
 .texto {
     background: rgba(0, 0, 0, 0.5); /* Fondo negro con opacidad para el texto */
@@ -603,11 +641,6 @@ form{
     }
 }
 
-.modal {
-    color: white;
-    background-color: #030303d4;
-
-}
 
 #event-form label {
     color: white;

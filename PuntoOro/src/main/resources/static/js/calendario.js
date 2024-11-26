@@ -809,3 +809,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 });
+
+
+function cerrarFormulario() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+}
