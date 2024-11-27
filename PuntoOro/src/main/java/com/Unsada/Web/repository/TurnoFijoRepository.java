@@ -9,5 +9,5 @@ import com.Unsada.Web.model.TurnosFijos;
 
 @Repository
 public interface TurnoFijoRepository extends JpaRepository<TurnosFijos, Long> {
-    public List<TurnosFijos> findAllFijos();
+    public List<TurnosFijos> findAll();  // Método estándar para obtener todos
 }

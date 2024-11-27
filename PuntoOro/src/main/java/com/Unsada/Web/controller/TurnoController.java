@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Unsada.Web.dto.TurnoDTO;
 import com.Unsada.Web.model.Turno;
+import com.Unsada.Web.model.TurnosFijos;
+import com.Unsada.Web.service.TurnoFijoService;
 import com.Unsada.Web.service.TurnoService;
 
 
@@ -24,7 +26,8 @@ public class TurnoController {
 
     @Autowired
     private TurnoService turnoServiceImpl;
-
+    @Autowired
+    private TurnoFijoService turnoFijoServiceImp;
 
     @GetMapping("/todos")
     public ResponseEntity<List<Turno>> getEvents() {
@@ -69,5 +72,19 @@ public class TurnoController {
         } catch (Exception e) {
             return "redirect:/calendario?error=true"; // Redirige con un mensaje de error
         }
-}
+    
+    }
+    @GetMapping("/Fijos")
+    public ResponseEntity<List<TurnosFijos>> getEvents1() {
+        try {
+            // Obtener lista de Turno
+            List<TurnosFijos> turnos = turnoFijoServiceImp.findAllFijos();
+            System.out.println(turnos);
+
+            return ResponseEntity.ok(turnos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

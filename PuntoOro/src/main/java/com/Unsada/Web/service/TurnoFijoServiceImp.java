@@ -1,5 +1,6 @@
 package com.Unsada.Web.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,13 @@ public class TurnoFijoServiceImp implements TurnoFijoService {
     TurnoFijoRepository turnoFijoRepository;
 
     @Override
-    public List<TurnosFijos> findAllFijos(){
-        return turnoFijoRepository.findAll();
-
-}
+    public List<TurnosFijos> findAllFijos() {
+        try {
+            return turnoFijoRepository.findAll();
+        } catch (Exception e) {
+            // Log error
+            
+            return Collections.emptyList(); // Devuelve una lista vacía en caso de error
+        }
+    }
 } 
