@@ -70,6 +70,6 @@ public class TurnosFijos {
     
     @Column(name = "cantidad_turnos_restantes")
     private int cantidad_turnos_restantes;
-    
+   
 
 }
