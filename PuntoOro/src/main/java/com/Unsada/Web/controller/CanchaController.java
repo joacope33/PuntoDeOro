@@ -22,6 +22,7 @@ import com.Unsada.Web.service.CanchaService;
 
 
 
+
 @Controller
 @RequestMapping("/canchas")
 public class CanchaController {
@@ -86,4 +87,29 @@ public class CanchaController {
         return new CanchaDTO(cancha); // Asegúrate de tener un DTO adecuado para devolver los datos
     }
 
+
+    // Método para agregar un nuevo jugador
+    @PostMapping("/agregar")
+    public String agregarCancha(@ModelAttribute("cancha") CanchaDTO canchaDTO) {
+        try {
+            canchaService.guardarCancha(canchaDTO);
+            return "redirect:/canchas"; // Redirige al formulario con un mensaje de éxito
+        } catch (Exception e) {
+            return "redirect:/canchas"; // Redirige al formulario con un mensaje de error
+        }
+    }
+    
+    // Método para borrar un jugador por su DNI
+    @PostMapping("/eliminar/{id}")
+    public String borrarCanchaId(@PathVariable Long id) {
+        try {
+            System.out.println("Intentando eliminar cancha con ID: " + id); // Depuración
+            canchaService.eliminarCancha(id);
+            System.out.println("Cancha eliminada con éxito."); // Depuración
+            return "redirect:/canchas";
+        } catch (Exception e) {
+            System.err.println("Error al eliminar cancha: " + e.getMessage()); // Depuración
+            return "redirect:/canchas";
+        }
+    }
 }

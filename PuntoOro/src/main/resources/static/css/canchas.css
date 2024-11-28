@@ -304,10 +304,10 @@ main {
     grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
     grid-template-rows: repeat(2, 1fr); /* Dos filas de igual tamaño */
     padding: 40px;
-    gap: 40px;
+
     justify-items: center; /* Centra los elementos dentro de cada celda */
     align-items: center; /* Centra los elementos verticalmente */
-    height: 100vh; /* Asegura que la altura sea suficiente para mostrar todo */
+    height: auto; /* Asegura que la altura sea suficiente para mostrar todo */
 }
 
 /* Estilo de cada cancha */
@@ -315,7 +315,7 @@ main {
     background-color: #0000006e;
     border-radius: 8px;
     padding: 20px;
-    margin: 150px auto; /* Centra el contenedor si es necesario */
+    margin: 50px auto; /* Centra el contenedor si es necesario */
     text-align: center;
     width: 90%; /* Asegura que cada cancha ocupe todo el ancho disponible */
     box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
@@ -615,9 +615,73 @@ form .username {
 }
 
 
+.botones {
+    width: 100%;
+    margin-left: 50px;
+    justify-content: center;
+    padding: 10px;
+}
 
+.btn-agregar {
+    cursor: pointer;
+    color: #fff;
+    background-color: #c4932a;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+}
 
+.btn-agregar:hover {
+    color: #fff;
+    background-color: #8d6a1f;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+}
 
+.btn-agregar:active {
+    color: #fff;
+    background-color: #dfa72e;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+}
+
+.container-btn-eliminar {
+    width: 100%;
+}
+
+.btn-eliminar {
+    cursor: pointer;
+    color: #fff;
+    background-color: #c4932a;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+    width: 100%;
+}
+
+.btn-eliminar:hover {
+    color: #fff;
+    background-color: #8d6a1f;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+}
+
+.btn-eliminar:active {
+    color: #fff;
+    background-color: #dfa72e;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid #00000079;
+}
 
 /*MENSAJE DE ERROR*/
 .mensaje {

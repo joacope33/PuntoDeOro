@@ -54,6 +54,13 @@
 
     <main>
         <div class="background-container">
+            <div class="botones">
+                <input type="button" class="btn-agregar" onclick="abrirFormularioAgregar()" value="Agrega Cancha"></input>
+            </div>
+            
+
+            
+
             <div class="container">
                 <div th:each="cancha : ${canchas}" class="cancha" 
                     th:onclick="|toggleForm('form-' + ${cancha.id})|">
@@ -91,6 +98,45 @@
                                     data-duracion="[[${cancha.duracion}]]" class="btn-editar">
                                 Editar
                     </button>
+                    <form class="container-btn-eliminar" th:action="@{/canchas/eliminar/{id}(id=${cancha.id})}" method="post" style="display:inline;">
+                        <button class="btn-eliminar" type="submit">Eliminar</button>
+                    </form>
+                </div>
+                <!-- Formulario de edición, inicialmente oculto -->
+                <div class="form-overlay" id="formularioAgregar" style="display: none;">
+                    <div class="form">
+                        <div class="cruz" onclick="cerrarFormularioAgregar()">
+                            <i class="fa-solid fa-x"></i>
+                        </div>
+                        <form class="form-agregar" th:action="@{/canchas/agregar}" method="post" th:object="${cancha}">
+                            <div class="username">
+                                <input type="time" id="horarioApertura" th:field="*{horarioApertura}" required />
+                                <label>Horario Apertura</label>
+                            </div>
+                            <div class="username">
+                                <input type="time" id="horarioCierre" th:field="*{horarioCierre}" required />
+                                <label>Horario Cierre</label>
+                            </div>
+                            <div class="username">
+                                <input type="checkbox" id="disponibilidad" th:field="*{disponibilidad}" required />
+                                <label>disponibilidad</label>
+                            </div>
+                            <div class="username">
+                                <input type="time" id="duracion" th:field="*{duracion}" required />
+                                <label>Duracion</label>
+                            </div>
+                            <div class="username">
+                                <select id="estadoCancha" th:field="*{estado}">
+                                    <option th:each="estado : ${T(com.Unsada.Web.model.enums.EstadoCancha).values()}" 
+                                            th:value="${estado}" 
+                                            th:text="${estado}">
+                                    </option>
+                                </select>
+                                <label>Estado</label>
+                            </div>
+                            <input type="submit" value="Guardar cambios"/>
+                        </form>
+                    </div>
                 </div>
                 <div class="form-overlay" id="formularioEditar" style="display: none;">
                     <div class="form">

@@ -3,6 +3,7 @@ package com.Unsada.Web.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.Unsada.Web.dto.CanchaDTO;
@@ -18,6 +19,9 @@ public class CanchaServiceImpl implements CanchaService {
     @Autowired
     private CanchaRepository canchaRepository;
 
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate; // Para ejecutar consultas SQL nativas
 
     @Override
     public Cancha guardarCancha(CanchaDTO canchaDTO) {
@@ -120,7 +124,26 @@ public class CanchaServiceImpl implements CanchaService {
        }
     }
 
+    @Override
+    public void eliminarCancha(Long id) {
+        Cancha cancha = canchaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró la cancha con esa Id: " + id));
+        canchaRepository.deleteById(cancha.getId()); // Eliminar por ID
 
+        reiniciarSecuencia();
+    }
+
+    // Reiniciar secuencia de id de canchas al eliminar para que agregue al último eliminado 
+    private void reiniciarSecuencia() {
+        String secuencia = "canchas_idcancha_seq"; // Nombre de la secuencia en la base de datos
+        String sql = String.format(
+            "SELECT setval('%s', COALESCE((SELECT MAX(idcancha) FROM canchas), 0) + 1, false)", 
+            secuencia
+        );
+        jdbcTemplate.execute(sql);
+    }
+    
+    
     
 }
 

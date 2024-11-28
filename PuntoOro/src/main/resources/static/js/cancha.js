@@ -40,6 +40,20 @@ function editarCancha(id) {
 }
 
 
+
+
+function abrirFormularioAgregar() {
+    // Mostrar el formulario de agregar
+    document.getElementById("formularioAgregar").style.display = "flex";
+}
+
+function cerrarFormularioAgregar() {
+    // Ocultar el formulario de agregar
+    document.getElementById("formularioAgregar").style.display = "none";
+}
+
+
+
 // Función para cerrar el formulario
 function cerrarFormulario() {
     document.querySelector('.form-overlay').style.display = 'none';
@@ -66,3 +80,22 @@ function guardarCambios() {
     .catch(error => console.error('Error:', error));
 }
 
+function eliminarCancha(id) {
+    if (confirm("¿Estás seguro de que deseas eliminar esta cancha?")) {
+        fetch(`/canchas/eliminar/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Cancha eliminada exitosamente.");
+                window.location.reload(); // Recarga la página o redirige a otra
+            } else {
+                alert("Hubo un error al intentar eliminar la cancha.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("No se pudo completar la solicitud.");
+        });
+    }
+}
