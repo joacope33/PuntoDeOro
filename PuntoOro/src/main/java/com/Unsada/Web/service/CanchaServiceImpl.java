@@ -97,6 +97,7 @@ public class CanchaServiceImpl implements CanchaService {
             cancha.setHorarioCierre(canchaDTO.getHorarioCierre());
             cancha.setDisponibilidad(canchaDTO.getDisponibilidad());
             cancha.setDuracion(canchaDTO.getDuracion());
+            cancha.setEstado(canchaDTO.getEstado());
 
             // Guarda la entidad actualizada
             canchaRepository.save(cancha);

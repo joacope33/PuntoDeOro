@@ -30,17 +30,21 @@ function editarCancha(id) {
             document.getElementById('horarioCierreEditar').value = data.horarioCierre;
             document.getElementById('disponibilidadEditar').checked = data.disponibilidad; // Marca el checkbox si es true
             document.getElementById('duracionEditar').value = data.duracion;
+            document.getElementById('estadoEditar').value = data.estado;
 
             // Establecer el título con el ID de la cancha
             document.getElementById('tituloCancha').textContent = `Cancha ${id}`;
             console.log(data); // Agregar un log para ver los datos recibidos
-            document.querySelector('.form-overlay').style.display = 'flex';
+            document.querySelector('#formularioEditar').style.display = 'flex';
         })
         .catch(error => console.error('Error:', error));
 }
 
 
-
+function cerrarFormularioEditar() {
+    // Ocultar el formulario de agregar
+    document.getElementById("formularioAgregar").style.display = "none";
+}
 
 function abrirFormularioAgregar() {
     // Mostrar el formulario de agregar
@@ -56,7 +60,7 @@ function cerrarFormularioAgregar() {
 
 // Función para cerrar el formulario
 function cerrarFormulario() {
-    document.querySelector('.form-overlay').style.display = 'none';
+    document.querySelector('#formularioEditar').style.display = 'none';
 }
 
 // Función para guardar los cambios

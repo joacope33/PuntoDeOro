@@ -89,13 +89,19 @@
                             <label>Duración:</label>
                             <span th:text="${cancha.duracion}"></span>
                         </div>
+
+                        <div>
+                            <label>Estado:</label>
+                            <span th:text="${cancha.estado}"></span>
+                        </div>
                     </div>
                     <button type="button" 
                                     th:onclick="editarCancha('[[${cancha.id}]]')" 
                                     data-horario-apertura="[[${cancha.horarioApertura}]]"
                                     data-horario-cierre="[[${cancha.horarioCierre}]]"
                                     data-disponibilidad="[[${cancha.disponibilidad}]]"
-                                    data-duracion="[[${cancha.duracion}]]" class="btn-editar">
+                                    data-duracion="[[${cancha.duracion}]]"
+                                    data-estado="[[${cancha.estado}]]" class="btn-editar">
                                 Editar
                     </button>
                     <form class="container-btn-eliminar" th:action="@{/canchas/eliminar/{id}(id=${cancha.id})}" method="post" style="display:inline;">
@@ -175,6 +181,17 @@
                             <div class="username">
                                 <input type="time" id="duracionEditar" th:field="*{duracion}" required>
                                 <label for="duracion">Duración</label>
+                            </div>
+
+                            <!-- Estado -->
+                            <div class="username">
+                                <select id="estadoEditar" th:field="*{estado}" required>
+                                    <option th:each="estado : ${T(com.Unsada.Web.model.enums.EstadoCancha).values()}"
+                                        th:value="${estado.name()}" 
+                                        th:text="${estado.name()}">
+                                    </option>
+                                </select>
+                                <label>Estado</label>
                             </div>
                         
                             <!-- Botón para guardar -->
