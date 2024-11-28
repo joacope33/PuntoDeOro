@@ -3,6 +3,7 @@ package com.Unsada.Web.model;
 import java.sql.Time;
 import java.time.LocalDate;
 
+import org.springframework.cglib.core.Local;
 
 import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.model.enums.TipoTurno;
@@ -66,9 +67,10 @@ public class TurnosFijos {
     @OneToOne
     @JoinColumn(name = "idpartido")
     private Partido partido;
+
+    @Column(name = "fechaUltimoTurno")
+    private LocalDate fechaUltimoTurno;
     
-    @Column(name = "cantidad_turnos_restantes")
-    private int cantidad_turnos_restantes;
    
 
 }

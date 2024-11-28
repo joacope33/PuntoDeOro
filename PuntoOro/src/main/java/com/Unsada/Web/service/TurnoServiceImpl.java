@@ -47,6 +47,7 @@ public class TurnoServiceImpl implements TurnoService {
                                    turnoDTO.getAsistencia(),
                                    turnoDTO.getPartido(),
                                    turnoDTO.getJugadores()
+
         );
         // Recorrer cada jugador y asignarlo al turno
         return turnoRepository.save(turno);
