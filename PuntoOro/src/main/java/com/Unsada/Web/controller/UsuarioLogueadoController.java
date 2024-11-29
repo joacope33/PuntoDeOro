@@ -16,12 +16,10 @@ import com.Unsada.Web.service.UsuarioService;
 
 import jakarta.persistence.EntityNotFoundException;
 
-
 @Controller
 @RequestMapping("/miCuenta")
 public class UsuarioLogueadoController {
-    
-    
+
     @Autowired
     private UsuarioService usuarioService;
 
@@ -35,7 +33,7 @@ public class UsuarioLogueadoController {
 
         // Agregar el usuario completo al modelo
         model.addAttribute("usuario", usuario);
-        
+
         return "miCuenta";
     }
 
@@ -65,5 +63,5 @@ public class UsuarioLogueadoController {
             return "redirect:/miCuenta?error"; // Redirigir con un parámetro error
         }
     }
-    
+
 }

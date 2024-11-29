@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.Unsada.Web.dto.UsuarioDTO;
@@ -86,13 +87,15 @@ public class UsuarioController {
 
     // Devuelve un usuario específico para la edición
     @GetMapping("/editar/{email}")
+    @ResponseBody
     public UsuarioDTO mostrarFormularioEdicion(@PathVariable String email) {
-        email = email.replaceAll("^\"|\"$", ""); // Elimina comillas si existen
+        email = email.replaceAll("^\"|\"$", "");
+        System.out.println(email);
         Usuario usuario = usuarioService.findByEmail(email);
         if (usuario == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }
-        return new UsuarioDTO(usuario); // Devuelve el DTO para la edición
+        return new UsuarioDTO(usuario);
     }
 
 

@@ -49,7 +49,7 @@ public class TorneoController {
         return "torneos";
     }
 
-      
+
     
 
     @GetMapping("/{id}")
