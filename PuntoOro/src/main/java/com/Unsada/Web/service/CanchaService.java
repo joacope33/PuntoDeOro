@@ -16,4 +16,5 @@ public interface CanchaService {
     public void actualizarCancha(Cancha cancha);
     public Cancha findById(Long id);
     public List<Cancha> obtenerTodasLasCanchasOrdenadas();
+    public void eliminarCancha(Long id);
 }

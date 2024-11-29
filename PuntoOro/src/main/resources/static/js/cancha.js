@@ -30,19 +30,37 @@ function editarCancha(id) {
             document.getElementById('horarioCierreEditar').value = data.horarioCierre;
             document.getElementById('disponibilidadEditar').checked = data.disponibilidad; // Marca el checkbox si es true
             document.getElementById('duracionEditar').value = data.duracion;
+            document.getElementById('estadoEditar').value = data.estado;
 
             // Establecer el título con el ID de la cancha
             document.getElementById('tituloCancha').textContent = `Cancha ${id}`;
             console.log(data); // Agregar un log para ver los datos recibidos
-            document.querySelector('.form-overlay').style.display = 'flex';
+            document.querySelector('#formularioEditar').style.display = 'flex';
         })
         .catch(error => console.error('Error:', error));
 }
 
 
+function cerrarFormularioEditar() {
+    // Ocultar el formulario de agregar
+    document.getElementById("formularioAgregar").style.display = "none";
+}
+
+function abrirFormularioAgregar() {
+    // Mostrar el formulario de agregar
+    document.getElementById("formularioAgregar").style.display = "flex";
+}
+
+function cerrarFormularioAgregar() {
+    // Ocultar el formulario de agregar
+    document.getElementById("formularioAgregar").style.display = "none";
+}
+
+
+
 // Función para cerrar el formulario
 function cerrarFormulario() {
-    document.querySelector('.form-overlay').style.display = 'none';
+    document.querySelector('#formularioEditar').style.display = 'none';
 }
 
 // Función para guardar los cambios
@@ -66,3 +84,22 @@ function guardarCambios() {
     .catch(error => console.error('Error:', error));
 }
 
+function eliminarCancha(id) {
+    if (confirm("¿Estás seguro de que deseas eliminar esta cancha?")) {
+        fetch(`/canchas/eliminar/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Cancha eliminada exitosamente.");
+                window.location.reload(); // Recarga la página o redirige a otra
+            } else {
+                alert("Hubo un error al intentar eliminar la cancha.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("No se pudo completar la solicitud.");
+        });
+    }
+}

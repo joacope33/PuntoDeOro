@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,9 +26,11 @@ import lombok.Setter;
 public class Cancha {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cancha_seq")
+    @SequenceGenerator(name = "cancha_seq", sequenceName = "canchas_idcancha_seq", allocationSize = 1)
     @Column(name = "idcancha")
     private Long id;
+
     
     @Column(name = "horarioapertura")
     private LocalTime  horarioApertura; 

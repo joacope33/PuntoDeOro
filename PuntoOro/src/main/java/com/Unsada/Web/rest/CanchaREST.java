@@ -61,4 +61,7 @@ public class CanchaREST {
         CanchaDTO canchaDTO = new CanchaDTO(cancha); // Asumiendo que CanchaDTO tiene un constructor para mapear Cancha
         return ResponseEntity.ok(canchaDTO);
     }
+
+    
+
 }
