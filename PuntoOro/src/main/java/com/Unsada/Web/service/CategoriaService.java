@@ -6,4 +6,5 @@ import com.Unsada.Web.model.Categoria;
 
 public interface CategoriaService {
     public List<Categoria> obtenerTodasLasCategorias();
+    public Categoria findById(Long idCategoria);
 }

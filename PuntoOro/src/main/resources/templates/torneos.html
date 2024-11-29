@@ -55,147 +55,147 @@
 
     <main>
          <!-- Contenido principal -->
-    <div class="background-img-home">
-        <div class="texto">
-            <h1>Gestión de Torneos</h1>
+        <div class="background-img-home">
+            <div class="texto">
+                <h1>Gestión de Torneos</h1>
 
-            <div class="torneos-container">
-                <button class="btn-agregar" onclick="mostrarModalCrear()">Agregar Torneo</button>
-                
-                <table class="torneos-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Fin</th>
-                            <th>Categoría</th>
-                            <th>Estado</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="torneo : ${torneos}" th:onclick="'verDetalles(' + ${torneo.id} + ')'" >
-                            <td th:text="${torneo.id}"></td>
-                            <td th:text="${#temporals.format(torneo.fechaInicio, 'dd/MM/yyyy')}"></td>
-                            <td th:text="${#temporals.format(torneo.fechaFin, 'dd/MM/yyyy')}"></td>
-                            <td th:text="${torneo.categoria}"></td>
-                            <td th:text="${torneo.estado}"></td>
-                            <td>
-                                <button type="button" 
-                                        th:onclick="editarTorneo([[${torneo.id}]])"
-                                        data-fecha-inicio="[[${torneo.fechaInicio != null ? torneo.fechaInicio.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}]]"
-                                        data-fecha-fin="[[${torneo.fechaFin != null ? torneo.fechaFin.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}]]"
-                                        data-categoria="[[${torneo.categoria != null ? torneo.categoria : 'Sin categoría'}]]"
-                                        data-estado="[[${torneo.estado}]]" class="btn-editar">
-                                    Editar
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn-accion btn-eliminar" th:onclick="'eliminarTorneo(' + ${torneo.id} + ')'">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        
-            <!-- Modal para crear/editar torneo -->
-            <div id="formularioAgregar" class="form-overlay" style="display: none;">
-                <div class="form">
-                    <div class="cruz" onclick="cerrarFormulario()">
-                        <i class="fa-solid fa-x"></i>
-                    </div>
-                    <h2 id="modalTitle">Nuevo Torneo</h2>
-                    <form id="form-guardar" th:action="@{/torneos/actualizar}" method="POST" th:object="${torneo}">
-                        <input type="hidden" id="torneoId" name="id">
-                        <div class="username">
-                            <input type="date" id="fechaInicio" name="fechaInicio" required>
-                            <label for="fechaInicio">Fecha Inicio</label>
-                        </div>
-                        <div class="username">
-                            <label for="fechaFin">Fecha Fin</label>
-                            <input type="date" id="fechaFin" name="fechaFin" required>
-                        </div>
-                        <div class="username">
-                            <label for="categoria">Categoría</label>
-                            <select id="categoria" name="categoria" required>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                            </select>
-                        </div>
-                        <div class="username">
-                            <label for="estado">Estado</label>
-                            <select id="estado" name="estado" required>
-                                <option value="PLANIFICADO">Planificado</option>
-                                <option value="EN_CURSO">En curso</option>
-                                <option value="FINALIZADO">Finalizado</option>
-                            </select>
-                        </div>
-                        <div class="acciones">
-                            <button type="submit" class="btn-agregar">Guardar</button>
-                            <button type="button" class="btn-accion" onclick="cerrarModal()">Cancelar</button>
-                        </div>
-                    </form>
+                <div class="torneos-container">
+                    <button class="btn-agregar" onclick="mostrarModalCrear()">Agregar Torneo</button>
+                    
+                    <table class="torneos-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Categoría</th>
+                                <th>Estado</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="torneo : ${torneos}" th:onclick="'verDetalles(' + ${torneo.id} + ')'" >
+                                <td th:text="${torneo.id}"></td>
+                                <td th:text="${#temporals.format(torneo.fechaInicio, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${#temporals.format(torneo.fechaFin, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${torneo.categoria != null ? torneo.categoria.categoria : 'Sin categoría'}"></td>
+                                <td th:text="${torneo.estado}"></td>
+                                <td>
+                                    <button type="button" 
+                                            th:onclick="editarTorneo([[${torneo.id}]])"
+                                            data-fecha-inicio="[[${torneo.fechaInicio != null ? torneo.fechaInicio.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}]]"
+                                            data-fecha-fin="[[${torneo.fechaFin != null ? torneo.fechaFin.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}]]"
+                                            data-categoria="[[${torneo.categoria != null ? torneo.categoria : 'Sin categoría'}]]"
+                                            data-estado="[[${torneo.estado}]]" class="btn-editar">
+                                        Editar
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn-accion btn-eliminar" th:onclick="'eliminarTorneo(' + ${torneo.id} + ')'">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-
-             <!-- Modal para crear/editar torneo -->
-             <!-- Modal para crear/editar torneo -->
-            <div id="formularioEditarTorneo" class="form-overlay-editar" style="display: none;">
-                <div class="form">
-                    <div class="cruz" onclick="cerrarFormulario()">
-                        <i class="fa-solid fa-x"></i>
+            
+                <!-- Modal para crear/editar torneo -->
+                <div id="formularioAgregar" class="form-overlay" style="display: none;">
+                    <div class="form">
+                        <div class="cruz" onclick="cerrarFormulario()">
+                            <i class="fa-solid fa-x"></i>
+                        </div>
+                        <h2 id="modalTitle">Nuevo Torneo</h2>
+                        <form id="form-guardar" th:action="@{/torneos/crear}" method="POST" th:object="${torneo}">
+                            <input type="hidden" id="torneoId" name="id">
+                            <div class="username">
+                                <input type="date" id="fechaInicio" name="fechaInicio" required>
+                                <label for="fechaInicio">Fecha Inicio</label>
+                            </div>
+                            <div class="username">
+                                <label for="fechaFin">Fecha Fin</label>
+                                <input type="date" id="fechaFin" name="fechaFin" required>
+                            </div>
+                            <div class="username">
+                                <label for="categoria">Categoría</label>
+                                <select id="categoria" name="idCategoria" required>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </div>
+                            <div class="username">
+                                <label for="estado">Estado</label>
+                                <select id="estado" name="estado" required>
+                                    <option value="PLANIFICADO">Planificado</option>
+                                    <option value="EN_CURSO">En curso</option>
+                                    <option value="FINALIZADO">Finalizado</option>
+                                </select>
+                            </div>
+                            <div class="acciones">
+                                <button type="submit"  class="btn-agregar">Guardar</button>
+                                <button type="button" class="btn-accion" onclick="cerrarModal()">Cancelar</button>
+                            </div>
+                        </form>
                     </div>
-                    <h2 id="modalTitle">Editar Torneo</h2>
-                    <form id="formActualizarTorneo" method="POST">
-                        <input type="hidden" id="idTorneo" name="idTorneo">
-                        <div class="username">
-                            <label for="fechaInicioEditar">Fecha Inicio</label>
-                            <input type="date" id="fechaInicioEditar" name="fechaInicio" required>
-                        </div>
-                        <div class="username">
-                            <label for="fechaFinEditar">Fecha Fin</label>
-                            <input type="date" id="fechaFinEditar" name="fechaFin" required>
-                        </div>
-                        <div class="username">
-                            <label for="categoriaEditar">Categoría</label>
-                            <select id="categoriaEditar" name="categoria" required>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                            </select>
-                        </div>
-                        <div class="username">
-                            <label for="estadoEditar">Estado</label>
-                            <select id="estadoEditar" name="estado" required>
-                                <option value="PLANIFICADO">Planificado</option>
-                                <option value="EN_CURSO">En curso</option>
-                                <option value="FINALIZADO">Finalizado</option>
-                            </select>
-                        </div>
-                        <div class="acciones">
-                            <button type="button" onclick="guardarCambiosTorneo()" class="btn-agregar">Guardar</button>
-                            <button type="button" class="btn-accion" onclick="cerrarFormulario()">Cancelar</button>
-                        </div>
-                    </form>
                 </div>
+
+                <!-- Modal para crear/editar torneo -->
+                <!-- Modal para crear/editar torneo -->
+                <div id="formularioEditarTorneo" class="form-overlay-editar" style="display: none;">
+                    <div class="form">
+                        <div class="cruz" onclick="cerrarFormulario()">
+                            <i class="fa-solid fa-x"></i>
+                        </div>
+                        <h2 id="modalTitle">Editar Torneo</h2>
+                        <form id="formActualizarTorneo" method="POST">
+                            <input type="hidden" id="idTorneo" name="idTorneo">
+                            <div class="username">
+                                <label for="fechaInicioEditar">Fecha Inicio</label>
+                                <input type="date" id="fechaInicioEditar" name="fechaInicio" required>
+                            </div>
+                            <div class="username">
+                                <label for="fechaFinEditar">Fecha Fin</label>
+                                <input type="date" id="fechaFinEditar" name="fechaFin" required>
+                            </div>
+                            <div class="username">
+                                <label for="categoriaEditar">Categoría</label>
+                                <select id="categoriaEditar" name="idCategoria" required>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </div>
+                            <div class="username">
+                                <label for="estadoEditar">Estado</label>
+                                <select id="estadoEditar" name="estado" required>
+                                    <option value="PLANIFICADO">Planificado</option>
+                                    <option value="EN_CURSO">En curso</option>
+                                    <option value="FINALIZADO">Finalizado</option>
+                                </select>
+                            </div>
+                            <div class="acciones">
+                                <button type="button" onclick="guardarCambiosTorneo()" class="btn-agregar">Guardar</button>
+                                <button type="button" class="btn-accion" onclick="cerrarFormulario()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+
             </div>
-
-
-
         </div>
-    </div>
     </main>
     <footer class="site-footer">
         <div class="footer-logo" translate="no">Punto de Oro Bragado</div>

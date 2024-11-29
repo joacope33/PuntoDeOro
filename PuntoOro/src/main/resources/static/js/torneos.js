@@ -8,7 +8,7 @@ document.querySelector('.cruz').addEventListener('keydown', function(event) {
 
 
 function mostrarModalCrear() {
-    document.querySelector('.form-overlay').style.display = 'flex';
+    document.querySelector('#formularioAgregar').style.display = 'flex';
 }
 
 
