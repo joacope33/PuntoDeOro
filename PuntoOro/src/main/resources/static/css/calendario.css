@@ -291,7 +291,7 @@ li {
     list-style: none;
 }
 
-.background-container {
+.background-img-home {
     display: flex;
     flex-direction: column;
     width: 100%;

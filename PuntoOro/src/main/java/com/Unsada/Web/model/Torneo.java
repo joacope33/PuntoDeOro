@@ -2,6 +2,7 @@ package com.Unsada.Web.model;
 
 import java.time.LocalDate;
 
+import com.Unsada.Web.dto.TorneoDTO;
 import com.Unsada.Web.model.enums.EstadoTorneo;
 import com.Unsada.Web.model.enums.FormatoTorneo;
 
@@ -59,6 +60,14 @@ public class Torneo {
     public String toString() {
         return "Torneo [id=" + id + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", categoria="
                 + categoria + ", estado=" + estado + "]";
+    }
+
+    public Torneo(TorneoDTO torneoDTO) {
+        this.fechaInicio = torneoDTO.getFechaInicio();
+        this.fechaFin = torneoDTO.getFechaFin();
+        this.formato = torneoDTO.getFormato();
+        this.categoria = torneoDTO.getCategoria();
+        this.estado = torneoDTO.getEstado();
     }
     
     
