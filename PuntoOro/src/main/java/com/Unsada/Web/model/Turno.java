@@ -61,7 +61,7 @@ public class Turno {
     private int asistencia;
 
     @OneToOne
-    @JoinColumn(name = "idpartido")
+    @JoinColumn(name = "idpartido", nullable = true)
     private Partido partido;
     
     // Relación Muchos a Muchos con Jugador
@@ -74,7 +74,23 @@ public class Turno {
     @JsonManagedReference  // Gestiona la relación de Turno a Jugador
     private List<Jugador> jugadores;  // Colección de jugadores asociados a este turno
 
+    @ManyToOne(fetch= FetchType.EAGER, cascade=CascadeType.MERGE)
+    @JoinColumn(name = "idturnofijo", nullable = true)
+    private TurnosFijos turnosFijos;
     
+    
+    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido, List<Jugador> jugadores,TurnosFijos turnosFijos) {
+        this.dia = dia;
+        this.hora = hora;
+        this.cancha = cancha;
+        this.estado = estado;
+        this.tipoTurno = tipoTurno;
+        this.asistencia = asistencia;
+        this.partido = partido;
+        this.jugadores= jugadores;
+        this.turnosFijos = turnosFijos;
+    }
+
     public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido, List<Jugador> jugadores) {
         this.dia = dia;
         this.hora = hora;
@@ -84,6 +100,7 @@ public class Turno {
         this.asistencia = asistencia;
         this.partido = partido;
         this.jugadores= jugadores;
+
     }
 
 
