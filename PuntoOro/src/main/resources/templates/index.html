@@ -56,8 +56,7 @@
     <main>
         <div class="background-img-home">
             <div class="texto">
-                <h1>Bienvenido <span th:text="${nombreUsuario}"></span></h1>
-                <p></p>
+        
                 <div sec:authorize="hasAuthority('ADMIN')">
                     <h1>Bienvenido, Administrador <span th:text="${nombreUsuario}"></span></h1>
                     
