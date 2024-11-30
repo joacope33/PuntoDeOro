@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 body: formData
             });
         
-            if (response.ok) {
+            if (response.ok ) {
                 alert("Turno agregado con éxito");
                 modal.close();
                 eventForm.reset();
@@ -812,6 +812,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     });
     
+
+
 
 
 });

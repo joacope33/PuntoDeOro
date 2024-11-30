@@ -49,13 +49,21 @@ public class TurnoController {
             System.out.print(turnoDTO);
             if(turnoDTO.getCancha().getEstado()==EstadoCancha.DISPONIBLE){
            turnoServiceImpl.guardarTurno(turnoDTO);
+            } 
+            else {
+                throw new IllegalArgumentException("La cancha no está disponible para reservar.");
             }
-            return "redirect:/calendario"; // Redirige al formulario con un mensaje de éxito
-        } catch (Exception e) {
-            return "redirect:/calendario?error=true"; // Redirige al formulario con un mensaje de error
-        }   
-    }
 
+                return "redirect:/calendario?success=true"; // Redirige al formulario con un mensaje de éxito
+            } catch (IllegalArgumentException e) {
+                System.err.println("Error de validación: " + e.getMessage());
+                return "" + e.getMessage(); // Redirige con el mensaje de error
+            } catch (Exception e) {
+                System.err.println("Error inesperado: " + e.getMessage());
+                e.printStackTrace(); // Opcional: para registrar el stack trace completo
+                return ""; // Redirige con un mensaje de error genérico
+            }
+        }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminarTurno(@PathVariable Long id) {
         try {
