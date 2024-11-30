@@ -57,10 +57,13 @@
     
 
     <main>
+        
         <div class="background-img-home" >
+            <h1><a >Registrar jugador</a></h1>
             <div class="texto">
+                
                 <div class="jugador-info">
-                    <h2>Registrar jugador</h2>
+                    
                     <form th:action="@{/jugador/guardar}" method="post" th:object="${jugador}">
                         <div class="username">
                             <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus">
