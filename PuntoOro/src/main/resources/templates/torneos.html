@@ -40,7 +40,7 @@
                         <div class="dropdown-content">
                             <a th:href="@{/miCuenta}">Mi Cuenta</a>
                             <a th:href="@{/ranking}">Ranking</a>
-                            <a th:href="@{/usuario}">Usuarios</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/usuario}">Usuarios</a>
                             <a th:href="@{/canchas}">Canchas</a>
                             <a th:href="@{/jugador}">Jugador</a>
                             <a th:href="@{/torneos}">Torneos</a>
@@ -60,7 +60,7 @@
                 <h1>Gestión de Torneos</h1>
 
                 <div class="torneos-container">
-                    <button class="btn-agregar" onclick="mostrarModalCrear()">Agregar Torneo</button>
+                    <button sec:authorize="hasAuthority('ADMIN')" class="btn-agregar" onclick="mostrarModalCrear()">Agregar Torneo</button>
                     
                     <table class="torneos-table">
                         <thead>
@@ -84,7 +84,7 @@
                                 <td th:text="${torneo.categoria != null ? torneo.categoria.categoria : 'Sin categoría'}"></td>
                                 <td th:text="${torneo.estado}"></td>
                                 <td>
-                                    <button type="button" 
+                                    <button sec:authorize="hasAuthority('ADMIN')" type="button" 
                                             th:onclick="editarTorneo([[${torneo.id}]])"
                                             data-fecha-inicio="[[${torneo.fechaInicio != null ? torneo.fechaInicio.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}]]"
                                             data-fecha-fin="[[${torneo.fechaFin != null ? torneo.fechaFin.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy')) : ''}]]"
@@ -95,7 +95,7 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <form class="container-btn-eliminar" th:action="@{/torneos/borrar/{id}(id=${torneo.id})}" method="post" style="display:inline;">
+                                    <form sec:authorize="hasAuthority('ADMIN')" class="container-btn-eliminar" th:action="@{/torneos/borrar/{id}(id=${torneo.id})}" method="post" style="display:inline;">
                                         <button class="btn-eliminar" type="submit">Eliminar</button>
                                     </form>
                                 </td>
@@ -210,24 +210,7 @@
                 </div>
 
 
-                <!-- Después de la tabla de torneos -->
-                <div class="torneo-detalle" style="display: none;" id="torneoDetalle">
-                    <h2>Detalles del Torneo</h2>
-                    <div id="detalleTorneo">
-                        <!-- Aquí se mostrarán los detalles del torneo -->
-                    </div>
-                    <button class="btn-agregar" onclick="mostrarModalAgregarParejas()">Agregar Parejas</button>
-                    
-                    <h3>Fases de Grupos</h3>
-                    <div id="fasesGrupos">
-                        <!-- Aquí se mostrarán las fases de grupos -->
-                    </div>
-                    
-                    <h3>Cruces</h3>
-                    <div id="cruces">
-                        <!-- Aquí se mostrarán los cruces -->
-                    </div>
-                </div>
+               
 
 
             </div>

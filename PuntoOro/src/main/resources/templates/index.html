@@ -40,7 +40,7 @@
                         <div class="dropdown-content">
                             <a th:href="@{/miCuenta}">Mi Cuenta</a>
                             <a th:href="@{/ranking}">Ranking</a>
-                            <a th:href="@{/usuario}">Usuarios</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/usuario}">Usuarios</a>
                             <a th:href="@{/canchas}">Canchas</a>
                             <a th:href="@{/jugador}">Jugador</a>
                             <a th:href="@{/torneos}">Torneos</a>
@@ -57,8 +57,34 @@
         <div class="background-img-home">
             <div class="texto">
                 <h1>Bienvenido <span th:text="${nombreUsuario}"></span></h1>
-                <p>Este es un ejemplo de texto sobre una imagen de fondo.</p>
+                <p></p>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <h2>Bienvenido, Administrador</h2>
+                    <p>Solo los administradores pueden ver este contenido.</p>
+                    <!-- Aquí puedes agregar más contenido exclusivo para administradores -->
+                </div>
+            
+                <div sec:authorize="hasAuthority('USER')">
+                    <h2>Bienvenido, Usuario</h2>
+                    <p>Este contenido es visible para usuarios regulares.</p>
+                </div>
+                <!--
+                <div class="manual">
+                    <h3>Manual de implantación</h3>
+                    <p>Si necesitas más información sobre cómo llevar a cabo la implantación del sistema
+                         o si tienes alguna duda sobre el proceso, te recomendamos que consultes el Manual de Implantación. 
+                         Este documento detalla los pasos necesarios para realizar una correcta implementación y te ayudará a 
+                         resolver cualquier pregunta o inconveniente que puedas encontrar a lo largo del proceso.
+                        <br></br>
+                        Para abrir el Manual de Implantación, haz clic en el siguiente enlace:
+                        <br></br>
+                        <a th:href="@{/pdfs/ManualDeImplantación.pdf}" target="_blank">Abrir Manual de implantacion</a>
+                        <br></br>
+                        Si al revisar el manual sigues teniendo preguntas, no dudes en contactar con el soporte técnico para recibir asistencia personalizada.</p>
+                    -->
+                </div>    
             </div>
+
         </div>
     </main>
     <footer class="site-footer">

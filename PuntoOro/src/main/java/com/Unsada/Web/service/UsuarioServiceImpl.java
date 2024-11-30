@@ -1,6 +1,7 @@
 package com.Unsada.Web.service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -45,6 +46,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmail(username);
@@ -59,7 +62,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     private Collection<? extends GrantedAuthority> mapearAutoridadRole(Role role) {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return Collections.singletonList(new SimpleGrantedAuthority(role.name())); // Usa name() para obtener "ADMIN" o "USER"
     }
 
     @Override
