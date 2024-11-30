@@ -112,52 +112,50 @@
                         </div>
                         <h2 id="modalTitle">Nuevo Torneo</h2>
                         <form id="form-guardar" th:action="@{/torneos/crear}" method="POST" th:object="${torneo}">
-                            <input type="hidden" id="torneoId" name="id">
+                            <input type="hidden" id="torneoId" th:field="*{id}">
                             <div class="username">
-                                <input type="date" id="fechaInicio" name="fechaInicio" required>
+                                <input type="date" id="fechaInicio" th:field="*{fechaInicio}" required>
                                 <label for="fechaInicio">Fecha Inicio</label>
                             </div>
                             <div class="username">
                                 <label for="fechaFin">Fecha Fin</label>
-                                <input type="date" id="fechaFin" name="fechaFin" required>
+                                <input type="date" id="fechaFin" th:field="*{fechaFin}" required>
                             </div>
                             <div class="username">
                                 <label for="formato">Estado</label>
-                                <select id="formato"  name="formato" required>
-                                    <option value="ELIMINACION_DIRECTA">Eliminacion directa</option>
-                                    <option value="ZONAS">Zonas</option>
+                                <select id="formato"  th:field="*{formato}" required>
+                                    <option th:each="formato : ${T(com.Unsada.Web.model.enums.FormatoTorneo).values()}" 
+                                            th:value="${formato}" 
+                                            th:text="${#strings.capitalize(formato.name().toLowerCase())}">
+                                    </option>
                                 </select>
                             </div>
                             <div class="username">
                                 <label for="categoria">Categoría</label>
-                                <select id="categoria" name="idCategoria" required>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
+                                <select id="categoria" th:field="*{idCategoria}" required>
+                                    <option th:each="categoria : ${categorias}" 
+                                            th:value="${categoria.id}" 
+                                            th:text="${categoria.categoria}">
+                                    </option>
                                 </select>
                             </div>
                             <div class="username">
                                 <label for="estado">Estado</label>
-                                <select id="estado" name="estado" required>
-                                    <option value="PLANIFICADO">Planificado</option>
-                                    <option value="EN_CURSO">En curso</option>
-                                    <option value="FINALIZADO">Finalizado</option>
+                                <select id="estado"  th:field="*{estado}"  required>
+                                    <option th:each="estado : ${T(com.Unsada.Web.model.enums.EstadoTorneo).values()}" 
+                                            th:value="${estado}" 
+                                            th:text="${estado}">
+                                    </option>
                                 </select>
                             </div>
                             <div class="acciones">
-                                <button type="submit"  class="btn-agregar">Guardar</button>
-                                <button type="button" class="btn-accion" onclick="cerrarModal()">Cancelar</button>
+                                <input type="submit"  class="btn-agregar">Guardar</input>
+                                <button type="submit" class="btn-accion" onclick="cerrarModal()">Cancelar</button>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <!-- Modal para crear/editar torneo -->
                 <!-- Modal para crear/editar torneo -->
                 <div id="formularioEditarTorneo" class="form-overlay" style="display: none;">
                     <div class="form">
@@ -165,52 +163,71 @@
                             <i class="fa-solid fa-x"></i>
                         </div>
                         <h2 id="modalTitle">Editar Torneo</h2>
-                        <form id="formActualizarTorneo" th:action="@{/torneos/actualizar}" method="POST" th:object="${torneo}">
-                            <input type="hidden" id="idTorneo" name="id" th:value="${torneo.id}" readonly>
+                        <form id="formActualizarTorneo" th:action="@{/torneos/actualizar}" method="post" th:object="${torneo}">
+                            <input type="hidden" id="idTorneo" th:field="*{id}" readonly>
                             <div class="username">
                                 <label for="fechaInicioEditar">Fecha Inicio</label>
-                                <input type="date" id="fechaInicioEditar" name="fechaInicio" required>
+                                <input type="date" id="fechaInicioEditar"  th:field="*{fechaInicio}" required>
                             </div>
                             <div class="username">
                                 <label for="fechaFinEditar">Fecha Fin</label>
-                                <input type="date" id="fechaFinEditar" name="fechaFin" required>
+                                <input type="date" id="fechaFinEditar"  th:field="*{fechaFin}" required>
                             </div>
                             <div class="username">
                                 <label for="formatoEditar">Estado</label>
-                                <select id="formatoEditar" required>
-                                    <option value="ELIMINACION_DIRECTA">Eliminacion directa</option>
-                                    <option value="ZONAS">Zonas</option>
+                                <select id="formatoEditar" th:field="*{formato}" required>
+                                    <option th:each="formato : ${T(com.Unsada.Web.model.enums.FormatoTorneo).values()}" 
+                                            th:value="${formato}" 
+                                            th:text="${#strings.capitalize(formato.name().toLowerCase())}">
+                                    </option>
                                 </select>
                             </div>
+                            
                             <div class="username">
                                 <label for="categoriaEditar">Categoría</label>
-                                <select id="categoriaEditar" name="idCategoria"required>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
+                                <select id="categoriaEditar"  th:field="*{idCategoria}" required>
+                                    <option th:each="categoria : ${categorias}" 
+                                            th:value="${categoria.id}" 
+                                            th:text="${categoria.categoria}">
+                                    </option>
                                 </select>
                             </div>
                             <div class="username">
-                                <label for="estadoEditar">Estado</label>
-                                <select id="estadoEditar" name="estado"  required>
-                                    <option value="PLANIFICADO">Planificado</option>
-                                    <option value="EN_CURSO">En curso</option>
-                                    <option value="FINALIZADO">Finalizado</option>
+                                <select id="estadoEditar" th:field="*{estado}" required>
+                                    <option th:each="estado : ${T(com.Unsada.Web.model.enums.EstadoTorneo).values()}" 
+                                            th:value="${estado}" 
+                                            th:text="${estado}">
+                                    </option>
                                 </select>
+                                <label for="estadoEditar">Estado</label>
                             </div>
                             <div class="acciones">
-                                <button type="submit" class="btn-agregar">Guardar</button>
-                                <button type="button" class="btn-accion" onclick="cerrarFormulario()">Cancelar</button>
+                                <input type="submit" class="btn-agregar">Guardar</input>
+                                <button type="submit" class="btn-accion" onclick="cerrarFormulario()">Cancelar</button>
                             </div>
                         </form>
                     </div>
                 </div>
 
+
+                <!-- Después de la tabla de torneos -->
+                <div class="torneo-detalle" style="display: none;" id="torneoDetalle">
+                    <h2>Detalles del Torneo</h2>
+                    <div id="detalleTorneo">
+                        <!-- Aquí se mostrarán los detalles del torneo -->
+                    </div>
+                    <button class="btn-agregar" onclick="mostrarModalAgregarParejas()">Agregar Parejas</button>
+                    
+                    <h3>Fases de Grupos</h3>
+                    <div id="fasesGrupos">
+                        <!-- Aquí se mostrarán las fases de grupos -->
+                    </div>
+                    
+                    <h3>Cruces</h3>
+                    <div id="cruces">
+                        <!-- Aquí se mostrarán los cruces -->
+                    </div>
+                </div>
 
 
             </div>

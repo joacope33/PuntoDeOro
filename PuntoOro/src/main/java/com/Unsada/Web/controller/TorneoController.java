@@ -3,7 +3,9 @@ package com.Unsada.Web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.Unsada.Web.dto.TorneoDTO;
 import com.Unsada.Web.model.Categoria;
 import com.Unsada.Web.model.Torneo;
+import com.Unsada.Web.model.enums.EstadoTorneo;
+import com.Unsada.Web.model.enums.FormatoTorneo;
 import com.Unsada.Web.service.CategoriaService;
 import com.Unsada.Web.service.TorneoService;
 
@@ -40,7 +43,11 @@ public class TorneoController {
         List<Torneo> torneos = torneoService.obtenerTodosLosTorneos();
         List<Categoria> categorias = categoriaService.obtenerTodasLasCategorias();
 
+
+        model.addAttribute("formatos", FormatoTorneo.values());
+        model.addAttribute("estados", EstadoTorneo.values());
         model.addAttribute("torneos", torneos);
+        model.addAttribute("torneo", new TorneoDTO()); // Asegúrate de agregar un objeto Torneo vacío
         model.addAttribute("categorias", categorias);
 
 
@@ -64,37 +71,30 @@ public class TorneoController {
     }
 
     @PostMapping("/crear")
-    public String crearTorneo(@RequestParam(value = "idCategoria", required = false) Long idCategoria, @ModelAttribute Torneo torneo) {
-        try{
-
-            System.out.println("La categoria es: " + idCategoria);
-            // Buscar la categoría en la base de datos
-            Categoria categoria = categoriaService.findById(idCategoria);
-                
-            // Asignar la categoría al torneo
-            torneo.setCategoria(categoria);
-
-            torneoService.guardarTorneo(torneo);
-            System.out.println("Torneo agregado");
+    public String crearTorneo(@ModelAttribute("torneo") TorneoDTO torneoDTO) {
+        try {
+            torneoService.guardarTorneo(torneoDTO);
             return "redirect:/torneos";
-        }catch(Exception e){
-            System.out.println("Error");
-            return "redirect:/torneos";
+        } catch (ResponseStatusException e) {
+            e.printStackTrace(); // Imprime el error en la consola
+            return "redirect:/torneos?error=" + e.getMessage();
+        } catch (Exception e) {
+            e.printStackTrace(); // Imprime el error en la consola
+            return "redirect:/torneos?error=Ocurrió un error inesperado";
         }
-        
     }
+
 
     @GetMapping("/editar/{id}")
     @ResponseBody
-    public TorneoDTO editarTorneo(@PathVariable("id") Long id) {
-        System.out.println("ID recibido: " + id);  // Verifica si el id es correcto
-
+    public ResponseEntity<TorneoDTO> editarTorneo(@PathVariable("id") Long id) {
         Torneo torneo = torneoService.findById(id);
         if (torneo == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Torneo no encontrado");
         }
-        return new TorneoDTO(torneo);
+        return ResponseEntity.ok(new TorneoDTO(torneo));
     }
+
 
 
     
@@ -107,17 +107,21 @@ public class TorneoController {
         System.out.println("ID de categoría recibido: " + torneoDTO.getIdCategoria());
 
         if (torneoDTO.getId() == null || torneoDTO.getId() <= 0) {
-            redirectAttributes.addFlashAttribute("error", "ID de torneo no válido.");
+            redirectAttributes.addFlashAttribute("error", "ID de torneo no válido: " + torneoDTO.getId());
+
             return "redirect:/torneos";
         }
 
         try {
-            torneoService.actualizarTorneoDesdeDTO(torneoDTO);
-            redirectAttributes.addFlashAttribute("exito", "Torneo actualizado correctamente.");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al actualizar el torneo.");
-            e.printStackTrace();
-        }
+    torneoService.actualizarTorneoDesdeDTO(torneoDTO);
+        redirectAttributes.addFlashAttribute("exito", "Torneo actualizado correctamente.");
+    } catch (DataIntegrityViolationException e) {
+        redirectAttributes.addFlashAttribute("error", "Error de integridad al actualizar el torneo.");
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("error", "Error al actualizar el torneo.");
+        e.printStackTrace();  // Imprime el error en consola para depuración
+    }
+
 
         return "redirect:/torneos";
     }
@@ -129,17 +133,16 @@ public class TorneoController {
 
 // Método para borrar un usuario por su DNI
 @PostMapping("/borrar/{id}")
-public String borrarTorneoPorId(@PathVariable Long id) {
+public String borrarTorneoPorId(@PathVariable Long id, RedirectAttributes redirectAttributes) {
     try {
-        
         torneoService.borrarTorneoPorId(id);
-        System.out.println("Torneo eliminado con éxito."); // Depuración
-        return "redirect:/torneos";
+        redirectAttributes.addFlashAttribute("exito", "Torneo eliminado con éxito.");
     } catch (Exception e) {
-        System.err.println("Error al eliminar torneo: " + e.getMessage()); // Depuración
-        return "redirect:/torneos";
+        redirectAttributes.addFlashAttribute("error", "Error al eliminar el torneo.");
     }
+    return "redirect:/torneos";
 }
+
 
 
 }

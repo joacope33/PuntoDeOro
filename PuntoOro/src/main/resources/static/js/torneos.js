@@ -9,12 +9,17 @@ document.querySelector('.cruz').addEventListener('keydown', function(event) {
 
 
 function mostrarModalCrear() {
-    document.querySelector('#formularioAgregar').style.display = 'flex';
+    document.getElementById('formularioAgregar').style.display = 'flex';
+}
+function mostrarModalEditar() {
+    document.getElementById('formularioEditarTorneo').style.display = 'flex';
 }
 
-function mostrarModalEditar() {
-    document.querySelector('#formularioEditarTorneo').style.display = 'flex';
+function cerrarFormulario() {
+    document.getElementById('formularioAgregar').style.display = 'none';
+    document.getElementById('formularioEditarTorneo').style.display = 'none';
 }
+
 
 // Función para editar el torneo
 function editarTorneo(id) {
@@ -38,6 +43,9 @@ function editarTorneo(id) {
         })
         .catch(error => console.error('Error:', error));
 }
+
+
+/*
 
     function guardarCambiosTorneo() {
         const form = document.querySelector('#formActualizarTorneo');
@@ -134,4 +142,4 @@ function guardarCambios() {
     })
     .catch(error => console.error('Error:', error));
  }
- 
+ */

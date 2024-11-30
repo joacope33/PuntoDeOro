@@ -49,7 +49,7 @@ public class Torneo {
     @Enumerated(EnumType.STRING)
     private EstadoTorneo estado;
 
-    public Torneo(LocalDate fechaInicio, LocalDate fechaFin, Categoria categoria, EstadoTorneo estado) {
+    public Torneo(LocalDate fechaInicio, LocalDate fechaFin, FormatoTorneo formato, Categoria categoria, EstadoTorneo estado) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.formato = formato;

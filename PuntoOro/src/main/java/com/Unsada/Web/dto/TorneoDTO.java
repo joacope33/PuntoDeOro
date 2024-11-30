@@ -21,11 +21,9 @@ public class TorneoDTO {
     private LocalDate fechaFin;
     private FormatoTorneo formato; 
     private Long idCategoria; // ID de la categoría seleccionada
-
-
     private EstadoTorneo estado;
 
-    public TorneoDTO(LocalDate fechaInicio, LocalDate fechaFin, Long idCategoria, EstadoTorneo estado) {
+    public TorneoDTO(LocalDate fechaInicio, LocalDate fechaFin, FormatoTorneo formato, Long idCategoria, EstadoTorneo estado) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.formato = formato;

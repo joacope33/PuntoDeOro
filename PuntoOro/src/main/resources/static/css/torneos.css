@@ -295,19 +295,36 @@ main {
     flex-direction: column;
     width: 100%;
     background: rgba(255, 255, 255, 0);
+    justify-content: center;
+    text-align: center;
 }
 
     
 .texto{
+    
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
     margin-top: 200px;
     gap: 20px;
-    padding: 20px;
+    padding: 5px;
     width: 100%;
     box-sizing: border-box;
-    text-align: center;
+    align-items: center;
     height: 100vh; /* Asegura que la altura sea suficiente para mostrar todo */
+}
+
+.texto h1 {
+    color: #fff;
+}
+.torneos-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+    width: 80%;
+    box-sizing: border-box;
+    align-items: center;
 }
 
 .selector-container {
@@ -455,6 +472,35 @@ tr:hover {
     margin: 0; /* Sin margen */
     width: auto;
 }
+
+
+.btn-agregar{
+    width: 30%;
+    height: 50px;
+    border: 1.5px solid;
+    background: #9c741e;
+    border-radius: 25px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    border-color: #07070798;
+    transition: .5s;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn-agregar:hover {
+    border-color: #b18525;
+    transition: .5s;
+    background: #c29636;
+}
+
+.btn-agregar:active {
+    border-color: #997321;
+    transition: .5s;
+    background: #9b782b;
+} 
 
 .btn-eliminar, .btn-editar {
     border-radius: 5px;
