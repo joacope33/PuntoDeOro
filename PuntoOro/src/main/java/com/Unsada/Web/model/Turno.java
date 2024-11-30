@@ -77,9 +77,12 @@ public class Turno {
     @ManyToOne(fetch= FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinColumn(name = "idturnofijo", nullable = true)
     private TurnosFijos turnosFijos;
+
+    @Column(name = "numberson", nullable = true)
+    private int numberson;
+
     
-    
-    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido, List<Jugador> jugadores,TurnosFijos turnosFijos) {
+    public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido, List<Jugador> jugadores,TurnosFijos turnosFijos,int numberson) {
         this.dia = dia;
         this.hora = hora;
         this.cancha = cancha;
@@ -89,6 +92,7 @@ public class Turno {
         this.partido = partido;
         this.jugadores= jugadores;
         this.turnosFijos = turnosFijos;
+        this.numberson = numberson;
     }
 
     public Turno(LocalDate dia, Time hora, Cancha cancha, EstadoCancha estado, TipoTurno tipoTurno, int asistencia, Partido partido, List<Jugador> jugadores) {
