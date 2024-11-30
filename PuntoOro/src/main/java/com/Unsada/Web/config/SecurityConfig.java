@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,8 @@ import com.Unsada.Web.service.UsuarioService;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)  // Habilita @PreAuthorize
+
 public class SecurityConfig {
 
     @Autowired
@@ -52,9 +55,6 @@ public class SecurityConfig {
                 .requestMatchers("/miCuenta/**").authenticated()
                 .requestMatchers("/editar/**").authenticated()
                 .requestMatchers("/usuario/**").hasAuthority("ADMIN")
-                .requestMatchers("/torneos/**").hasAuthority("ADMIN")
-                .requestMatchers("/canchas/**").hasAuthority("ADMIN")
-                .requestMatchers("/torneos").authenticated()
                 .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")
