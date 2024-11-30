@@ -314,6 +314,14 @@ li {
     border-radius: 5px; /* Bordes redondeados */
 }
 
+
+.manual {
+    padding: 100px;
+    text-align: left;
+    width: 100%;
+    max-width: 500px;
+}
+
 /*Ventana modal*/
 dialog {
     border: none;
