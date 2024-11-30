@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .requestMatchers("/editar/**").authenticated()
                 .requestMatchers("/usuario/**").hasAuthority("ADMIN")
                 .requestMatchers("/torneos/**").hasAuthority("ADMIN")
+                .requestMatchers("/canchas/**").hasAuthority("ADMIN")
                 .requestMatchers("/torneos").authenticated()
                 .anyRequest().authenticated())
             .formLogin(login -> login

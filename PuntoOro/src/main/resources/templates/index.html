@@ -41,7 +41,7 @@
                             <a th:href="@{/miCuenta}">Mi Cuenta</a>
                             <a th:href="@{/ranking}">Ranking</a>
                             <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/usuario}">Usuarios</a>
-                            <a th:href="@{/canchas}">Canchas</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/canchas}">Canchas</a>
                             <a th:href="@{/jugador}">Jugador</a>
                             <a th:href="@{/torneos}">Torneos</a>
                             <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
@@ -59,14 +59,12 @@
                 <h1>Bienvenido <span th:text="${nombreUsuario}"></span></h1>
                 <p></p>
                 <div sec:authorize="hasAuthority('ADMIN')">
-                    <h2>Bienvenido, Administrador</h2>
-                    <p>Solo los administradores pueden ver este contenido.</p>
-                    <!-- Aquí puedes agregar más contenido exclusivo para administradores -->
+                    <h1>Bienvenido, Administrador <span th:text="${nombreUsuario}"></span></h1>
+                    
                 </div>
             
                 <div sec:authorize="hasAuthority('USER')">
-                    <h2>Bienvenido, Usuario</h2>
-                    <p>Este contenido es visible para usuarios regulares.</p>
+                    <h1>Bienvenido, Usuario <span th:text="${nombreUsuario}"></span></h1>
                 </div>
                 <!--
                 <div class="manual">
