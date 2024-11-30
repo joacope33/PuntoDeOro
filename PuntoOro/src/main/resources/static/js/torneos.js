@@ -7,10 +7,14 @@ document.querySelector('.cruz').addEventListener('keydown', function(event) {
 
 
 
+
 function mostrarModalCrear() {
     document.querySelector('#formularioAgregar').style.display = 'flex';
 }
 
+function mostrarModalEditar() {
+    document.querySelector('#formularioEditarTorneo').style.display = 'flex';
+}
 
 // Función para editar el torneo
 function editarTorneo(id) {
@@ -19,58 +23,83 @@ function editarTorneo(id) {
             if (!response.ok) {
                 throw new Error('Error en la solicitud');
             }
-            return response.json(); // Asegúrate de que el servidor devuelva un JSON válido
+            return response.json();
         })
         .then(data => {
-            // Actualizamos los campos del formulario con los datos del torneo
-            document.getElementById('fechaInicioEditar').value = data.fechaInicio;  // Asegúrate de que el formato de fecha sea compatible
-            document.getElementById('fechaFinEditar').value = data.fechaFin;        // Asegúrate de que el formato de fecha sea compatible
-            document.getElementById('categoriaEditar').value = data.categoria;
-            document.getElementById('estadoEditar').value = data.estado;
             document.getElementById('idTorneo').value = data.id;
+            document.getElementById('fechaInicioEditar').value = data.fechaInicio;
+            document.getElementById('fechaFinEditar').value = data.fechaFin;
+            document.getElementById('formatoEditar').value = data.formato;
+            document.getElementById('categoriaEditar').value = data.idCategoria;
+            document.getElementById('estadoEditar').value = data.estado;
 
-            // Mostramos el modal
+            // Mostrar el modal de edición
             document.querySelector('#formularioEditarTorneo').style.display = 'flex';
         })
         .catch(error => console.error('Error:', error));
 }
 
-// Función para guardar los cambios del torneo
-function guardarCambiosTorneo() {
-    const formData = new FormData(document.getElementById('formActualizarTorneo'));
+    function guardarCambiosTorneo() {
+        const form = document.querySelector('#formActualizarTorneo');
+        const formData = new FormData(form);
 
-    fetch('/torneos/actualizar', {
-        method: 'POST',
-        body: formData, // Enviamos los datos del formulario
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al guardar los cambios');
+        // Agregar manualmente el ID si no está cargado correctamente
+        const idTorneo = document.querySelector('#idTorneo').value;
+        if (!idTorneo) {
+            console.error('ID de Torneo no definido');
+            return;
         }
-        return response.json(); // Si esperas una respuesta JSON
-    })
-    .then(data => {
-        console.log(data);
-        cerrarFormulario(); // Cierra el formulario después de guardar los cambios
-    })
-    .catch(error => console.error('Error:', error));
-}
+        formData.set('idTorneo', idTorneo); // Sobrescribe o agrega el valor manualmente
+
+        fetch('/torneos/actualizar', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al guardar los cambios');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            cerrarFormulario();
+        })
+        .catch(error => console.error('Error:', error));
+    }
 
 
 
 
-function eliminarTorneo(id) {
-  event.stopPropagation();
-  if (confirm('¿Está seguro de que desea eliminar este torneo?')) {
-      fetch(`/torneos/eliminar/${id}`, {
-          method: 'DELETE'
-      }).then(response => {
-          if (response.ok) {
-              location.reload();
-          }
-      });
-  }
-}
+
+
+
+
+    function eliminarTorneo(id, event) {
+        event.preventDefault(); // Evita que el formulario se envíe de la manera tradicional
+        event.stopPropagation(); // Detiene la propagación del evento
+    
+        if (confirm('¿Está seguro de que desea eliminar este torneo?')) {
+            fetch(`/torneos/eliminar/${id}`, {
+                method: 'DELETE',  // Usamos el método DELETE
+                headers: {
+                    'Content-Type': 'application/json', // Asegura que el contenido es JSON
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload(); // Recarga la página si la eliminación fue exitosa
+                } else {
+                    alert('No se pudo eliminar el torneo. Intenta nuevamente.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al eliminar el torneo.');
+            });
+        }
+    }
+    
 
 
 function verDetalles(id) {
@@ -80,7 +109,8 @@ function verDetalles(id) {
 
 // Función para cerrar el formulario
 function cerrarFormulario() {
-  document.querySelector('.form-overlay').style.display = 'none';
+  document.querySelector('#formularioAgregar').style.display = 'none';
+  document.querySelector('#formularioEditarTorneo').style.display = 'none';
 }
 
 

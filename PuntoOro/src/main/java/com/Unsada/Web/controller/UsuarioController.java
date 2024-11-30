@@ -42,7 +42,7 @@ public class UsuarioController {
         return "usuario"; // Nombre de la vista correspondiente
     }
  
-    // Método para agregar un nuevo jugador
+    // Método para agregar un nuevo usuario
     @PostMapping("/guardar")
     public String agregarUsuario(@ModelAttribute("usuario") UsuarioDTO usuarioDTO) {
         try {
@@ -59,7 +59,7 @@ public class UsuarioController {
 
 
 
-    // Método para borrar un jugador por su DNI
+    // Método para borrar un usuario por su DNI
     @PostMapping("/borrar/{email}")
     public String borrarUsuarioPorEmail(@PathVariable String email) {
         try {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Unsada.Web.dto.TorneoDTO;
 import com.Unsada.Web.model.Categoria;
@@ -36,16 +37,13 @@ public class TorneoController {
     public String obtenerFormJugador(Model model) {
         System.out.println("Método obtenerFormTorneo llamado");
         
-        List<Torneo> torneos = torneoService.obtenerTodosLosTorneosPorFecha();
-        System.out.println("Cantidad de torneos encontrados: " + torneos.size());
-        
-        if (torneos.isEmpty()) {
-            System.out.println("No hay torneos en la base de datos.");
-        } else {
-            torneos.forEach(j -> System.out.println(j.getCategoria()));
-        }
+        List<Torneo> torneos = torneoService.obtenerTodosLosTorneos();
+        List<Categoria> categorias = categoriaService.obtenerTodasLasCategorias();
 
         model.addAttribute("torneos", torneos);
+        model.addAttribute("categorias", categorias);
+
+
         return "torneos";
     }
 
@@ -87,31 +85,61 @@ public class TorneoController {
     }
 
     @GetMapping("/editar/{id}")
-    @ResponseBody // Esto es importante para devolver solo el cuerpo de la respuesta
+    @ResponseBody
     public TorneoDTO editarTorneo(@PathVariable("id") Long id) {
+        System.out.println("ID recibido: " + id);  // Verifica si el id es correcto
+
         Torneo torneo = torneoService.findById(id);
         if (torneo == null) {
-            System.out.println("No se encuantra el torneo");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND); // Maneja el error adecuadamente
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Torneo no encontrado");
         }
-        System.out.println("Se encontró el torneo " + torneo);
-        return new TorneoDTO(torneo); // Asegúrate de tener un DTO adecuado para devolver los datos
+        return new TorneoDTO(torneo);
     }
 
-    // Método para actualizar el jugador
+
+    
+
     @PostMapping("/actualizar")
-    public String actualizarJugador(@ModelAttribute("torneoId") TorneoDTO torneoDTO, Model model) {
+    public String actualizarTorneo(@ModelAttribute("torneo") TorneoDTO torneoDTO, 
+                                    RedirectAttributes redirectAttributes) {
+        // Verifica qué datos llegan al backend
+        System.out.println("Torneo recibido: " + torneoDTO);
+        System.out.println("ID de categoría recibido: " + torneoDTO.getIdCategoria());
+
+        if (torneoDTO.getId() == null || torneoDTO.getId() <= 0) {
+            redirectAttributes.addFlashAttribute("error", "ID de torneo no válido.");
+            return "redirect:/torneos";
+        }
+
         try {
             torneoService.actualizarTorneoDesdeDTO(torneoDTO);
-            model.addAttribute("exito", true);
+            redirectAttributes.addFlashAttribute("exito", "Torneo actualizado correctamente.");
         } catch (Exception e) {
-            model.addAttribute("error", true);
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar el torneo.");
+            e.printStackTrace();
         }
+
         return "redirect:/torneos";
     }
 
 
 
+
+
+
+// Método para borrar un usuario por su DNI
+@PostMapping("/borrar/{id}")
+public String borrarTorneoPorId(@PathVariable Long id) {
+    try {
+        
+        torneoService.borrarTorneoPorId(id);
+        System.out.println("Torneo eliminado con éxito."); // Depuración
+        return "redirect:/torneos";
+    } catch (Exception e) {
+        System.err.println("Error al eliminar torneo: " + e.getMessage()); // Depuración
+        return "redirect:/torneos";
+    }
+}
 
 
 }

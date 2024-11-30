@@ -11,4 +11,5 @@ public interface TorneoService  {
     public Torneo findById(Long id);
     public Torneo guardarTorneo(Torneo torneo);
     public void actualizarTorneoDesdeDTO(TorneoDTO torneoDTO);
+    public void borrarTorneoPorId(Long id);
 }

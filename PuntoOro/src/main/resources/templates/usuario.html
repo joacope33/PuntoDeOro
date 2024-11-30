@@ -99,7 +99,7 @@
                           <span>Registro exitoso.</span>
                         </div>
                         <div class="mensaje error" th:if="${param.error}">
-                            <span>Ocurrió un error al registrar el jugador. Inténtalo de nuevo.</span>
+                            <span>Ocurrió un error al registrar el usuario. Inténtalo de nuevo.</span>
                         </div>
                         <input id="btn-registrar" type="submit" value="Registrar">
                     </form>
@@ -157,7 +157,7 @@
                                      <!-- Botón Editar en una celda separada -->
                                      <td>
                                         <button type="button" 
-                                                th:onclick="editarJugador('[[${usuario.email}]]')" 
+                                                th:onclick="editarUsuario('[[${usuario.email}]]')" 
                                                 data-nombre-completo="[[${usuario.nombreCompleto}]]"
                                                 data-email="[[${usuario.email}]]"
                                                 data-contrasena="[[${usuario.contrasena}]]"

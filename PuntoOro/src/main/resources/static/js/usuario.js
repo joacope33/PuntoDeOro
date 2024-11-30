@@ -32,8 +32,8 @@ function filtrarTabla() {
 
 
 
-// Función para editar el jugador
-function editarJugador(email) {
+// Función para editar el usuario
+function editarUsuario(email) {
 
     email = email.replace(/"/g, ''); 
 

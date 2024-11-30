@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .requestMatchers("/miCuenta/**").authenticated()
                 .requestMatchers("/editar/**").authenticated()
                 .requestMatchers("/usuario/**").authenticated()
+                .requestMatchers("/torneos/**").authenticated() // Permitir acceso a esta ruta
                 .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")
