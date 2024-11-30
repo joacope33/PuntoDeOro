@@ -374,12 +374,15 @@ document.addEventListener('DOMContentLoaded', async function () {
                                 title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                                 jugador: turno.jugadores?.[0] || 'null',
                                 cancha: canchaData ? canchaData.id : 'null',
+                                numberson: turno.numberson || 'sin asignar',
+                                asistencia: turno.asistencia || '0',    
                                 tipoTurno: turno.tipoTurno || 'null',
                                 start: startDate,
                                 end: endDate.toISOString(),
                                 description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
                                 backgroundColor: color,
                                 borderColor: color
+
                             };
                         });
                         successCallback(events);
@@ -719,12 +722,15 @@ document.addEventListener('DOMContentLoaded', async function () {
                             title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                             jugador: turno.jugadores?.[0] || 'null',
                             cancha: canchaData ? canchaData.id : 'null',
+                            numberson: turno.numberson || 'sin asignar',
+                            asistencia: turno.asistencia || '0',    
                             tipoTurno: turno.tipoTurno || 'null',
                             start: startDate,
                             end: endDate.toISOString(),
                             description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
                             backgroundColor: color,
                             borderColor: color
+
                         };
                     });
                     successCallback(events);

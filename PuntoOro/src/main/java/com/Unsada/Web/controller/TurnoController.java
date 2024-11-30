@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.Unsada.Web.dto.TurnoDTO;
 import com.Unsada.Web.model.Turno;
 import com.Unsada.Web.model.TurnosFijos;
+import com.Unsada.Web.model.enums.EstadoCancha;
 import com.Unsada.Web.service.TurnoFijoService;
 import com.Unsada.Web.service.TurnoService;
 
@@ -46,11 +47,12 @@ public class TurnoController {
     public String agregarTurno(@ModelAttribute("turno") TurnoDTO turnoDTO) {
         try {
             System.out.print(turnoDTO);
+            if(turnoDTO.getCancha().getEstado()==EstadoCancha.DISPONIBLE){
            turnoServiceImpl.guardarTurno(turnoDTO);
-
+            }
             return "redirect:/calendario"; // Redirige al formulario con un mensaje de éxito
         } catch (Exception e) {
-            return "redirect:/calendario"; // Redirige al formulario con un mensaje de error
+            return "redirect:/calendario?error=true"; // Redirige al formulario con un mensaje de error
         }   
     }
 
