@@ -86,7 +86,14 @@ header {
     height: auto;
     margin-right: 35px;
 }
-
+.botones {
+    width: 100%;
+    margin-left: 50px;
+    justify-content: center;
+    padding: -10px;
+    justify-content: center;
+    display: flex;
+}
 .btn-sesion-ini {
     background-color: var(--color-fondo-boton); /* Fondo negro */
     color: var(--color-texto-boton); /* Texto blanco */
@@ -558,6 +565,14 @@ form .username {
     border: 2px solid #00000079;
 }
 
+h2 {
+    COLOR: white;
+}   
+a{
+    margin: 0;
+    padding: 0;
+    font-size: 4rem;
+}
 /*ACTUALIZAR CANCHA*/
 /* El overlay oscuro de fondo */
 .form-overlay {
@@ -623,13 +638,18 @@ form .username {
 }
 
 .btn-agregar {
-    cursor: pointer;
-    color: #fff;
-    background-color: #c4932a;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 5px;
-    border: 2px solid #00000079;
+
+        cursor: pointer;
+        color: #fff;
+        background-color: #c4932a;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 5px;
+        border: 2px solid #00000079;
+        height: 6rem;
+        width: 13rem;
+        font-size: x-large;
+
 }
 
 .btn-agregar:hover {

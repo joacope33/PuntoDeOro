@@ -493,19 +493,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     /* Cargar los detalles de la cancha */
-    const canchaId = 2;  // Reemplaza con el ID de la cancha que necesitas
-    try {
-        const response = await fetch(`/canchas/${canchaId}`);
-        
-        if (response.ok) {
-            canchaData = await response.json();
-            console.log('Datos de la cancha:', canchaData);
-        } else {
-            console.error('Error al obtener los datos de la cancha:', response.status);
-        }
-    } catch (error) {
-        console.error('Error en la solicitud:', error);
-    }
+
     /*-------------------------------------------------------------------------------------------------------*/
     /* INICIALIZACIÓN DEL CALENDARIO */
     const calendarEl = document.getElementById('calendar');
