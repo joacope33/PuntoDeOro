@@ -21,7 +21,26 @@
     --margen-titulo: 20px;
 }
 
+h1 {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-size: 4rem;
+    justify-content: initial;
+    display: flex;
+    top: 13rem;
+    position: relative;
 
+}
+a{
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-size: 4rem;
+    justify-content: initial;
+    display: flex;
+
+}
 
 
 /*HEADER*/
