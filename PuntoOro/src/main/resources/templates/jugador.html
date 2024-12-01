@@ -59,14 +59,14 @@
     <main>
         
         <div class="background-img-home" >
-            <h1><a >Registrar jugador</a></h1>
+            <h2 class="titulo-jugador"><a >JUGADOR</a></h2>
             <div class="texto">
                 
                 <div class="jugador-info">
                     
                     <form th:action="@{/jugador/guardar}" method="post" th:object="${jugador}">
                         <div class="username">
-                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus"pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras y espacios">
+                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus">
                             <label for="nombreCompleto">Nombre completo</label>
                         </div>
                         <div class="username">

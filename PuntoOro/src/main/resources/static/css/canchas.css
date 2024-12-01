@@ -462,7 +462,7 @@ form .username {
     margin: 20px 0;
 }
 
-.username input {
+.username input, .username select {
     width: 100%;
     padding: 0 5px;
     height: 40px;
@@ -472,6 +472,10 @@ form .username {
     outline: none;
     caret-color: white;
     color: white;
+}
+
+.username option {
+    background-color: #000000d2;
 }
 
 .username label {
@@ -497,7 +501,7 @@ form .username {
 }
 
 /* Estilos del campo de usuario */
-.username input:valid ~ label {
+.username input:valid ~ label, .username select:valid ~ label {
     top: -5px;
     color: #f3b632;
 }
@@ -508,13 +512,25 @@ form .username {
     color: #f3b632;
 }
 
+.username select:focus ~ label,
+.username select:focus ~ label {
+    top: -5px;
+    color: #f3b632;
+}
+
 /* Estilos del borde inferior del campo de usuario */
-.username input:valid ~ .line {
+.username input:valid ~ .line,
+.username select:valid ~ .line {
     background: #f3b632;
 }
 
 .username input:focus ~ span::before,
 .username input:focus ~ span::before {
+    width: 100%;
+}
+
+.username select:focus ~ span::before,
+.username select:focus ~ span::before {
     width: 100%;
 }
 
@@ -573,6 +589,23 @@ a{
     padding: 0;
     font-size: 4rem;
 }
+
+
+.titulo-cancha {
+    padding: 20px;
+    font-weight: bold;
+
+}
+
+
+.titulo-cancha a {
+    color: #ffffff; /* Color del texto */
+    border: 2px #0000;
+    text-shadow: 
+        3px 3px 5px #000000, /* Sombra gris clara */
+        -3px -3px 5px #0000005a; /* Sombra blanca */
+}
+
 /*ACTUALIZAR CANCHA*/
 /* El overlay oscuro de fondo */
 .form-overlay {
@@ -596,7 +629,7 @@ a{
     width: 30%;
     margin-bottom: 100px;
     background: #000000d5;
-    padding: 20px;
+    padding: 50px;
     border-radius: 10px;
     
 }
