@@ -36,7 +36,7 @@ public class UsuarioController {
     
 
     // Carga la lista de usuarios en el modelo y redirige a la vista de usuario
-  
+    
     @GetMapping
     public String obtenerFormUsuario(Model model) {
         List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
@@ -82,8 +82,15 @@ public class UsuarioController {
     @PostMapping("/actualizar")
     public String actualizarUsuario(@ModelAttribute("usuarioEmail") UsuarioDTO usuarioDTO) {
         try {
-            usuarioService.actualizarUsuarioDesdeDTO(usuarioDTO);
-            return "redirect:/usuario?exito";
+            Usuario usuario =usuarioService.findByEmail(usuarioDTO.getEmail());
+            if (usuarioDTO.getRole() == Role.USER && usuario.getRole()== Role.ADMIN){
+                return "redirect:/usuario?error=cambioRolNoPermitido";
+            }
+            else{
+                usuarioService.actualizarUsuarioDesdeDTO(usuarioDTO);
+                return "redirect:/usuario?exito";
+            }
+            
         } catch (Exception e) {
             return "redirect:/usuario?error";
         }
