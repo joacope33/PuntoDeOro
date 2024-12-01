@@ -547,6 +547,9 @@ form .username {
     transition: .5s;
 }
 
+.comentario {
+    background-color: #00000054;
+}
 
 h2 {
     COLOR: white;
