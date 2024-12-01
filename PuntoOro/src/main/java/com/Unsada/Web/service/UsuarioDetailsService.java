@@ -24,4 +24,5 @@ public class UsuarioDetailsService implements UserDetailsService {
         }
         return new UsuarioDetails(usuario);
     }
+    
 }

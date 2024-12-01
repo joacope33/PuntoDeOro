@@ -31,7 +31,7 @@ public class Usuario{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Role role= Role.USER;
+    private Role role;
     @Column(name = "nombrecompleto")
     private String nombreCompleto;
     @Column(name = "correoelectronico", unique=true)

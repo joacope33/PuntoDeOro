@@ -66,7 +66,7 @@
                     
                     <form th:action="@{/jugador/guardar}" method="post" th:object="${jugador}">
                         <div class="username">
-                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus">
+                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus"pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras y espacios"/>
                             <label for="nombreCompleto">Nombre completo</label>
                         </div>
                         <div class="username">
@@ -82,19 +82,19 @@
                             <label for="fechaDeNacimiento">Fecha de nacimiento</label>
                         </div>
                         <div class="username" style="margin-bottom: 10px;">
-                            <input type="number" id="dni" name="dni" autocomplete="off" th:field="*{dni}" required>
+                            <input type="text" id="dni" name="dni" autocomplete="off" th:field="*{dni}" required pattern="^\d{1,8}$" maxlength="8" title="Solo se permiten hasta 8 números">
                             <label for="dni">DNI</label>
                         </div>
                         <div class="username" style="margin-bottom: 10px;">
-                            <input type="number" id="calificacion" name="calificacion" autocomplete="off" th:field="*{calificacion}" required>
+                            <input type="text" id="calificacion" name="calificacion" autocomplete="off" th:field="*{calificacion}" requiredpattern="^\d{1,3}$" maxlength="3" title="Solo se permite un número" />
                             <label for="calificacion">Calificacion</label>
                         </div>
                         <div class="username" style="margin-bottom: 10px;">
-                            <input type="number" id="puntos" name="puntos" autocomplete="off" th:field="*{puntos}" required >
+                            <input type="text" id="puntos" name="puntos" autocomplete="off" th:field="*{puntos}" required pattern="^\d{1,3}$" maxlength="3" title="Solo se permite un número" />
                             <label for="puntos">Puntos</label>
                         </div>
                         <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" name="comentario" autocomplete="off" th:field="*{comentario}" required>
+                            <input type="text" name="comentario" autocomplete="off" th:field="*{comentario}" requiredpattern="^[a-zA-Z0-9]{1,10}$" maxlength="25" title="Solo se permiten letras y números hasta 25 caracteres"/>
                             <label for="comentario">Comentario</label>
                         </div>
                         <!-- Mensajes de éxito o error -->
