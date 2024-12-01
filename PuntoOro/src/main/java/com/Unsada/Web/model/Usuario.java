@@ -64,6 +64,14 @@ public class Usuario{
     public String getRoleName() {
         return role.name();  // Esto devuelve "ADMIN" o "USER"
     }
+
+
+
+
+    public Usuario orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+    }
     
     
 

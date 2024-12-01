@@ -70,7 +70,7 @@ public class TorneoController {
         
         
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping("/crear")
     public String crearTorneo(@ModelAttribute("torneo") TorneoDTO torneoDTO) {
         try {
@@ -85,7 +85,7 @@ public class TorneoController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("/editar/{id}")
     @ResponseBody
     public ResponseEntity<TorneoDTO> editarTorneo(@PathVariable("id") Long id) {
@@ -99,7 +99,7 @@ public class TorneoController {
 
 
     
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping("/actualizar")
     public String actualizarTorneo(@ModelAttribute("torneo") TorneoDTO torneoDTO, 
                                     RedirectAttributes redirectAttributes) {
@@ -133,7 +133,7 @@ public class TorneoController {
 
 
 // Método para borrar un usuario por su DNI
-@PreAuthorize("hasRole('ADMIN')")
+
 @PostMapping("/borrar/{id}")
 public String borrarTorneoPorId(@PathVariable Long id, RedirectAttributes redirectAttributes) {
     try {

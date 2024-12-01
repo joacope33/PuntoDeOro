@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class JugadorController {
         return new JugadorDTO();
     }
     
-
+    
     @GetMapping
     public String obtenerFormJugador(Model model) {
         System.out.println("Método obtenerFormJugador llamado");
@@ -55,6 +56,7 @@ public class JugadorController {
     }
 
     // Método para agregar un nuevo jugador
+    
     @PostMapping("/guardar")
     public String agregarJugador(@ModelAttribute("jugador") JugadorDTO jugadorDTO) {
         try {
@@ -68,6 +70,7 @@ public class JugadorController {
 
     
     // Método para borrar un jugador por su DNI
+    
     @PostMapping("/borrar/{dni}")
     public String borrarJugadorPorDni(@PathVariable String dni) {
         try {
@@ -82,6 +85,7 @@ public class JugadorController {
     }
 
     // Método para actualizar el jugador
+
     @PostMapping("/actualizar")
     public String actualizarJugador(@ModelAttribute("jugadorDni") JugadorDTO jugadorDTO, Model model) {
         try {
@@ -93,7 +97,7 @@ public class JugadorController {
         return "redirect:/jugador";
     }
 
-
+   
     @GetMapping("/editar/{dni}")
     @ResponseBody // Esto es importante para devolver solo el cuerpo de la respuesta
     public JugadorDTO mostrarFormularioEdicion(@PathVariable("dni") String dni) {

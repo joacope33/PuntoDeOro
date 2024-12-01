@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,8 @@ public class TurnoController {
     private TurnoService turnoServiceImpl;
     @Autowired
     private TurnoFijoService turnoFijoServiceImp;
-
+    
+   
     @GetMapping("/todos")
     public ResponseEntity<List<Turno>> getEvents() {
         try {
@@ -64,6 +66,7 @@ public class TurnoController {
                 return ""; // Redirige con un mensaje de error genérico
             }
         }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminarTurno(@PathVariable Long id) {
         try {
@@ -73,6 +76,7 @@ public class TurnoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el turno: " + e.getMessage());
         }
     }
+
     @PostMapping("/editar/{idTurno}")
     public String editarTurno(@PathVariable Long idTurno, @ModelAttribute("turno") TurnoDTO turnoDTO) {
         try {
@@ -84,6 +88,7 @@ public class TurnoController {
         }
     
     }
+
     @GetMapping("/Fijos")
     public ResponseEntity<List<TurnosFijos>> getEvents1() {
         try {

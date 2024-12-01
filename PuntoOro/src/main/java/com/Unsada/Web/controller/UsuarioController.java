@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,7 @@ public class UsuarioController {
     
 
     // Carga la lista de usuarios en el modelo y redirige a la vista de usuario
+  
     @GetMapping
     public String obtenerFormUsuario(Model model) {
         List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
@@ -43,6 +45,7 @@ public class UsuarioController {
     }
  
     // Método para agregar un nuevo usuario
+
     @PostMapping("/guardar")
     public String agregarUsuario(@ModelAttribute("usuario") UsuarioDTO usuarioDTO) {
         try {
@@ -60,6 +63,7 @@ public class UsuarioController {
 
 
     // Método para borrar un usuario por su DNI
+
     @PostMapping("/borrar/{email}")
     public String borrarUsuarioPorEmail(@PathVariable String email) {
         try {
@@ -74,6 +78,7 @@ public class UsuarioController {
     }
 
     // Actualiza un usuario y redirige con mensajes de éxito o error
+   
     @PostMapping("/actualizar")
     public String actualizarUsuario(@ModelAttribute("usuarioEmail") UsuarioDTO usuarioDTO) {
         try {
@@ -86,6 +91,7 @@ public class UsuarioController {
 
 
     // Devuelve un usuario específico para la edición
+
     @GetMapping("/editar/{email}")
     @ResponseBody
     public UsuarioDTO mostrarFormularioEdicion(@PathVariable String email) {

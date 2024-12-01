@@ -37,7 +37,7 @@ public class CanchaController {
         return new CanchaDTO();
     }
 
-
+    
     @GetMapping
     public String mostrarCanchas(Model model) {
         System.out.println("Método mostrarCanchas llamado");
@@ -55,7 +55,7 @@ public class CanchaController {
         return "canchas";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    
     @PostMapping("/actualizar")
     public String actualizarCancha(@ModelAttribute("cancha") CanchaDTO canchaDTO, RedirectAttributes redirectAttributes) {
         if (canchaDTO.getId() == null || canchaDTO.getId() <= 0) {
@@ -74,7 +74,7 @@ public class CanchaController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    
     @GetMapping("/editar/{id}")
     @ResponseBody // Esto es importante para devolver solo el cuerpo de la respuesta
     public CanchaDTO mostrarFormularioEdicion(@PathVariable("id") Long id) {
@@ -88,7 +88,6 @@ public class CanchaController {
         return new CanchaDTO(cancha); // Asegúrate de tener un DTO adecuado para devolver los datos
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     // Método para agregar un nuevo jugador
     @PostMapping("/agregar")
     public String agregarCancha(@ModelAttribute("cancha") CanchaDTO canchaDTO) {
@@ -101,7 +100,7 @@ public class CanchaController {
     }
     
     // 
-    @PreAuthorize("hasRole('ADMIN')")
+    
     @PostMapping("/eliminar/{id}")
     public String borrarCanchaId(@PathVariable Long id) {
         try {
