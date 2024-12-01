@@ -63,19 +63,19 @@
                     <h2>Registrar Usuario</h2>
                     <form th:action="@{/usuario/guardar}" method="post" th:object="${usuario}">
                         <div class="username">
-                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus">
+                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus"pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras y espacios"/>
                             <label for="nombreCompleto">Nombre completo</label>
                         </div>
                         <div class="username">
-                            <input type="email" name="categoria" autocomplete="off" th:field="*{email}" required value="">
+                            <input type="email" name="categoria" autocomplete="off" th:field="*{email}" required value="" pattern="^[\w\.-]+@[\w\.-]+\.\w{2,}$" title="Ingrese un correo electrónico válido">
                             <label for="email">Email</label>
                         </div>
                         <div class="username">
-                            <input  type="tel" name="telefono" autocomplete="off" th:field="*{telefono}" required value="">
+                            <input  type="text" name="telefono" autocomplete="off" th:field="*{telefono}" required value="" pattern="^\d{10}$" maxlength="10" title="Solo se permiten 10 números">
                             <label for="telefono">Telefono</label>
                         </div>
                         <div class="username" style="margin-bottom: 10px;">
-                            <input type="password" id="contrasena" name="contrasena" autocomplete="off" th:field="*{contrasena}" required>
+                            <input type="password" id="contrasena" name="contrasena" autocomplete="off" th:field="*{contrasena}" required pattern="^(?=.*[a-zA-Z])(?=.*\d).+$" minlength="8"  title="La contraseña debe contener al menos una letra, un número y tener al menos 8 caracteres">
                             <label for="contrasena">Contraseña</label>
                         </div>
 
@@ -187,19 +187,19 @@
                         </div>
                         <form class="form-actualizar" th:action="@{/usuario/actualizar}" method="post" th:object="${usuario}">
                             <div class="username">
-                                <input type="text" id="nombreCompletoEditar" th:field="*{nombreCompleto}" required />
+                                <input type="text" id="nombreCompletoEditar" th:field="*{nombreCompleto}" required pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras y espacios"/>/>
                                 <label>Nombre completo</label>
                             </div>
                             <div class="username">
-                                <input type="text" id="emailEditar" th:field="*{email}" required />
+                                <input type="text" id="emailEditar" th:field="*{email}" required pattern="^[\w\.-]+@[\w\.-]+\.\w{2,}$" title="Ingrese un correo electrónico válido">
                                 <label>Email</label>
                             </div>
                             <div class="username">
-                                <input type="text" id="telefonoEditar" th:field="*{telefono}" required />
+                                <input type="text" id="telefonoEditar" th:field="*{telefono}" required pattern="^\d{10}$" maxlength="10" title="Solo se permiten 10 números">
                                 <label>Telefono</label>
                             </div>
                             <div class="username">
-                                <input type="text" id="contrasenaEditar" th:field="*{contrasena}" required />
+                                <input type="text" id="contrasenaEditar" th:field="*{contrasena}" required pattern="^(?=.*[a-zA-Z])(?=.*\d).+$" minlength="8"  title="La contraseña debe contener al menos una letra, un número y tener al menos 8 caracteres">
                                 <label>Contrasena</label>
                             </div>
                             <div class="username">
