@@ -13,7 +13,7 @@ import com.Unsada.Web.repository.CanchaRepository;
 
 @Configuration
 public class DatabaseInitializer  {
-       @Bean
+    @Bean
     public CommandLineRunner initializeCanchas(CanchaRepository canchaRepository) {
         return args -> {
             if (canchaRepository.count() == 0) { // Solo si no hay canchas en la base de datos
