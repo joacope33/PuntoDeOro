@@ -121,22 +121,23 @@
                     <input type="text" id="player-name" required="">
                     
                     <label for="player-phone">Teléfono:</label>
-                    <input type="text" id="player-phone" required="">
+                    <input type="text" id="player-phone" required="" pattern="^\d{10}$" maxlength="10" title="Solo se permiten 10 números">
                     
                     <label for="player-category">Categoría:</label>
-                    <input type="text" id="player-category" required="">
+                    <input type="text" id="player-category" required=""pattern="^\d{1}$" maxlength="1" title="Solo se permite un número">
                     
                     <label for="player-birthday">Fecha de Nacimiento:</label>
                     <input type="date" id="player-birthday" required="">
                     
                     <label for="player-dni">DNI:</label>
-                    <input type="text" id="player-dni" required="">
+                    <input type="text" id="player-dni" required="" pattern="^\d{1,8}$" maxlength="8" title="Solo se permiten hasta 8 números">
+                    <label for="dni">DNI</label>
                     
                     <label for="player-rating">Calificación:</label>
-                    <input type="number" id="player-rating" required="">
+                    <input type="number" id="player-rating" required=""pattern="^\d{1,3}$" maxlength="3" title="Solo se permite un número" />
                     
                     <label for="player-points">Puntos:</label>
-                    <input type="number" id="player-points" required="">
+                    <input type="number" id="player-points" required=""pattern="^\d{1,3}$" maxlength="3" title="Solo se permite un número" />
                     
                     <label for="player-comment">Comentario:</label>
                     <input type="text" id="player-comment"name="comentario" placeholder="Escribe aquí tu comentario" maxlength="200" required><br></textarea>
