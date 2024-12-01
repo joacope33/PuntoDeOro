@@ -59,22 +59,22 @@
     <main>
         
         <div class="background-img-home" >
-            <h1><a >Registrar jugador</a></h1>
+            <h2 class="titulo-jugador"><a >JUGADOR</a></h2>
             <div class="texto">
                 
                 <div class="jugador-info">
                     
                     <form th:action="@{/jugador/guardar}" method="post" th:object="${jugador}">
                         <div class="username">
-                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus"pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras y espacios">
+                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus">
                             <label for="nombreCompleto">Nombre completo</label>
                         </div>
                         <div class="username">
-                            <input class="telefono-input" type="number" name="telefono" autocomplete="off" th:field="*{telefono}" required value=""pattern="\d+" title="Solo se permiten números">
+                            <input class="telefono-input" type="number" name="telefono" autocomplete="off" th:field="*{telefono}" required >
                             <label for="telefono">Teléfono</label>
                         </div>
                         <div class="username">
-                            <input class="telefono-input" type="number" name="categoria" autocomplete="off" th:field="*{categoria}" required value="">
+                            <input class="telefono-input" type="number" name="categoria" autocomplete="off" th:field="*{categoria}" required >
                             <label for="categoria">Categoría</label>
                         </div>
                         <div class="username" style="margin-bottom: 10px;">

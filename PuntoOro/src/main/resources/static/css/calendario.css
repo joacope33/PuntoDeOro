@@ -225,7 +225,7 @@ nav {
     z-index: 1;
     border-radius: 5px 0px 5px 5px;
     border: #555555 solid 1px;
-    transform: translateX(-83.22%); /* Mueve el dropdown completamente a la izquierda */
+    transform: translate(-82.50%, 14%);
 }
 
   /* Links inside the dropdown */
@@ -280,6 +280,7 @@ main {
 
 
 
+
 body {
     margin: 0;
     background-color: #8d8b1b00;
@@ -305,7 +306,7 @@ li {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: auto;
+    height: 100vh;
     padding: 20px;
     box-sizing: border-box;
 }

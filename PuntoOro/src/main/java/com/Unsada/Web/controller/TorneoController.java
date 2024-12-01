@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,7 +69,7 @@ public class TorneoController {
         
         
     }
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping("/crear")
     public String crearTorneo(@ModelAttribute("torneo") TorneoDTO torneoDTO) {
         try {
@@ -85,7 +84,7 @@ public class TorneoController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("/editar/{id}")
     @ResponseBody
     public ResponseEntity<TorneoDTO> editarTorneo(@PathVariable("id") Long id) {
@@ -99,7 +98,7 @@ public class TorneoController {
 
 
     
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping("/actualizar")
     public String actualizarTorneo(@ModelAttribute("torneo") TorneoDTO torneoDTO, 
                                     RedirectAttributes redirectAttributes) {
@@ -133,7 +132,6 @@ public class TorneoController {
 
 
 // Método para borrar un usuario por su DNI
-@PreAuthorize("hasRole('ADMIN')")
 @PostMapping("/borrar/{id}")
 public String borrarTorneoPorId(@PathVariable Long id, RedirectAttributes redirectAttributes) {
     try {

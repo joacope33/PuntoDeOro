@@ -18,7 +18,6 @@ import com.Unsada.Web.service.UsuarioService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)  // Habilita @PreAuthorize
-
 public class SecurityConfig {
 
     @Autowired
@@ -54,6 +53,8 @@ public class SecurityConfig {
                 // Permitir acceso autenticado a /miCuenta
                 .requestMatchers("/miCuenta/**").authenticated()
                 .requestMatchers("/editar/**").authenticated()
+                .requestMatchers("/canchas/**").authenticated()
+                .requestMatchers("/torneos/**").authenticated()
                 .requestMatchers("/usuario/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated())
             .formLogin(login -> login
