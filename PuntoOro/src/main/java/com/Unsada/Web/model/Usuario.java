@@ -31,7 +31,7 @@ public class Usuario{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Role role= Role.USER;
+    private Role role;
     @Column(name = "nombrecompleto")
     private String nombreCompleto;
     @Column(name = "correoelectronico", unique=true)
@@ -63,6 +63,14 @@ public class Usuario{
     // Getters y setters
     public String getRoleName() {
         return role.name();  // Esto devuelve "ADMIN" o "USER"
+    }
+
+
+
+
+    public Usuario orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
     }
     
     

@@ -60,7 +60,7 @@ public class CanchaServiceImpl implements CanchaService {
             // Guarda la entidad actualizada
             canchaRepository.save(cancha);
         } else {
-        throw new EntityNotFoundException("Jugador no encontrado con dni: " + canchaDTO.getId());
+        throw new EntityNotFoundException("Cancha no encontrado con id: " + canchaDTO.getId());
         }
     }
 

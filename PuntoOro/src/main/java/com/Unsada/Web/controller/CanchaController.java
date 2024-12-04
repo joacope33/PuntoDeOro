@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class CanchaController {
         return new CanchaDTO();
     }
 
-
+    
     @GetMapping
     public String mostrarCanchas(Model model) {
         System.out.println("Método mostrarCanchas llamado");
@@ -54,7 +55,7 @@ public class CanchaController {
         return "canchas";
     }
 
-
+    
     @PostMapping("/actualizar")
     public String actualizarCancha(@ModelAttribute("cancha") CanchaDTO canchaDTO, RedirectAttributes redirectAttributes) {
         if (canchaDTO.getId() == null || canchaDTO.getId() <= 0) {
@@ -73,7 +74,7 @@ public class CanchaController {
 
 
 
-
+    
     @GetMapping("/editar/{id}")
     @ResponseBody // Esto es importante para devolver solo el cuerpo de la respuesta
     public CanchaDTO mostrarFormularioEdicion(@PathVariable("id") Long id) {
@@ -87,7 +88,6 @@ public class CanchaController {
         return new CanchaDTO(cancha); // Asegúrate de tener un DTO adecuado para devolver los datos
     }
 
-
     // Método para agregar un nuevo jugador
     @PostMapping("/agregar")
     public String agregarCancha(@ModelAttribute("cancha") CanchaDTO canchaDTO) {
@@ -99,7 +99,8 @@ public class CanchaController {
         }
     }
     
-    // Método para borrar un jugador por su DNI
+    // 
+    
     @PostMapping("/eliminar/{id}")
     public String borrarCanchaId(@PathVariable Long id) {
         try {

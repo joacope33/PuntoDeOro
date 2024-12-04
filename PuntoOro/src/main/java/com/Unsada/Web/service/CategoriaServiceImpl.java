@@ -19,5 +19,15 @@ public class CategoriaServiceImpl implements CategoriaService {
     public List<Categoria> obtenerTodasLasCategorias() {
         return categoriaRepository.findAll();
     }
+
+
+    @Override
+    public Categoria findById(Long idCategoria) {
+
+        return categoriaRepository.findById(idCategoria)
+            .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada con ID: " + idCategoria));
+    }
+       
+        
     
 }

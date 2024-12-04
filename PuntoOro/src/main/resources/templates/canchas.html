@@ -39,8 +39,8 @@
                         <div class="dropdown-content">
                             <a th:href="@{/miCuenta}">Mi Cuenta</a>
                             <a th:href="@{/ranking}">Ranking</a>
-                            <a th:href="@{/usuario}">Usuarios</a>
-                            <a th:href="@{/canchas}">Canchas</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/usuario}">Usuarios</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/canchas}">Canchas</a>
                             <a th:href="@{/jugador}">Jugador</a>
                             <a th:href="@{/torneos}">Torneos</a>
                             <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
@@ -53,8 +53,9 @@
     </header>
 
     <main>
+        <h2 class="titulo-cancha"><a >CANCHAS</a></h2>
         <div class="background-container">
-            <div class="botones">
+            <div class="botones" sec:authorize="hasAuthority('ADMIN')">
                 <input type="button" class="btn-agregar" onclick="abrirFormularioAgregar()" value="Agrega Cancha"></input>
             </div>
             
@@ -95,7 +96,7 @@
                             <span th:text="${cancha.estado}"></span>
                         </div>
                     </div>
-                    <button type="button" 
+                    <button sec:authorize="hasAuthority('ADMIN')" type="button" 
                                     th:onclick="editarCancha('[[${cancha.id}]]')" 
                                     data-horario-apertura="[[${cancha.horarioApertura}]]"
                                     data-horario-cierre="[[${cancha.horarioCierre}]]"
@@ -104,7 +105,7 @@
                                     data-estado="[[${cancha.estado}]]" class="btn-editar">
                                 Editar
                     </button>
-                    <form class="container-btn-eliminar" th:action="@{/canchas/eliminar/{id}(id=${cancha.id})}" method="post" style="display:inline;">
+                    <form sec:authorize="hasAuthority('ADMIN')" class="container-btn-eliminar" th:action="@{/canchas/eliminar/{id}(id=${cancha.id})}" method="post" style="display:inline;">
                         <button class="btn-eliminar" type="submit">Eliminar</button>
                     </form>
                 </div>

@@ -40,8 +40,8 @@
                         <div class="dropdown-content">
                             <a th:href="@{/miCuenta}">Mi Cuenta</a>
                             <a th:href="@{/ranking}">Ranking</a>
-                            <a th:href="@{/usuario}">Usuarios</a>
-                            <a th:href="@{/canchas}">Canchas</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/usuario}">Usuarios</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/canchas}">Canchas</a>
                             <a th:href="@{/jugador}">Jugador</a>
                             <a th:href="@{/torneos}">Torneos</a>
                             <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
@@ -54,8 +54,10 @@
     </header>
 
     <main>
+        
         <div class="container">
             <!-- Mensajes de éxito/error -->
+            <h1><a >Ranking</a></h1>
             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
             <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     

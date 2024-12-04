@@ -38,37 +38,38 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     //funcion para cargar cancha:
-    async function cargarCanchas() {    
+    async function cargarCanchas() {
         const canchaSelect = document.getElementById('select-cancha'); // Seleccionamos el <select>
-    
+        
         try {
             // Realizar la solicitud GET para obtener las canchas
             const response = await fetch('/canchas/todas'); // Asegúrate de que esta ruta sea correcta en tu API
-            console.log('canchas', response)
+            console.log('canchas', response);
             if (!response.ok) {
                 throw new Error('Error al obtener las canchas');
             }
-    
+        
             const canchas = await response.json(); // Suponemos que el servidor devuelve un array de objetos JSON con las canchas
-    
+        
             // Limpiar las opciones anteriores (si las hubiera)
             canchaSelect.innerHTML = '';
-    
+        
             // Crear una opción por defecto
             const opcionDefault = document.createElement('option');
             opcionDefault.textContent = 'Selecciona una cancha';
             opcionDefault.value = ''; // Sin valor por defecto
             canchaSelect.appendChild(opcionDefault);
-    
-            // Agregar las canchas al <select>
-            canchas.forEach(cancha => {
-                const option = document.createElement('option');
-                option.value = cancha.id; // ID de la cancha
-                // Aquí mostramos, por ejemplo, el ID y el estado de la cancha
-                option.textContent = `Cancha ${cancha.id} - ${cancha.estado}`;
-                canchaSelect.appendChild(option); // Añadir la opción al <select>
-            });
-    
+        
+            // Agregar solo las canchas que no están en estado OCUPADA
+            canchas
+                .filter(cancha => cancha.estado !== 'OCUPADA') // Filtrar las canchas disponibles
+                .forEach(cancha => {
+                    const option = document.createElement('option');
+                    option.value = cancha.id; // ID de la cancha
+                    option.textContent = `Cancha ${cancha.id} - ${cancha.estado}`; // Mostrar ID y estado
+                    canchaSelect.appendChild(option); // Añadir la opción al <select>
+                });
+        
         } catch (error) {
             console.error('Error al cargar las canchas:', error);
             alert('Hubo un problema al cargar las canchas. Intenta de nuevo más tarde.');
@@ -77,40 +78,62 @@ document.addEventListener('DOMContentLoaded', async function () {
     //funcion que genera los botones de la cancha
     async function cargarBotonesDeCancha() {
         const canchaButtonsContainer = document.getElementById('cancha-buttons-container'); 
-    
+        
         try {
             const response = await fetch('/canchas/todas');
             if (!response.ok) {
                 throw new Error('Error al obtener las canchas');
             }
             const canchas = await response.json();
+            
+            // Ordenar las canchas por el número de cancha (suponiendo que es el campo "id")
+            canchas.sort((a, b) => a.id - b.id);
     
             // Limpiar los botones previos (si los hubiera)
             canchaButtonsContainer.innerHTML = '';
     
+            let firstAvailableButton = null;
+    
             // Crear un botón para cada cancha
-            canchas.forEach(cancha => {
+            canchas.forEach((cancha, index) => {
                 const button = document.createElement('button');
-                button.textContent = `Cancha ${cancha.id} - ${cancha.estado}`;
-                
-                // Añadir el evento click para cambiar el color
-                button.addEventListener('click', function() {
-                    // Eliminar la clase 'pressed' de todos los botones
-                    const botones = canchaButtonsContainer.getElementsByTagName('button');
-                    for (let btn of botones) {
-                        btn.classList.remove('pressed');
+                button.textContent = `Cancha ${cancha.id} - ${cancha.estado}`; // Corregir las comillas aquí
+    
+                // Si la cancha está OCUPADA, deshabilitar el botón
+                if (cancha.estado === 'OCUPADA') {
+                    button.disabled = true; // Deshabilita el botón
+                    button.classList.add('disabled'); // Añade una clase para estilo (opcional)
+                } else {
+                    // Añadir el evento click para cambiar el color
+                    button.addEventListener('click', function() {
+                        // Eliminar la clase 'pressed' de todos los botones
+                        const botones = canchaButtonsContainer.getElementsByTagName('button');
+                        for (let btn of botones) {
+                            btn.classList.remove('pressed');
+                        }
+    
+                        // Agregar la clase 'pressed' al botón presionado
+                        button.classList.add('pressed');
+    
+                        // Llamar a la función para manejar la lógica de la cancha
+                        cambiarCancha(cancha.id);
+                    });
+    
+                    // Si es el primer botón disponible, lo resalto automáticamente
+                    if (!firstAvailableButton) {
+                        firstAvailableButton = button; // Guarda el primer botón disponible
                     }
-    
-                    // Agregar la clase 'pressed' al botón presionado
-                    button.classList.add('pressed');
-    
-                    // Llamar a la función para manejar la lógica de la cancha
-                    cambiarCancha(cancha.id);
-                });
+                }
     
                 // Añadir el botón al contenedor
                 canchaButtonsContainer.appendChild(button);
             });
+    
+            // Si se encontró un primer botón disponible, resáltalo y "haga clic" en él
+            if (firstAvailableButton) {
+                firstAvailableButton.classList.add('pressed'); // Agregar la clase 'pressed' al primer botón disponible
+                firstAvailableButton.click(); // Simular un clic en el primer botón disponible para cambiar la cancha
+            }
     
         } catch (error) {
             console.error('Error al cargar las canchas:', error);
@@ -374,12 +397,15 @@ document.addEventListener('DOMContentLoaded', async function () {
                                 title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                                 jugador: turno.jugadores?.[0] || 'null',
                                 cancha: canchaData ? canchaData.id : 'null',
+                                numberson: turno.numberson || 'sin asignar',
+                                asistencia: turno.asistencia || '0',    
                                 tipoTurno: turno.tipoTurno || 'null',
                                 start: startDate,
                                 end: endDate.toISOString(),
                                 description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
                                 backgroundColor: color,
                                 borderColor: color
+
                             };
                         });
                         successCallback(events);
@@ -467,19 +493,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     /* Cargar los detalles de la cancha */
-    const canchaId = 1;  // Reemplaza con el ID de la cancha que necesitas
-    try {
-        const response = await fetch(`/canchas/${canchaId}`);
-        
-        if (response.ok) {
-            canchaData = await response.json();
-            console.log('Datos de la cancha:', canchaData);
-        } else {
-            console.error('Error al obtener los datos de la cancha:', response.status);
-        }
-    } catch (error) {
-        console.error('Error en la solicitud:', error);
-    }
+
     /*-------------------------------------------------------------------------------------------------------*/
     /* INICIALIZACIÓN DEL CALENDARIO */
     const calendarEl = document.getElementById('calendar');
@@ -719,12 +733,15 @@ document.addEventListener('DOMContentLoaded', async function () {
                             title: turno.jugadores?.[0]?.nombreCompleto || 'Sin nombre',
                             jugador: turno.jugadores?.[0] || 'null',
                             cancha: canchaData ? canchaData.id : 'null',
+                            numberson: turno.numberson || 'sin asignar',
+                            asistencia: turno.asistencia || '0',    
                             tipoTurno: turno.tipoTurno || 'null',
                             start: startDate,
                             end: endDate.toISOString(),
                             description: `Asistencia: ${turno.asistencia} | tipo de Turno: ${turno.tipoTurno}`,
                             backgroundColor: color,
                             borderColor: color
+
                         };
                     });
                     successCallback(events);
@@ -791,7 +808,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 body: formData
             });
         
-            if (response.ok) {
+            if (response.ok ) {
                 alert("Turno agregado con éxito");
                 modal.close();
                 eventForm.reset();
@@ -808,10 +825,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     
 
 
+
+
 });
-
-
-function cerrarFormulario() {
-    const modal = document.getElementById('modal');
-    modal.style.display = 'none';
-}

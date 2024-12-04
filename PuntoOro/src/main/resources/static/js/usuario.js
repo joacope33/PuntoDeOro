@@ -32,9 +32,16 @@ function filtrarTabla() {
 
 
 
-// Función para editar el jugador
-function editarJugador(email) {
-    fetch(`/usuario/editar/${email}`)
+// Función para editar el usuario
+function editarUsuario(email) {
+
+    email = email.replace(/"/g, ''); 
+
+    // Codificar el email para evitar problemas con caracteres especiales
+    const encodedEmail = encodeURIComponent(email);
+
+
+    fetch(`/usuario/editar/${encodedEmail}`)
         .then(response => {
 
             

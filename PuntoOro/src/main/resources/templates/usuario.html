@@ -41,8 +41,8 @@
                         <div class="dropdown-content">
                             <a th:href="@{/miCuenta}">Mi Cuenta</a>
                             <a th:href="@{/ranking}">Ranking</a>
-                            <a th:href="@{/usuario}">Usuarios</a>
-                            <a th:href="@{/canchas}">Canchas</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/usuario}">Usuarios</a>
+                            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/canchas}">Canchas</a>
                             <a th:href="@{/jugador}">Jugador</a>
                             <a th:href="@{/torneos}">Torneos</a>
                             <a th:href="@{/logout}" method="post" type="submit">Cerrar sesión</a>
@@ -57,33 +57,41 @@
 
     <main>
         <div class="background-img-home" >
+            <h2 class="titulo-usuario"><a >USUARIOS</a></h2>
             <div class="texto">
                 <div class="usuario-info">
                     <h2>Registrar Usuario</h2>
                     <form th:action="@{/usuario/guardar}" method="post" th:object="${usuario}">
                         <div class="username">
-                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus">
+                            <input type="text" name="nombreCompleto" autocomplete="off" th:field="*{nombreCompleto}" required auto-focus="auto-focus"pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras y espacios"/>
                             <label for="nombreCompleto">Nombre completo</label>
                         </div>
                         <div class="username">
-                            <input type="email" name="categoria" autocomplete="off" th:field="*{email}" required value="">
+                            <input type="email" name="categoria" autocomplete="off" th:field="*{email}" required value="" pattern="^[\w\.-]+@[\w\.-]+\.\w{2,}$" title="Ingrese un correo electrónico válido">
                             <label for="email">Email</label>
                         </div>
                         <div class="username">
-                            <input  type="tel" name="telefono" autocomplete="off" th:field="*{telefono}" required value="">
+                            <input  type="text" name="telefono" autocomplete="off" th:field="*{telefono}" required value="" pattern="^\d{10}$" maxlength="10" title="Solo se permiten 10 números">
                             <label for="telefono">Telefono</label>
                         </div>
                         <div class="username" style="margin-bottom: 10px;">
-                            <input type="password" id="contrasena" name="contrasena" autocomplete="off" th:field="*{contrasena}" required>
+                            <input type="password" id="contrasena" name="contrasena" autocomplete="off" th:field="*{contrasena}" required pattern="^(?=.*[a-zA-Z])(?=.*\d).+$" minlength="8"  title="La contraseña debe contener al menos una letra, un número y tener al menos 8 caracteres">
                             <label for="contrasena">Contraseña</label>
                         </div>
+
                         <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" id="estado" name="estado" autocomplete="off" th:field="*{estado}" required>
+                            <select id="estado" name="estado" th:field="*{estado}" required>
+                                <option value="1">1 (Activo)</option>
+                                <option value="0">0 (Inactivo)</option>
+                            </select>
                             <label for="estado">Estado</label>
                         </div>
+                        
                         <div class="username" style="margin-bottom: 10px;">
-                            <input type="text" id="role" name="role" autocomplete="off" th:field="*{role}" required>
-                            <label for="role">Role</label>
+                            <select id="role" name="role" th:field="*{role}" required>
+                                <option value="USER">USER</option>
+                            </select>
+                            <label for="role">Rol</label>
                         </div>
 
                         <!-- Mensajes de éxito o error -->
@@ -91,7 +99,7 @@
                           <span>Registro exitoso.</span>
                         </div>
                         <div class="mensaje error" th:if="${param.error}">
-                            <span>Ocurrió un error al registrar el jugador. Inténtalo de nuevo.</span>
+                            <span>Ocurrió un error al registrar el usuario. Inténtalo de nuevo.</span>
                         </div>
                         <input id="btn-registrar" type="submit" value="Registrar">
                     </form>
@@ -149,7 +157,7 @@
                                      <!-- Botón Editar en una celda separada -->
                                      <td>
                                         <button type="button" 
-                                                th:onclick="editarJugador('[[${usuario.email}]]')" 
+                                                th:onclick="editarUsuario('[[${usuario.email}]]')" 
                                                 data-nombre-completo="[[${usuario.nombreCompleto}]]"
                                                 data-email="[[${usuario.email}]]"
                                                 data-contrasena="[[${usuario.contrasena}]]"
@@ -178,28 +186,34 @@
                         </div>
                         <form class="form-actualizar" th:action="@{/usuario/actualizar}" method="post" th:object="${usuario}">
                             <div class="username">
-                                <input type="text" id="nombreCompletoEditar" th:field="*{nombreCompleto}" required />
+                                <input type="text" id="nombreCompletoEditar" th:field="*{nombreCompleto}" required pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras y espacios"/>/>
                                 <label>Nombre completo</label>
                             </div>
                             <div class="username">
-                                <input type="text" id="emailEditar" th:field="*{email}" required />
+                                <input type="text" id="emailEditar" th:field="*{email}" required pattern="^[\w\.-]+@[\w\.-]+\.\w{2,}$" title="Ingrese un correo electrónico válido">
                                 <label>Email</label>
                             </div>
                             <div class="username">
-                                <input type="text" id="telefonoEditar" th:field="*{telefono}" required />
+                                <input type="text" id="telefonoEditar" th:field="*{telefono}" required pattern="^\d{10}$" maxlength="10" title="Solo se permiten 10 números">
                                 <label>Telefono</label>
                             </div>
                             <div class="username">
-                                <input type="text" id="contrasenaEditar" th:field="*{contrasena}" required />
+                                <input type="text" id="contrasenaEditar" th:field="*{contrasena}" required pattern="^(?=.*[a-zA-Z])(?=.*\d).+$" minlength="8"  title="La contraseña debe contener al menos una letra, un número y tener al menos 8 caracteres">
                                 <label>Contrasena</label>
                             </div>
                             <div class="username">
-                                <input type="text" id="estadoEditar" th:field="*{estado}" required />
-                                <label>Estado</label>
+                                <select id="estadoEditar" th:field="*{estado}" required>
+                                    <option value="1">1 (Activo)</option>
+                                    <option value="0">0 (Inactivo)</option>
+                                </select>
+                                <label for="estadoEditar">Estado:</label>
                             </div>
                             <div class="username">
-                                <input type="text" id="roleEditar" th:field="*{role}" required />
-                                <label>Role</label>
+                                <select id="roleEditar" th:field="*{role}" required>
+                                    <option value="USER">USER</option>
+
+                                </select>
+                                <label>Rol</label>
                             </div>
                             <input type="submit" value="Guardar cambios"/>
                         </form>

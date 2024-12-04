@@ -6,17 +6,30 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.Unsada.Web.service.UsuarioDetailsService;
 import com.Unsada.Web.service.UsuarioService;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)  // Habilita @PreAuthorize
+
 public class SecurityConfig {
+
+  private final UsuarioDetailsService usuarioDetailsService;
+
+  public SecurityConfig(UsuarioDetailsService usuarioDetailsService) {
+    this.usuarioDetailsService = usuarioDetailsService;
+}
+
 
     @Autowired
     @Lazy
@@ -26,6 +39,7 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -51,7 +65,7 @@ public class SecurityConfig {
                 // Permitir acceso autenticado a /miCuenta
                 .requestMatchers("/miCuenta/**").authenticated()
                 .requestMatchers("/editar/**").authenticated()
-                .requestMatchers("/usuario/**").authenticated()
+                .requestMatchers("/usuario/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated())
             .formLogin(login -> login
                 .loginPage("/login")
@@ -69,8 +83,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManager.class);
+    public AuthenticationManager authManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+            .userDetailsService(usuarioDetailsService)
+            .passwordEncoder(passwordEncoder)
+            .and()
+            .build();
     }
 
     

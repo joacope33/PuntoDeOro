@@ -9,6 +9,7 @@ public interface TorneoService  {
     public List<Torneo> obtenerTodosLosTorneos();
     public List<Torneo> obtenerTodosLosTorneosPorFecha();
     public Torneo findById(Long id);
-    public Torneo guardarTorneo(Torneo torneo);
+    public Torneo guardarTorneo(TorneoDTO torneoDTO);
     public void actualizarTorneoDesdeDTO(TorneoDTO torneoDTO);
+    public void borrarTorneoPorId(Long id);
 }

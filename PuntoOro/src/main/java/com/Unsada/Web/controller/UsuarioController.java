@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.Unsada.Web.dto.UsuarioDTO;
@@ -34,6 +36,7 @@ public class UsuarioController {
     
 
     // Carga la lista de usuarios en el modelo y redirige a la vista de usuario
+    
     @GetMapping
     public String obtenerFormUsuario(Model model) {
         List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
@@ -41,7 +44,8 @@ public class UsuarioController {
         return "usuario"; // Nombre de la vista correspondiente
     }
  
-    // Método para agregar un nuevo jugador
+    // Método para agregar un nuevo usuario
+
     @PostMapping("/guardar")
     public String agregarUsuario(@ModelAttribute("usuario") UsuarioDTO usuarioDTO) {
         try {
@@ -58,7 +62,8 @@ public class UsuarioController {
 
 
 
-    // Método para borrar un jugador por su DNI
+    // Método para borrar un usuario por su DNI
+
     @PostMapping("/borrar/{email}")
     public String borrarUsuarioPorEmail(@PathVariable String email) {
         try {
@@ -73,11 +78,19 @@ public class UsuarioController {
     }
 
     // Actualiza un usuario y redirige con mensajes de éxito o error
+   
     @PostMapping("/actualizar")
     public String actualizarUsuario(@ModelAttribute("usuarioEmail") UsuarioDTO usuarioDTO) {
         try {
-            usuarioService.actualizarUsuarioDesdeDTO(usuarioDTO);
-            return "redirect:/usuario?exito";
+            Usuario usuario =usuarioService.findByEmail(usuarioDTO.getEmail());
+            if (usuarioDTO.getRole() == Role.USER && usuario.getRole()== Role.ADMIN){
+                return "redirect:/usuario?error=cambioRolNoPermitido";
+            }
+            else{
+                usuarioService.actualizarUsuarioDesdeDTO(usuarioDTO);
+                return "redirect:/usuario?exito";
+            }
+            
         } catch (Exception e) {
             return "redirect:/usuario?error";
         }
@@ -85,14 +98,17 @@ public class UsuarioController {
 
 
     // Devuelve un usuario específico para la edición
+
     @GetMapping("/editar/{email}")
+    @ResponseBody
     public UsuarioDTO mostrarFormularioEdicion(@PathVariable String email) {
-        email = email.replaceAll("^\"|\"$", ""); // Elimina comillas si existen
+        email = email.replaceAll("^\"|\"$", "");
+        System.out.println(email);
         Usuario usuario = usuarioService.findByEmail(email);
         if (usuario == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }
-        return new UsuarioDTO(usuario); // Devuelve el DTO para la edición
+        return new UsuarioDTO(usuario);
     }
 
 

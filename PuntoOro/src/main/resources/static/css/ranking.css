@@ -23,7 +23,14 @@
 
 
 
-
+h1 {
+    margin: 0px;
+    padding: 0;
+    color: white;
+    font-size: 4rem;
+    justify-content: initial;
+    display: flex;
+}
 /*HEADER*/
 header {
     
